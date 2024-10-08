@@ -10,7 +10,7 @@ import { FaRegHeart } from "react-icons/fa";
 
 const Navigation = () => {
   return (
-    <nav className="mt-10">
+    <nav className="border-black/3 mt-10 border-b-[1px] pb-4">
       <Container>
         <Flex className="items-center">
           <div className="w-3/12">
@@ -66,7 +66,7 @@ const Navigation = () => {
             <Flex className="items-center gap-4">
               <div className="relative w-[300px]">
                 <input
-                  className="bg-whiteShadeOne block w-full rounded-[4px] px-5 py-[10px] placeholder:text-[12px]"
+                  className="block w-full rounded-[4px] bg-whiteShadeOne px-5 py-[10px] placeholder:text-[12px]"
                   type="text"
                   placeholder="What are you looking for?"
                 />
