@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Title from "../../common/Title";
 import Container from "../../common/Container";
+import Title from "../../common/Title";
 import ItemCardProtrait from "../../common/ItemCardProtrait";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -66,32 +66,63 @@ function SamplePrevArrow(props) {
   );
 }
 
-const FlashSells = () => {
+const Explorer = () => {
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
+    rows: 2,
+
     prevArrow: <SamplePrevArrow />,
     nextArrow: <SampleNextArrow />,
   };
   return (
-    <section className="relative mt-[140px]">
+    <section className="mt-[70px]">
       <Container>
-        <div className="border-b-[1px] border-black/30 pb-[60px]">
-          <Title title="Today’s" subTitle="Flash Sales" />
+        <div>
+          <Title title="Our Products" subTitle="Explore Our Products" />
 
           <div className="mt-[31px]">
             <div className="slider-container">
               <Slider {...settings}>
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
+                <div className="mb-[60px]">
+                  <ItemCardProtrait className="mx-auto w-[90%]" />
+                </div>
               </Slider>
             </div>
           </div>
@@ -107,4 +138,4 @@ const FlashSells = () => {
   );
 };
 
-export default FlashSells;
+export default Explorer;
