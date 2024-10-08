@@ -7,14 +7,26 @@ import {
 import Rootlayout from "./Layouts/Rootlayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Wishlist from "./pages/Wishlist";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Errorpage from "./pages/Errorpage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Rootlayout />}>
       <Route index element={<Home />} />
+      <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<Checkout />} />
       <Route path="/about" element={<About />} />
-    </Route>
-  )
+      <Route path="/signin" element={<Login />} />
+      <Route path="/signup" element={<Register />} />
+      <Route path="/*" element={<Errorpage />} />
+    </Route>,
+  ),
 );
 function App() {
   return <RouterProvider router={router} />;

@@ -73,10 +73,10 @@ const Navigation = () => {
                 <IoSearch className="absolute right-2 top-[50%] translate-y-[-50%] text-[24px]" />
               </div>
 
-              <Link>
+              <Link to="/wishlist">
                 <FaRegHeart className="text-[24px]" />
               </Link>
-              <Link>
+              <Link to="/cart">
                 <IoCartOutline className="text-[24px]" />
               </Link>
             </Flex>

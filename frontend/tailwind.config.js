@@ -21,6 +21,10 @@ export default {
         whiteShadeThree: "#FAFAFA",
       },
 
+      boxShadow: {
+        customOne: "0px 1px 13px 0px rgba(0, 0, 0, 0.05)",
+      },
+
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
       },

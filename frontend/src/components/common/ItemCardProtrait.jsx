@@ -1,12 +1,18 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import Image from "./Image";
 import items from "../../assets/item.png";
 import Flex from "./Flex";
 import StarRating from "./StarRating";
 import { FaRegHeart } from "react-icons/fa";
 import { IoMdEye } from "react-icons/io";
+import { IoTrash } from "react-icons/io5";
 
-const ItemCardProtrait = ({ className, data }) => {
+const ItemCardProtrait = ({ className, data, isWish }) => {
+  const location = useLocation();
+
+  console.log(location.pathname);
+
   return (
     <div className={`${className} `}>
       <div className="group relative overflow-hidden rounded-[4px] bg-whiteShadeOne px-10 py-[50px]">
@@ -17,12 +23,20 @@ const ItemCardProtrait = ({ className, data }) => {
         </span>
 
         <div className="absolute right-3 top-3">
-          <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white">
-            <FaRegHeart className="text-[16px] text-black" />
-          </div>
-          <div className="mt-2 flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white">
-            <IoMdEye className="text-[16px] text-black" />
-          </div>
+          {isWish ? (
+            <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white">
+              <IoTrash className="text-[16px] text-black" />
+            </div>
+          ) : (
+            <>
+              <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white">
+                <FaRegHeart className="text-[16px] text-black" />
+              </div>
+              <div className="mt-2 flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white">
+                <IoMdEye className="text-[16px] text-black" />
+              </div>
+            </>
+          )}
         </div>
         <button className="absolute bottom-[-120px] left-0 w-full bg-black py-4 text-[16px] font-medium text-white duration-200 ease-in-out group-hover:bottom-0">
           Add To Cart
