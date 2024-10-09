@@ -15,11 +15,13 @@ import Checkout from "./pages/Checkout";
 import Errorpage from "./pages/Errorpage";
 import Account from "./pages/Account";
 import Contact from "./pages/Contact";
+import DisplayProduct from "./pages/DisplayProduct";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Rootlayout />}>
       <Route index element={<Home />} />
+      <Route path="/product" element={<DisplayProduct />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />

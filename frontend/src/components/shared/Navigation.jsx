@@ -19,8 +19,8 @@ const Navigation = () => {
               <Image src="/logo.png" alt="logo" />
             </Link>
           </div>
-          <div className="w-6/12">
-            <List className="flex items-center justify-start gap-12">
+          <div className="w-5/12">
+            <List className="flex items-center justify-center gap-12">
               <ListItem>
                 <NavLink
                   to="/"
@@ -63,7 +63,7 @@ const Navigation = () => {
               </ListItem>
             </List>
           </div>
-          <div className="w-3/12">
+          <div className="w-4/12">
             <Flex className="items-center gap-4">
               <div className="relative w-[300px]">
                 <input
