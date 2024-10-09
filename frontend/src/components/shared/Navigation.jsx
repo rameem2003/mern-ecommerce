@@ -7,6 +7,7 @@ import List from "./../common/List";
 import ListItem from "./../common/ListItem";
 import { IoCartOutline, IoSearch } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
+import { LuUser } from "react-icons/lu";
 
 const Navigation = () => {
   return (
@@ -78,6 +79,9 @@ const Navigation = () => {
               </Link>
               <Link to="/cart">
                 <IoCartOutline className="text-[24px]" />
+              </Link>
+              <Link to="/account">
+                <LuUser className="text-[24px]" />
               </Link>
             </Flex>
           </div>

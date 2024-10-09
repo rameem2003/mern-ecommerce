@@ -13,6 +13,8 @@ import Wishlist from "./pages/Wishlist";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Errorpage from "./pages/Errorpage";
+import Account from "./pages/Account";
+import Contact from "./pages/Contact";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,8 +24,10 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/signin" element={<Login />} />
       <Route path="/signup" element={<Register />} />
+      <Route path="/account" element={<Account />} />
       <Route path="/*" element={<Errorpage />} />
     </Route>,
   ),
