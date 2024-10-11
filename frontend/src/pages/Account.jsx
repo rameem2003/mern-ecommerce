@@ -10,6 +10,7 @@ const Account = () => {
     <main className="py-[80px]">
       <Container>
         <Flex>
+          {/* account left part */}
           <div className="w-3/12">
             <div>
               <h2 className="text-[16px] font-medium text-black">
@@ -58,6 +59,8 @@ const Account = () => {
               </h2>
             </div>
           </div>
+
+          {/* account info part */}
           <div className="w-9/12">
             <div className="w-full px-[80px] py-10 shadow-customOne">
               <h2 className="text-[20px] font-medium text-primaryRed">

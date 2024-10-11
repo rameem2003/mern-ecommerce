@@ -9,6 +9,7 @@ const Contact = () => {
     <main className="py-[80px]">
       <Container>
         <Flex className="items-center gap-[30px]">
+          {/* address section */}
           <div className="w-4/12">
             <div className="px-[35px] py-10 shadow-customOne">
               <div>
@@ -55,6 +56,8 @@ const Contact = () => {
               </div>
             </div>
           </div>
+
+          {/* user contact form section */}
           <div className="w-8/12">
             <div className="px-8 py-10 shadow-customOne">
               <Flex className="items-center gap-4">

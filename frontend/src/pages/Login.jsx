@@ -2,8 +2,6 @@ import React from "react";
 import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
 import account from "../assets/account.png";
-import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
 
 const Login = () => {
   return (

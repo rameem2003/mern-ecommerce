@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Wishlist = () => {
+  // react slick settings
   const settings = {
     dots: false,
     infinite: true,
@@ -17,6 +18,7 @@ const Wishlist = () => {
   return (
     <main className="py-[80px]">
       <Container>
+        {/* my wish list section */}
         <section>
           <Flex className="items-center justify-between">
             <p className="text-[20px] font-normal text-black">Wishlist (4)</p>
@@ -41,6 +43,7 @@ const Wishlist = () => {
           </div>
         </section>
 
+        {/* related products section */}
         <section className="mt-[80px]">
           <Flex className="items-center justify-between">
             <Flex className="items-center gap-4">

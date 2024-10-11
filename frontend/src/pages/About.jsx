@@ -17,7 +17,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 const About = () => {
   const [slide, setSlide] = useState(0);
-  // slider settings
+  // react slick settings
   const settings = {
     arrows: false,
     dots: true,
@@ -76,6 +76,7 @@ const About = () => {
   return (
     <main className="py-[80px]">
       <Container>
+        {/* content */}
         <Flex className="mb-[140px] items-center">
           <div className="w-1/2">
             <h1 className="mb-10 text-[54px] font-semibold text-black">
@@ -101,6 +102,7 @@ const About = () => {
           </div>
         </Flex>
 
+        {/* counter */}
         <Flex className="gap-[30px]">
           <div className="group mx-auto flex w-3/12 cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 p-[30px] hover:bg-primaryRed">
             <Image src={abou1} />
@@ -144,6 +146,7 @@ const About = () => {
           </div>
         </Flex>
 
+        {/* members */}
         <div className="mt-[31px]">
           <div className="slider-container">
             <Slider {...settings}>
@@ -157,6 +160,7 @@ const About = () => {
           </div>
         </div>
 
+        {/* service */}
         <Flex className="my-[140px] items-center justify-center gap-[88px]">
           <div className="text-center">
             <Image src={service1} className="mx-auto mb-6" alt="service" />

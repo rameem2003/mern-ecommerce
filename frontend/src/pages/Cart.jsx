@@ -11,7 +11,8 @@ const Cart = () => {
   return (
     <main className="py-[80px]">
       <Container>
-        <Flex className="shadow-customOne px-10 py-6">
+        {/* static table header */}
+        <Flex className="px-10 py-6 shadow-customOne">
           <div className="w-4/12">
             <p className="text-[16px] font-normal">Product</p>
           </div>
@@ -26,7 +27,8 @@ const Cart = () => {
           </div>
         </Flex>
 
-        <Flex className="shadow-customOne mt-10 items-center px-10 py-6">
+        {/* cart list dynamic */}
+        <Flex className="mt-10 items-center px-10 py-6 shadow-customOne">
           <div className="w-4/12">
             <Flex className="group relative items-center gap-4">
               <div className="group-hover: absolute left-0 top-1 rounded-full bg-white">
@@ -59,7 +61,7 @@ const Cart = () => {
           </div>
         </Flex>
 
-        <Flex className="shadow-customOne mt-10 items-center px-10 py-6">
+        <Flex className="mt-10 items-center px-10 py-6 shadow-customOne">
           <div className="w-4/12">
             <Flex className="group relative items-center gap-4">
               <div className="group-hover: absolute left-0 top-1 rounded-full bg-white">
@@ -91,6 +93,7 @@ const Cart = () => {
             </p>
           </div>
         </Flex>
+        {/* cart list dynamic end*/}
 
         <section className="mt-6">
           <Flex className="items-center justify-between">
@@ -103,6 +106,7 @@ const Cart = () => {
           </Flex>
         </section>
 
+        {/* price discount coupon section */}
         <section className="mt-[80px]">
           <Flex className="justify-between">
             <div className="w-6/12">

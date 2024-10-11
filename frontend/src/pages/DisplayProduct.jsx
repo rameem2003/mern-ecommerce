@@ -9,8 +9,10 @@ import "slick-carousel/slick/slick-theme.css";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { FaTruckFast } from "react-icons/fa6";
 import { TfiReload } from "react-icons/tfi";
+import ProductImagePreview from "../components/screens/product_display/ProductImagePreview";
 
 const DisplayProduct = () => {
+  // react slick settings
   const settings = {
     dots: false,
     infinite: true,
@@ -21,8 +23,13 @@ const DisplayProduct = () => {
   return (
     <main className="py-[80px]">
       <Container>
-        <Flex>
-          <div className="w-7/12"></div>
+        <Flex className="gap-[70px]">
+          {/* product image display */}
+
+          <div className="w-7/12">
+            <ProductImagePreview />
+          </div>
+          {/* descriptions */}
           <div className="w-5/12">
             <h1 className="mb-4 text-[24px] font-semibold text-black">
               Havic HV G-92 Gamepad
@@ -135,6 +142,7 @@ const DisplayProduct = () => {
           </div>
         </Flex>
 
+        {/* related section */}
         <section className="mt-[140px]">
           <Flex className="items-center gap-4">
             <div className="h-[40px] w-[20px] rounded-[4px] bg-primaryRed"></div>

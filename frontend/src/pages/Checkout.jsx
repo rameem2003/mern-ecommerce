@@ -13,6 +13,7 @@ const Checkout = () => {
     <main className="py-[80px]">
       <Container>
         <Flex className="justify-between">
+          {/* shipping details section */}
           <div className="w-5/12">
             <h1 className="text-[36px] font-medium text-black">
               Billing Details
@@ -126,8 +127,11 @@ const Checkout = () => {
               </div>
             </div>
           </div>
+
+          {/* buy summary */}
           <div className="w-6/12">
             <div>
+              {/* cart item list dynamic */}
               <Flex className="mb-8 items-center justify-between">
                 <Flex className="group relative items-center gap-4">
                   <Image src={items} className="h-[54px] w-[54px]" />
@@ -146,8 +150,10 @@ const Checkout = () => {
 
                 <p className="text-[16px] font-normal text-black">$650</p>
               </Flex>
+              {/* cart item list dynamic end*/}
             </div>
 
+            {/* price section */}
             <div className="mt-6">
               <Flex className="mb-4 items-center justify-between border-b-[1px] border-black/40 pb-4">
                 <span className="text-[16px] font-normal text-black">
