@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
 import account from "../assets/account.png";
 
 const Login = () => {
+  // states for get the login info
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // funstion for handle login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log({ email, password });
+  };
   return (
     <main className="pb-[140px] pt-[60px]">
       <Flex>
@@ -20,8 +29,10 @@ const Login = () => {
               Enter your details below
             </p>
 
-            <form action="" className="mt-12">
+            <form action="" className="mt-12" onSubmit={handleLogin}>
               <input
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 type="text"
                 placeholder="Email or Phone Number"
                 className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
@@ -29,6 +40,8 @@ const Login = () => {
                 id=""
               />
               <input
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 type="password"
                 placeholder="Password"
                 className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "../components/common/Container";
 import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
@@ -9,6 +9,15 @@ import v from "../assets/visa.png";
 import m from "../assets/mastercard.png";
 
 const Checkout = () => {
+  // states for getting shipping address data
+  const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
+  const [address, setAddress] = useState("");
+  const [apartment, setApartment] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+
   return (
     <main className="py-[80px]">
       <Container>
@@ -29,6 +38,8 @@ const Checkout = () => {
                 </label>
 
                 <input
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
@@ -44,6 +55,8 @@ const Checkout = () => {
                 </label>
 
                 <input
+                  onChange={(e) => setCompany(e.target.value)}
+                  value={company}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
@@ -59,6 +72,8 @@ const Checkout = () => {
                 </label>
 
                 <input
+                  onChange={(e) => setAddress(e.target.value)}
+                  value={address}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
@@ -74,6 +89,8 @@ const Checkout = () => {
                 </label>
 
                 <input
+                  onChange={(e) => setApartment(e.target.value)}
+                  value={apartment}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
@@ -89,6 +106,8 @@ const Checkout = () => {
                 </label>
 
                 <input
+                  onChange={(e) => setCity(e.target.value)}
+                  value={city}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
@@ -104,6 +123,8 @@ const Checkout = () => {
                 </label>
 
                 <input
+                  onChange={(e) => setPhone(e.target.value)}
+                  value={phone}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
@@ -119,6 +140,8 @@ const Checkout = () => {
                 </label>
 
                 <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
 import account from "../assets/account.png";
@@ -6,6 +6,16 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 
 const Register = () => {
+  // states for get the register info
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // funstion for handle register
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    console.log({ name, email, password });
+  };
   return (
     <main className="pb-[140px] pt-[60px]">
       <Flex>
@@ -22,8 +32,10 @@ const Register = () => {
               Enter your details below
             </p>
 
-            <form action="" className="mt-12">
+            <form action="" className="mt-12" onSubmit={handleRegister}>
               <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                 type="text"
                 placeholder="Name"
                 className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
@@ -31,6 +43,8 @@ const Register = () => {
                 id=""
               />
               <input
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 type="text"
                 placeholder="Email or Phone Number"
                 className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
@@ -38,6 +52,8 @@ const Register = () => {
                 id=""
               />
               <input
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 type="password"
                 placeholder="Password"
                 className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"

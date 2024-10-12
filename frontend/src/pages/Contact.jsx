@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "../components/common/Container";
 import Flex from "../components/common/Flex";
 import { IoCallSharp } from "react-icons/io5";
 import { FaRegEnvelope } from "react-icons/fa";
 
 const Contact = () => {
+  // states for getting shipping address data
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+
+  // fucntion for send messages
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log({ name, email, phone, message });
+  };
   return (
     <main className="py-[80px]">
       <Container>
@@ -60,75 +71,85 @@ const Contact = () => {
           {/* user contact form section */}
           <div className="w-8/12">
             <div className="px-8 py-10 shadow-customOne">
-              <Flex className="items-center gap-4">
-                <div className="mb-6 w-1/3">
+              <form action="" onSubmit={handleSubmit}>
+                <Flex className="items-center gap-4">
+                  <div className="mb-6 w-1/3">
+                    <label
+                      htmlFor=""
+                      className="text-[16px] font-normal text-black"
+                    >
+                      First Name
+                    </label>
+
+                    <input
+                      onChange={(e) => setName(e.target.value)}
+                      value={name}
+                      type="text"
+                      name=""
+                      className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
+                      id=""
+                    />
+                  </div>
+                  <div className="mb-6 w-1/3">
+                    <label
+                      htmlFor=""
+                      className="text-[16px] font-normal text-black"
+                    >
+                      Email
+                    </label>
+
+                    <input
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                      type="text"
+                      name=""
+                      className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
+                      id=""
+                    />
+                  </div>
+                  <div className="mb-6 w-1/3">
+                    <label
+                      htmlFor=""
+                      className="text-[16px] font-normal text-black"
+                    >
+                      Phone
+                    </label>
+
+                    <input
+                      onChange={(e) => setPhone(e.target.value)}
+                      value={phone}
+                      type="text"
+                      name=""
+                      className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
+                      id=""
+                    />
+                  </div>
+                </Flex>
+
+                <div className="mb-6 w-full">
                   <label
                     htmlFor=""
                     className="text-[16px] font-normal text-black"
                   >
-                    First Name
+                    Message
                   </label>
 
-                  <input
+                  <textarea
+                    onChange={(e) => setMessage(e.target.value)}
+                    value={message}
                     type="text"
                     name=""
-                    className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
+                    className="mt-2 h-[143px] w-full rounded-[4px] bg-whiteShadeOne p-4"
                     id=""
-                  />
+                  ></textarea>
                 </div>
-                <div className="mb-6 w-1/3">
-                  <label
-                    htmlFor=""
-                    className="text-[16px] font-normal text-black"
-                  >
-                    Email
-                  </label>
 
-                  <input
-                    type="text"
-                    name=""
-                    className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
-                    id=""
-                  />
+                <div className="mt-4 text-right">
+                  <button className="rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white">
+                    Send Massage
+                  </button>
                 </div>
-                <div className="mb-6 w-1/3">
-                  <label
-                    htmlFor=""
-                    className="text-[16px] font-normal text-black"
-                  >
-                    Phone
-                  </label>
-
-                  <input
-                    type="text"
-                    name=""
-                    className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
-                    id=""
-                  />
-                </div>
-              </Flex>
-
-              <div className="mb-6 w-full">
-                <label
-                  htmlFor=""
-                  className="text-[16px] font-normal text-black"
-                >
-                  Message
-                </label>
-
-                <textarea
-                  type="text"
-                  name=""
-                  className="mt-2 h-[143px] w-full rounded-[4px] bg-whiteShadeOne p-4"
-                  id=""
-                ></textarea>
-              </div>
-
-              <div className="mt-4 text-right">
-                <button className="rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white">
-                  Send Massage
-                </button>
-              </div>
+              </form>
             </div>
           </div>
         </Flex>
