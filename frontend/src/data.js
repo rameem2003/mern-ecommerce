@@ -4,3 +4,5 @@ export const productImages = [
   "/shot3.png",
   "/shot4.png",
 ];
+
+export const productSize = ["xs", "s", "m", "l", "xl"];

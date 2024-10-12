@@ -10,9 +10,6 @@ import { IoTrash } from "react-icons/io5";
 
 const ItemCardProtrait = ({ className, data, isWish }) => {
   const location = useLocation();
-
-  console.log(location.pathname);
-
   return (
     <div className={`${className} `}>
       <div className="group relative overflow-hidden rounded-[4px] bg-whiteShadeOne px-10 py-[50px]">

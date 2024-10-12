@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { productSize } from "../data";
 import Container from "../components/common/Container";
 import Flex from "../components/common/Flex";
 import StarRating from "../components/common/StarRating";
 import ItemCardProtrait from "../components/common/ItemCardProtrait";
+import ProductImagePreview from "../components/screens/product_display/ProductImagePreview";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { FaTruckFast } from "react-icons/fa6";
 import { TfiReload } from "react-icons/tfi";
-import ProductImagePreview from "../components/screens/product_display/ProductImagePreview";
 
 const DisplayProduct = () => {
+  const [selected, setSelected] = useState(null); // state for select button indicator
+  const [size, setSize] = useState(""); // state for store the product size
   // react slick settings
   const settings = {
     dots: false,
@@ -66,24 +69,18 @@ const DisplayProduct = () => {
               <p className="text-[20px] font-normal text-black">Size:</p>
 
               <Flex className="gap-4">
-                <button className="rounded-[4px] border-[1px] border-black p-[7px] text-[14px] font-medium text-black hover:border-transparent hover:bg-primaryRed hover:text-white">
-                  XL
-                </button>
-                <button className="rounded-[4px] border-[1px] border-black p-[7px] text-[14px] font-medium text-black hover:border-transparent hover:bg-primaryRed hover:text-white">
-                  XL
-                </button>
-                <button className="rounded-[4px] border-[1px] border-black p-[7px] text-[14px] font-medium text-black hover:border-transparent hover:bg-primaryRed hover:text-white">
-                  XL
-                </button>
-                <button className="rounded-[4px] border-[1px] border-black p-[7px] text-[14px] font-medium text-black hover:border-transparent hover:bg-primaryRed hover:text-white">
-                  XL
-                </button>
-                <button className="rounded-[4px] border-[1px] border-black p-[7px] text-[14px] font-medium text-black hover:border-transparent hover:bg-primaryRed hover:text-white">
-                  XL
-                </button>
-                <button className="rounded-[4px] border-[1px] border-black p-[7px] text-[14px] font-medium text-black hover:border-transparent hover:bg-primaryRed hover:text-white">
-                  XL
-                </button>
+                {productSize.map((data, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setSelected(i);
+                      setSize(data);
+                    }}
+                    className={`rounded-[4px] ${selected == i ? "border-transparent bg-primaryRed text-white" : "border-[1px] border-black"} px-3 py-[6px] text-[14px] font-medium uppercase text-black`}
+                  >
+                    {data}
+                  </button>
+                ))}
               </Flex>
             </Flex>
 
