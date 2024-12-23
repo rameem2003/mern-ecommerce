@@ -5,6 +5,7 @@ const authSchema = new mongoose.Schema(
     name: {
       type: String,
       require: true,
+      trim: true,
     },
     email: {
       type: String,
@@ -15,12 +16,16 @@ const authSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
     otp: {
       type: Number,
     },
     phone: {
       type: String,
-      unique: [true, "Phone Number Already Exist"],
     },
     address: {
       type: String,
