@@ -67,6 +67,9 @@ const registerUser = async (req, res) => {
   }
 };
 
+/**
+ * user login
+ */
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -91,7 +94,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    bcrypt.compare(password, user.password, function (err, result) {
+    bcrypt.compare(password, user.password, async function (err, result) {
       if (err) {
         console.log(err);
         return res.status(500).send({
@@ -100,16 +103,27 @@ const loginUser = async (req, res) => {
         });
       }
       if (result) {
-        let token = jwt.sign(
-          { email: user.email, role: user.role },
-          process.env.JWT_SECRET,
-          { expiresIn: "1h" }
-        );
-        return res.status(200).send({
-          msg: "Login Successfully",
-          user: { name: user.name, email: user.email, role: user.role },
-          token,
-        });
+        let existUser = await authModel.findOne({ email }).select("-password");
+
+        if (existUser.role === "admin") {
+          let token = jwt.sign({ existUser }, process.env.JWT_SECRET, {
+            expiresIn: "1h",
+          });
+          return res.status(200).send({
+            msg: "Admin Login Successfully",
+            user: existUser,
+            token,
+          });
+        } else if (existUser.role === "user") {
+          let token = jwt.sign({ existUser }, process.env.JWT_SECRET, {
+            expiresIn: "1d",
+          });
+          return res.status(200).send({
+            msg: "User Login Successfully",
+            user: existUser,
+            token,
+          });
+        }
       } else {
         return res.status(400).send({
           msg: "Invalid Credentials",
