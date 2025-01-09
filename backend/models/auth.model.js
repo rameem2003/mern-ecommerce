@@ -24,6 +24,10 @@ const authSchema = new mongoose.Schema(
     otp: {
       type: Number,
     },
+    isVarify: {
+      type: Boolean,
+      default: false,
+    },
     phone: {
       type: String,
     },

@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authModel = require("../models/auth.model");
 const checkEmailValid = require("../helpers/checkEmailValid");
+const sendOtpEmail = require("../helpers/sendOtpEmail");
+const generateOTP = require("../helpers/generateOTP");
 
 /**
  * user register
@@ -40,6 +42,8 @@ const registerUser = async (req, res) => {
 
   // new user create and send response
   try {
+    let otp = generateOTP(); // generate an otp
+
     // hashing the password
     bcrypt.hash(
       password,
@@ -57,8 +61,17 @@ const registerUser = async (req, res) => {
           email,
           password: hash, // Store hash in your password DB.
           role,
+          otp,
         });
         await user.save();
+
+        sendOtpEmail(email, otp); // send an otp email
+
+        // remove otp after 1 minute
+        setTimeout(async () => {
+          user.otp = null;
+          await user.save();
+        }, 60000);
         return res.status(201).send({
           msg: "New User Account Created",
           user,
