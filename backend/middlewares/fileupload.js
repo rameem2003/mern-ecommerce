@@ -1,11 +1,19 @@
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/tmp/my-uploads");
+    cb(null, "./temp");
   },
   filename: function (req, file, cb) {
+    let file_extension = file.originalname.split(".");
+
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
+    cb(
+      null,
+      file.fieldname +
+        "-" +
+        uniqueSuffix +
+        `.${file_extension[file_extension.length - 1]}`
+    );
   },
 });
 

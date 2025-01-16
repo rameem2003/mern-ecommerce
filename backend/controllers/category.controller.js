@@ -4,11 +4,16 @@ const categoryModel = require("../models/category.model");
  */
 
 const createNewCategory = async (req, res) => {
-  const { name, description, image } = req.body;
+  const { name, description } = req.body;
+  const { filename } = req.file;
 
-  if (name && image) {
+  if (name && filename) {
     try {
-      let newCategory = new categoryModel({ name, description, thumb: image });
+      let newCategory = new categoryModel({
+        name,
+        description,
+        thumb: `http://localhost:${process.env.PORT}/${filename}`,
+      });
 
       await newCategory.save();
 
