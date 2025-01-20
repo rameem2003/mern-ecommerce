@@ -12,7 +12,6 @@ router.use(baseUrl, auth); // http://localhost:5000/api/v1/auth
 /**
  * Product Category
  */
-
 router.use(baseUrl, category); // http://localhost:5000/api/v1/category
 
 router.use(baseUrl, (req, res) => {

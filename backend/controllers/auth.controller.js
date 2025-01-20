@@ -14,6 +14,7 @@ const registerUser = async (req, res) => {
   // if no name, email, password
   if (!name || !email || !password) {
     return res.status(400).send({
+      success: false,
       msg: "Please Enter All Fields",
     });
   }
@@ -21,6 +22,7 @@ const registerUser = async (req, res) => {
   // password length is less than 6
   if (password.length < 6) {
     return res.status(400).send({
+      success: false,
       msg: "Password Must Be Atleast 6 Characters",
     });
   }
@@ -28,6 +30,7 @@ const registerUser = async (req, res) => {
   // if not an email
   if (!checkEmailValid(email)) {
     return res.status(400).send({
+      success: false,
       msg: "Please Enter Valid Email",
     });
   }
@@ -36,6 +39,7 @@ const registerUser = async (req, res) => {
   let existingUser = await authModel.findOne({ email });
   if (existingUser) {
     return res.status(400).send({
+      success: false,
       msg: "Email Already Exist",
     });
   }
@@ -71,8 +75,9 @@ const registerUser = async (req, res) => {
         setTimeout(async () => {
           user.otp = null;
           await user.save();
-        }, 60000);
+        }, 30000);
         return res.status(201).send({
+          success: true,
           msg: "New User Account Created",
           user,
         });
@@ -80,6 +85,7 @@ const registerUser = async (req, res) => {
     );
   } catch (error) {
     return res.status(500).send({
+      success: false,
       msg: "Something Went Wrong Please Try Again",
       error,
     });
@@ -95,6 +101,7 @@ const loginUser = async (req, res) => {
   // if no email or password
   if (!email || !password) {
     return res.status(400).send({
+      success: false,
       msg: "Please Enter All Fields",
     });
   }
@@ -102,6 +109,7 @@ const loginUser = async (req, res) => {
   // if not an email
   if (!checkEmailValid(email)) {
     return res.status(400).send({
+      success: false,
       msg: "Please Enter Valid Email",
     });
   }
@@ -113,6 +121,7 @@ const loginUser = async (req, res) => {
     // if no user
     if (!user) {
       return res.status(400).send({
+        success: false,
         msg: "User Not Found",
       });
     }
@@ -123,6 +132,7 @@ const loginUser = async (req, res) => {
       if (err) {
         console.log(err);
         return res.status(500).send({
+          success: false,
           msg: "Something Went Wrong Please Try Again",
           error: err,
         });
@@ -147,6 +157,7 @@ const loginUser = async (req, res) => {
             secure: false,
           });
           return res.status(200).send({
+            success: true,
             msg: "Admin Login Successfully",
             user: existUser,
             token,
@@ -163,6 +174,7 @@ const loginUser = async (req, res) => {
             secure: false,
           });
           return res.status(200).send({
+            success: true,
             msg: "User Login Successfully",
             user: existUser,
             token,
@@ -171,14 +183,86 @@ const loginUser = async (req, res) => {
       } // if password not matched
       else {
         return res.status(400).send({
+          success: false,
           msg: "Invalid Credentials",
         });
       }
     });
   } catch (error) {
     return res.status(500).send({
+      success: false,
       msg: "Something Went Wrong Please Try Again",
       error,
+    });
+  }
+};
+
+/**
+ * OTP Verification
+ */
+const verifyOTP = async (req, res) => {
+  const { email, otp } = req.body;
+
+  const existingUser = await authModel.findOne({ email });
+
+  // if email is found
+  if (existingUser) {
+    // if otp is matched
+    if (existingUser.otp == otp) {
+      existingUser.isVarify = true; // change the verify state to true
+      await existingUser.save();
+
+      res.status(200).send({
+        success: true,
+        msg: "Account is verified",
+      });
+    } else {
+      // if otp not matched
+      res.status(404).send({
+        success: false,
+        msg: "Invalid OTP",
+      });
+    }
+  } else {
+    // if email is not found
+    res.status(404).send({
+      success: false,
+      msg: "Email is not found",
+    });
+  }
+};
+
+/**
+ * Resend OTP to email
+ */
+const resendOTP = async (req, res) => {
+  const { email } = req.body;
+
+  const existingUser = await authModel.findOne({ email });
+
+  // if email is found
+  if (existingUser) {
+    let otp = generateOTP(); // generate otp
+
+    existingUser.otp = otp;
+    await existingUser.save();
+
+    sendOtpEmail(email, otp, (resend = true)); // send an otp email
+
+    // remove otp after 1 minute
+    setTimeout(async () => {
+      existingUser.otp = null;
+      await existingUser.save();
+    }, 30000);
+    return res.status(201).send({
+      success: true,
+      msg: "OTP Resend Successful",
+    });
+  } else {
+    // email is not found
+    res.status(404).send({
+      success: false,
+      msg: "Email is not found",
     });
   }
 };
@@ -196,4 +280,4 @@ const allusers = async (req, res) => {
   });
 };
 
-module.exports = { loginUser, registerUser, allusers };
+module.exports = { loginUser, registerUser, verifyOTP, resendOTP, allusers };
