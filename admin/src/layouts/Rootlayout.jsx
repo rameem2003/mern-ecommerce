@@ -5,9 +5,8 @@ import { Outlet } from "react-router";
 
 const Rootlayout = () => {
   return (
-    <Flex>
+    <Flex className="gap-5">
       <Sidebar />
-
       <Outlet />
     </Flex>
   );

@@ -75,7 +75,7 @@ const registerUser = async (req, res) => {
         setTimeout(async () => {
           user.otp = null;
           await user.save();
-        }, 30000);
+        }, 60000);
         return res.status(201).send({
           success: true,
           msg: "New User Account Created",

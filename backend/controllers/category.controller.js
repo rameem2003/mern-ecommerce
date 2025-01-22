@@ -12,7 +12,7 @@ const createNewCategory = async (req, res) => {
       let newCategory = new categoryModel({
         name,
         description,
-        thumb: `http://localhost:${process.env.PORT}/${filename}`,
+        thumb: `${process.env.HOST_URL}${process.env.PORT}/${filename}`,
       });
 
       await newCategory.save();

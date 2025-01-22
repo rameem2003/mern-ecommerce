@@ -19,6 +19,7 @@ import {
   SquaresPlusIcon,
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
+import { Link } from "react-router";
 
 const Sidebar = () => {
   return (
@@ -33,12 +34,14 @@ const Sidebar = () => {
         </Typography>
       </div>
       <List>
-        <ListItem className="select-none">
-          <ListItemPrefix>
-            <PresentationChartBarIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Dashboard
-        </ListItem>
+        <Link to="/">
+          <ListItem className="select-none">
+            <ListItemPrefix>
+              <PresentationChartBarIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Dashboard
+          </ListItem>
+        </Link>
         <ListItem className="select-none">
           <ListItemPrefix>
             <TagIcon className="h-5 w-5" />
@@ -51,18 +54,22 @@ const Sidebar = () => {
           </ListItemPrefix>
           All Categories
         </ListItem>
-        <ListItem className="select-none">
-          <ListItemPrefix>
-            <SquaresPlusIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Add Product
-        </ListItem>
-        <ListItem className="select-none">
-          <ListItemPrefix>
-            <RectangleStackIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          All Products
-        </ListItem>
+        <Link to="/addproduct">
+          <ListItem className="select-none">
+            <ListItemPrefix>
+              <SquaresPlusIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Add Product
+          </ListItem>
+        </Link>
+        <Link to="/allproducts">
+          <ListItem className="select-none">
+            <ListItemPrefix>
+              <RectangleStackIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            All Products
+          </ListItem>
+        </Link>
         <ListItem className="select-none">
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />

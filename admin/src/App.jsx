@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Rootlayout from "./layouts/Rootlayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import AddProduct from "./pages/AddProduct";
+import Allproducts from "./pages/Allproducts";
 
 const App = () => {
   return (
@@ -11,6 +13,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Rootlayout />}>
           <Route index element={<Home />} />
+          <Route path="/addproduct" element={<AddProduct />} />
+          <Route path="/allproducts" element={<Allproducts />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

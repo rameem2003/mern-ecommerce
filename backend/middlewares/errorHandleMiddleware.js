@@ -14,6 +14,16 @@ const errorHandleMiddleware = (err, req, res, next) => {
         msg: err.message,
       });
     }
+
+    if (
+      err.message ==
+      "Invalid file type. Only JPEG, PNG, and GIF files are allowed."
+    ) {
+      res.status(404).send({
+        success: false,
+        msg: err.message,
+      });
+    }
   } else {
     next();
   }
