@@ -17,7 +17,14 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-const TABLE_HEAD = ["Image", "Amount", "Date", "Status", "Account", ""];
+const TABLE_HEAD = [
+  "Image",
+  "Product Name",
+  "Description",
+  "Category",
+  "Price",
+  "Action",
+];
 
 const TABLE_ROWS = [
   {
@@ -78,11 +85,8 @@ const Allproducts = () => {
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
-            <Typography variant="h5" color="blue-gray">
-              Recent Transactions
-            </Typography>
-            <Typography color="gray" className="mt-1 font-normal">
-              These are details about the last transactions
+            <Typography variant="h5" color="blue-gray" className="font-hind">
+              All Products
             </Typography>
           </div>
           <div className="flex w-full shrink-0 gap-2 md:w-max">
@@ -148,13 +152,6 @@ const Allproducts = () => {
                           size="md"
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                         />
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-bold"
-                        >
-                          {name}
-                        </Typography>
                       </div>
                     </td>
                     <td className={classes}>
@@ -163,7 +160,7 @@ const Allproducts = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {amount}
+                        {name}
                       </Typography>
                     </td>
                     <td className={classes}>
