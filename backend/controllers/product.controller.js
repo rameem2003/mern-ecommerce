@@ -1,5 +1,6 @@
 const categoryModel = require("../models/category.model");
 const productModel = require("../models/product.model");
+const storeModel = require("../models/store.model");
 
 /**
  * Create New Product
@@ -12,6 +13,7 @@ const createNewProduct = async (req, res) => {
     discountPrice,
     stock,
     category,
+    store,
     ratings,
     reviews,
   } = req.body;
@@ -27,6 +29,7 @@ const createNewProduct = async (req, res) => {
       sellingPrice,
       discountPrice,
       stock,
+      store,
       category,
       ratings,
       reviews,
@@ -38,6 +41,16 @@ const createNewProduct = async (req, res) => {
     await categoryModel.findOneAndUpdate(
       { _id: category },
       { $push: { products: newProduct._id } },
+      { new: true }
+    );
+
+    await storeModel.findOneAndUpdate(
+      { _id: store },
+      {
+        $push: {
+          products: newProduct._id,
+        },
+      },
       { new: true }
     );
 

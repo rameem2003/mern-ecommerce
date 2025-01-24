@@ -3,6 +3,7 @@ const router = require("express").Router();
 const auth = require("./auth");
 const category = require("./category");
 const product = require("./product");
+const store = require("./store");
 const baseUrl = process.env.BASE_URL;
 
 /**
@@ -19,6 +20,11 @@ router.use(baseUrl, category); // http://localhost:5000/api/v1/category
  * Product
  */
 router.use(baseUrl, product); // http://localhost:5000/api/v1/product
+
+/**
+ * Store
+ */
+router.use(baseUrl, store); // http://localhost:5000/api/v1/store
 
 /**
  * Invalid Route
