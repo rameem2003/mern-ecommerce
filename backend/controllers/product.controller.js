@@ -69,4 +69,27 @@ const createNewProduct = async (req, res) => {
   }
 };
 
-module.exports = { createNewProduct };
+/**
+ * Product Delete
+ */
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await productModel.findByIdAndDelete({ _id: id });
+
+    res.status(200).send({
+      success: true,
+      msg: "Product Deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+module.exports = { createNewProduct, deleteProduct };

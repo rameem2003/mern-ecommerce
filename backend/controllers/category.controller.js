@@ -2,7 +2,6 @@ const categoryModel = require("../models/category.model");
 /**
  * Create new category
  */
-
 const createNewCategory = async (req, res) => {
   const { name, description } = req.body;
   const { filename } = req.file;
@@ -34,4 +33,26 @@ const createNewCategory = async (req, res) => {
   }
 };
 
-module.exports = { createNewCategory };
+/**
+ * Delete category
+ */
+const deleteCategory = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await categoryModel.findByIdAndDelete({ _id: id });
+
+    res.status(200).send({
+      success: true,
+      msg: "Category deleted",
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Something went wrong",
+      error,
+    });
+  }
+};
+
+module.exports = { createNewCategory, deleteCategory };
