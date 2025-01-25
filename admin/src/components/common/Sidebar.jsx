@@ -42,18 +42,22 @@ const Sidebar = () => {
             Dashboard
           </ListItem>
         </Link>
-        <ListItem className="select-none">
-          <ListItemPrefix>
-            <TagIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Add Category
-        </ListItem>
-        <ListItem className="select-none">
-          <ListItemPrefix>
-            <ListBulletIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          All Categories
-        </ListItem>
+        <Link to="/addcategory">
+          <ListItem className="select-none">
+            <ListItemPrefix>
+              <TagIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Add Category
+          </ListItem>
+        </Link>
+        <Link to="/allcategory">
+          <ListItem className="select-none">
+            <ListItemPrefix>
+              <ListBulletIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            All Categories
+          </ListItem>
+        </Link>
         <Link to="/addproduct">
           <ListItem className="select-none">
             <ListItemPrefix>

@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AddProduct from "./pages/AddProduct";
 import Allproducts from "./pages/Allproducts";
+import AddCategory from "./pages/AddCategory";
+import AllCategory from "./pages/AllCategory";
 
 const App = () => {
   return (
@@ -13,6 +15,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Rootlayout />}>
           <Route index element={<Home />} />
+          <Route path="/addcategory" element={<AddCategory />} />
+          <Route path="/allcategory" element={<AllCategory />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/allproducts" element={<Allproducts />} />
         </Route>
