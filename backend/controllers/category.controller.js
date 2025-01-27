@@ -1,3 +1,6 @@
+const deleteFile = require("../helpers/deleteFile");
+const path = require("path");
+const fs = require("fs");
 const categoryModel = require("../models/category.model");
 /**
  * Create new category
@@ -40,12 +43,27 @@ const deleteCategory = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await categoryModel.findByIdAndDelete({ _id: id });
+    let category = await categoryModel.findOneAndDelete({ _id: id });
+    let imagePath = category.thumb.split("/");
+    let oldimage = imagePath[imagePath.length - 1];
 
-    res.status(200).send({
-      success: true,
-      msg: "Category deleted",
-    });
+    let fileDeleteErr = deleteFile(
+      `${path.join(__dirname, "../temp")}/${oldimage}`
+    );
+
+    if (fileDeleteErr) {
+      res.status(500).send({
+        success: false,
+        msg: "Something went wrong",
+        fileDeleteErr,
+      });
+    } else {
+      res.status(200).send({
+        success: true,
+        msg: "Category deleted",
+        data: category,
+      });
+    }
   } catch (error) {
     res.status(500).send({
       success: false,
