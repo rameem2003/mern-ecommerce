@@ -20,8 +20,35 @@ import {
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { categoryReducer } from "../../redux/features/CategorySlice";
+import { useEffect } from "react";
+import { productReducer } from "../../redux/features/ProductSlice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch(); // dispatch instance
+
+  /**
+   * Function for fetching all categories
+   */
+  const fetchCategories = async () => {
+    const res = await axios.get("http://localhost:5000/api/v1/category/all");
+    dispatch(categoryReducer(res.data.data));
+  };
+
+  /**
+   * Function for fetching all products
+   */
+  const fetchProducts = async () => {
+    const res = await axios.get("http://localhost:5000/api/v1/product/all");
+    dispatch(productReducer(res.data.data));
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, []);
   return (
     <Card className="h-[calc(100vh-0rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
       <div className="mb-2 p-4">

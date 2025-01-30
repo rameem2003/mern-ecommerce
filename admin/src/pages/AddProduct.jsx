@@ -9,17 +9,24 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { TailSpin } from "react-loader-spinner";
+import axios from "axios";
 
 const AddProduct = () => {
+  const categories = useSelector((state) => state.category.categories); // fetch all categories
+  const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({
     name: "",
     description: "",
-    price: "",
+    sellingPrice: "",
+    discountPrice: "",
+    stock: "",
     category: "",
-    image: null,
+    store: "",
+    images: null,
   });
-
-  const categories = ["Electronics", "Clothing", "Books", "Furniture", "Toys"];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,12 +34,61 @@ const AddProduct = () => {
   };
 
   const handleImageChange = (e) => {
-    setProduct({ ...product, image: e.target.files[0] });
+    console.log(e);
+
+    setProduct({ ...product, images: Array.from(e.target.files) });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(product); // Handle form submission logic
+    setLoading(true);
+    let data = new FormData();
+    data.append("name", product.name);
+    data.append("description", product.description);
+    data.append("sellingPrice", product.sellingPrice);
+    data.append("discountPrice", product.discountPrice);
+    data.append("stock", product.stock);
+    data.append("category", product.category);
+    // Append each image file separately
+    if (product.images) {
+      for (let i = 0; i < product.images.length; i++) {
+        data.append("images", product.images[i]);
+      }
+    }
+
+    try {
+      let res = await axios.post(
+        "http://localhost:5000/api/v1/product/create",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setLoading(false);
+
+      Swal.fire({
+        title: res.data.msg,
+        confirmButtonText: "Ok",
+        confirmButtonColor: "green",
+        icon: "success",
+      });
+
+      console.log(res.data);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+
+      Swal.fire({
+        title: error.response.data.msg,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: "Ok",
+        cancelButtonColor: "red",
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -59,18 +115,35 @@ const AddProduct = () => {
               value={product.description}
               onChange={handleInputChange}
               rows={4}
-              required
             />
           </div>
 
           <div className="mb-4">
             <Input
-              label="Product Price ($)"
+              label="Product Selling Price ($)"
               type="number"
-              name="price"
-              value={product.price}
+              name="sellingPrice"
+              value={product.sellingPrice}
               onChange={handleInputChange}
               required
+            />
+          </div>
+          <div className="mb-4">
+            <Input
+              label="Product Discount Price ($)"
+              type="number"
+              name="discountPrice"
+              value={product.discountPrice}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Input
+              label="Product Stock"
+              type="number"
+              name="stock"
+              value={product.stock}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -83,8 +156,8 @@ const AddProduct = () => {
               required
             >
               {categories.map((cat, index) => (
-                <Option key={index} value={cat}>
-                  {cat}
+                <Option key={index} value={cat._id}>
+                  {cat.name}
                 </Option>
               ))}
             </Select>
@@ -93,17 +166,31 @@ const AddProduct = () => {
           <div className="mb-4">
             <Input
               type="file"
-              label="Product Image"
-              name="image"
+              label="Product Images"
+              name="images"
               onChange={handleImageChange}
               accept="image/*"
               required
+              multiple
             />
           </div>
 
-          <Button type="submit" color="black" className="w-full">
-            Add Product
-          </Button>
+          {loading ? (
+            <TailSpin
+              visible={true}
+              height="80"
+              width="80"
+              color="#212121"
+              ariaLabel="tail-spin-loading"
+              radius="2"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            <Button type="submit" color="black" className="w-full">
+              Add Product
+            </Button>
+          )}
         </form>
       </CardBody>
     </Card>

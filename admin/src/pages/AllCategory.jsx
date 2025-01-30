@@ -1,49 +1,51 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { IconButton, Typography } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 const AllCategory = () => {
-  const categories = [
-    {
-      name: "Electronics",
-      description: "Devices and gadgets.",
-      products: 120,
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Clothing",
-      description: "Trendy outfits.",
-      products: 85,
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Books",
-      description: "Knowledge and entertainment.",
-      products: 200,
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Furniture",
-      description: "Stylish furniture.",
-      products: 45,
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Toys",
-      description: "Fun for all ages.",
-      products: 60,
-      image: "https://via.placeholder.com/150",
-    },
-  ];
+  const categories = useSelector((state) => state.category.categories); // fetch all categories
+  const [loading, setLoading] = useState(false);
 
   const handleEdit = (category) => {
     console.log("Edit:", category);
     // Add edit logic here
   };
 
-  const handleDelete = (category) => {
-    console.log("Delete:", category);
+  const handleDelete = async (id) => {
+    setLoading(true);
+    console.log("Delete:", id);
     // Add delete logic here
+
+    try {
+      let res = await axios.delete(
+        `http://localhost:5000/api/v1/category/delete/${id}`
+      );
+
+      Swal.fire({
+        title: res.data.msg,
+        confirmButtonText: "Ok",
+        confirmButtonColor: "green",
+        icon: "success",
+      });
+      setLoading(false);
+
+      console.log(res.data);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+
+      Swal.fire({
+        title: error.response.data.msg,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: "Ok",
+        cancelButtonColor: "red",
+        icon: "error",
+      });
+    }
   };
   return (
     <div className=" w-full mx-auto mt-8">
@@ -79,7 +81,7 @@ const AllCategory = () => {
               <tr key={index} className="hover:bg-gray-50">
                 <td className="border border-gray-300 px-4 py-2">
                   <img
-                    src={category.image}
+                    src={category.thumb}
                     alt={category.name}
                     className="h-12 w-12 object-cover rounded-full"
                   />
@@ -91,7 +93,7 @@ const AllCategory = () => {
                   {category.description}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-center">
-                  {category.products}
+                  {category.products.length}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-center">
                   <IconButton
@@ -105,7 +107,7 @@ const AllCategory = () => {
                   <IconButton
                     variant="text"
                     color="red"
-                    onClick={() => handleDelete(category)}
+                    onClick={() => handleDelete(category._id)}
                   >
                     <TrashIcon className="h-5 w-5" />
                   </IconButton>

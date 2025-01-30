@@ -9,7 +9,7 @@ const storeModel = require("../models/store.model");
  */
 const allProducts = async (req, res) => {
   try {
-    let allProduct = await productModel.find();
+    let allProduct = await productModel.find().populate("category");
     res.status(200).send({
       success: true,
       msg: "All Products Fetched Success",
