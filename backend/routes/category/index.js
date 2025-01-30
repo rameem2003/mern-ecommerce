@@ -5,6 +5,7 @@ const {
   allCategory,
   updateCategory,
 } = require("../../controllers/category.controller");
+const checkAdminMiddleware = require("../../middlewares/checkAdminMiddleware");
 const errorHandleMiddleware = require("../../middlewares/errorHandleMiddleware");
 const upload = require("../../middlewares/fileupload");
 
@@ -25,6 +26,7 @@ router.get("/category/single/:id", singleCategory);
  */
 router.post(
   "/category/create",
+  checkAdminMiddleware,
   upload.single("image"),
   errorHandleMiddleware,
   createNewCategory
@@ -35,6 +37,7 @@ router.post(
  */
 router.patch(
   "/category/update/:id",
+  checkAdminMiddleware,
   upload.single("image"),
   errorHandleMiddleware,
   updateCategory
@@ -43,6 +46,6 @@ router.patch(
 /**
  * http://localhost:5000/api/v1/category/delete/:id
  */
-router.delete("/category/delete/:id", deleteCategory);
+router.delete("/category/delete/:id", checkAdminMiddleware, deleteCategory);
 
 module.exports = router;

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { TailSpin } from "react-loader-spinner";
+import axios from "axios";
+import Swal from "sweetalert2";
 import {
   Card,
   CardBody,
   Input,
   Textarea,
-  Select,
-  Option,
   Button,
   Typography,
 } from "@material-tailwind/react";
@@ -16,6 +17,7 @@ const AddCategory = () => {
     description: "",
     image: null,
   });
+  const [loading, setLoading] = useState(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCategory({ ...category, [name]: value });
@@ -25,9 +27,47 @@ const AddCategory = () => {
     setCategory({ ...category, image: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(category); // Handle form submission logic
+    setLoading(true);
+    let data = new FormData();
+    data.append("name", category.name);
+    data.append("description", category.description);
+    data.append("image", category.image);
+
+    try {
+      let res = await axios.post(
+        "http://localhost:5000/api/v1/category/create",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/formdata",
+          },
+        }
+      );
+      setLoading(false);
+
+      Swal.fire({
+        title: res.data.msg,
+        confirmButtonText: "Ok",
+        confirmButtonColor: "green",
+        icon: "success",
+      });
+
+      console.log(res.data);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+
+      Swal.fire({
+        title: error.response.data.msg,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: "Ok",
+        cancelButtonColor: "red",
+        icon: "error",
+      });
+    }
   };
   return (
     <Card className=" w-full mx-auto mt-8">
@@ -68,9 +108,22 @@ const AddCategory = () => {
             />
           </div>
 
-          <Button type="submit" color="black" className="w-full">
-            Add Product
-          </Button>
+          {loading ? (
+            <TailSpin
+              visible={true}
+              height="80"
+              width="80"
+              color="#212121"
+              ariaLabel="tail-spin-loading"
+              radius="2"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            <Button type="submit" color="black" className="w-full">
+              Add Product
+            </Button>
+          )}
         </form>
       </CardBody>
     </Card>

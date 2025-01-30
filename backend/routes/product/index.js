@@ -5,6 +5,7 @@ const {
   allProducts,
   singleProduct,
 } = require("../../controllers/product.controller");
+const checkAdminMiddleware = require("../../middlewares/checkAdminMiddleware");
 const errorHandleMiddleware = require("../../middlewares/errorHandleMiddleware");
 const upload = require("../../middlewares/fileupload");
 
@@ -25,6 +26,7 @@ router.get("/product/single/:id", singleProduct);
  */
 router.post(
   "/product/create",
+  checkAdminMiddleware,
   upload.array("images"),
   errorHandleMiddleware,
   createNewProduct
@@ -35,6 +37,7 @@ router.post(
  */
 router.patch(
   "/product/update/:id",
+  checkAdminMiddleware,
   upload.array("images"),
   errorHandleMiddleware,
   updateProduct
@@ -43,6 +46,6 @@ router.patch(
 /**
  * http://localhost:5000/api/v1/product/delete
  */
-router.delete("/product/delete/:id", deleteProduct);
+router.delete("/product/delete/:id", checkAdminMiddleware, deleteProduct);
 
 module.exports = router;

@@ -30,7 +30,7 @@ const checkAdminMiddleware = (req, res, next) => {
   else {
     res.status(400).send({
       success: false,
-      msg: "Token Not Found",
+      msg: "Admin Token Not Found, Please Login Again As An Admin",
     });
   }
 };

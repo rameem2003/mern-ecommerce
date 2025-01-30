@@ -40,7 +40,8 @@ const createNewCategory = async (req, res) => {
       await newCategory.save();
 
       res.status(201).send({
-        msg: "New Category",
+        success: true,
+        msg: "New Category Is Created",
         newCategory,
       });
     } catch (error) {

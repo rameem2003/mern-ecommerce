@@ -193,6 +193,28 @@ const deleteProduct = async (req, res) => {
   try {
     let targetProduct = await productModel.findByIdAndDelete({ _id: id });
 
+    await categoryModel.findByIdAndUpdate(
+      {
+        _id: targetProduct.category,
+      },
+      {
+        $pull: {
+          products: targetProduct._id,
+        },
+      }
+    );
+
+    await storeModel.findByIdAndUpdate(
+      {
+        _id: targetProduct.store,
+      },
+      {
+        $pull: {
+          products: targetProduct._id,
+        },
+      }
+    );
+
     let productImages = targetProduct.images;
 
     productImages.forEach((item) => {
