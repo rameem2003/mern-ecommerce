@@ -85,39 +85,53 @@ const singleCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
   const { id } = req.params;
 
-  let { name, description } = req.body;
-  const image = req.file;
-  const { filename } = image;
+  const updateFields = {};
+
+  // Extract only the fields that are present in the request body
+  const fields = ["name", "description"];
+
+  fields.forEach((field) => {
+    if (req.body[field] !== undefined) {
+      updateFields[field] = req.body[field];
+    }
+  });
+
+  if (req.file.filename) {
+    let imageLink = `${process.env.HOST_URL}${process.env.PORT}/${req.file.filename}`;
+
+    updateFields.thumb = imageLink;
+  }
 
   try {
     const targetCategory = await categoryModel.findOneAndUpdate(
       { _id: id },
       {
-        name,
-        description,
-        thumb: `${process.env.HOST_URL}${process.env.PORT}/${filename}`,
+        $set: updateFields,
       }
     );
 
-    let imagePath = targetCategory.thumb.split("/");
-    let oldimage = imagePath[imagePath.length - 1];
+    // If images were updated, delete the old image
+    if (updateFields.thumb) {
+      let imagePath = targetCategory.thumb.split("/");
+      let oldImage = imagePath[imagePath.length - 1];
 
-    let fileDeleteErr = deleteFile(
-      `${path.join(__dirname, "../temp")}/${oldimage}`
-    );
+      let fileDeleteErr = deleteFile(
+        `${path.join(__dirname, "../temp")}/${oldImage}`
+      );
 
-    if (fileDeleteErr) {
-      res.status(500).send({
-        success: false,
-        msg: "Internal Server Error",
-        fileDeleteErr,
-      });
-    } else {
-      res.status(200).send({
-        success: true,
-        msg: "Category is update",
-      });
+      if (fileDeleteErr) {
+        res.status(500).send({
+          success: false,
+          msg: "Internal Server Error",
+          fileDeleteErr,
+        });
+      }
     }
+
+    res.status(200).send({
+      success: true,
+      msg: "Category is update",
+    });
   } catch (error) {
     res.status(500).send({
       success: false,
