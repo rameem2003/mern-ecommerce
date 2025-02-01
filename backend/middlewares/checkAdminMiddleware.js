@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken");
+const authModel = require("../models/auth.model");
 const checkAdminMiddleware = (req, res, next) => {
   const { token } = req.cookies;
   // if token found
   if (token) {
     // token verify
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+    jwt.verify(token, process.env.JWT_SECRET, async function (err, decoded) {
       // if error
       if (err) {
         res.status(400).send({
@@ -13,8 +14,11 @@ const checkAdminMiddleware = (req, res, next) => {
         });
       } else {
         // if decoded and user role is matched to admin
-        if (decoded.role == "admin") {
-          next();
+        const existAdmin = await authModel.findOne({ email: decoded.email });
+        if (existAdmin) {
+          if (decoded.role == "admin") {
+            next();
+          }
         }
         // if not matched
         else {
