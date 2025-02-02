@@ -13,8 +13,10 @@ import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { TailSpin } from "react-loader-spinner";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddProduct = () => {
+  const accessToken = Cookies.get("token"); // access token
   const categories = useSelector((state) => state.category.categories); // fetch all categories
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({
@@ -61,8 +63,12 @@ const AddProduct = () => {
         "http://localhost:5000/api/v1/product/create",
         data,
         {
+          withCredentials: true,
+        },
+        {
           headers: {
             "Content-Type": "multipart/form-data",
+            Cookie: `token=${accessToken}`,
           },
         }
       );

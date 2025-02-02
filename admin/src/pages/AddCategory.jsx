@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 import {
   Card,
   CardBody,
@@ -12,6 +13,8 @@ import {
 } from "@material-tailwind/react";
 
 const AddCategory = () => {
+  const accessToken = Cookies.get("token"); // access token
+
   const [category, setCategory] = useState({
     name: "",
     description: "",
@@ -40,8 +43,12 @@ const AddCategory = () => {
         "http://localhost:5000/api/v1/category/create",
         data,
         {
+          withCredentials: true,
+        },
+        {
           headers: {
             "Content-Type": "multipart/formdata",
+            Cookie: `token=${accessToken}`,
           },
         }
       );

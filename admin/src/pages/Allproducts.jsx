@@ -17,6 +17,10 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
 const TABLE_HEAD = [
   "Image",
@@ -30,7 +34,52 @@ const TABLE_HEAD = [
 ];
 
 const Allproducts = () => {
+  const accessToken = Cookies.get("token"); // access token
   const products = useSelector((state) => state.products.products); // fetch all products
+  const [loading, setLoading] = useState(false); // loading state
+
+  // function for product delete
+  const handleDelete = async (id) => {
+    setLoading(true);
+    console.log("Delete:", id);
+
+    try {
+      let res = await axios.delete(
+        `http://localhost:5000/api/v1/product/delete/${id}`,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `token=${accessToken}`,
+          },
+        }
+      );
+
+      Swal.fire({
+        title: res.data.msg,
+        confirmButtonText: "Ok",
+        confirmButtonColor: "green",
+        icon: "success",
+      });
+      setLoading(false);
+
+      console.log(res.data);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+
+      Swal.fire({
+        title: error.response.data.msg,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: "Ok",
+        cancelButtonColor: "red",
+        icon: "error",
+      });
+    }
+  };
   return (
     <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -161,7 +210,10 @@ const Allproducts = () => {
                       </IconButton>
                     </Tooltip>
                     <Tooltip content="Edit User">
-                      <IconButton variant="text">
+                      <IconButton
+                        onClick={() => handleDelete(p._id)}
+                        variant="text"
+                      >
                         <TrashIcon className="h-4 w-4 text-red-500" />
                       </IconButton>
                     </Tooltip>

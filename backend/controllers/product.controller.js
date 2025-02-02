@@ -230,16 +230,18 @@ const deleteProduct = async (req, res) => {
       }
     );
 
-    await storeModel.findByIdAndUpdate(
-      {
-        _id: targetProduct.store,
-      },
-      {
-        $pull: {
-          products: targetProduct._id,
+    if (targetProduct.store) {
+      await storeModel.findByIdAndUpdate(
+        {
+          _id: targetProduct.store,
         },
-      }
-    );
+        {
+          $pull: {
+            products: targetProduct._id,
+          },
+        }
+      );
+    }
 
     res.status(200).send({
       success: true,

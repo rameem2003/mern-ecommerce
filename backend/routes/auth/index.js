@@ -4,6 +4,7 @@ const {
   allusers,
   verifyOTP,
   resendOTP,
+  verifyAdmin,
 } = require("../../controllers/auth.controller");
 const checkAdminMiddleware = require("../../middlewares/checkAdminMiddleware");
 
@@ -32,6 +33,12 @@ router.post("/auth/otp-verify", verifyOTP);
  * http://localhost:5000/api/v1/auth/otp-resend
  */
 router.post("/auth/otp-resend", resendOTP);
+
+/**
+ * OTP Resend Route
+ * http://localhost:5000/api/v1/auth/verify-admin
+ */
+router.get("/auth/verify-admin", checkAdminMiddleware, verifyAdmin);
 
 /**
  * Protected User Test Route

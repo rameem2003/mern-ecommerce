@@ -153,7 +153,7 @@ const loginUser = async (req, res) => {
           });
 
           res.cookie("token", token, {
-            httpOnly: true,
+            // httpOnly: true,
             secure: false,
           });
           return res.status(200).send({
@@ -170,7 +170,7 @@ const loginUser = async (req, res) => {
           });
 
           res.cookie("token", token, {
-            httpOnly: true,
+            // httpOnly: true,
             secure: false,
           });
           return res.status(200).send({
@@ -268,6 +268,16 @@ const resendOTP = async (req, res) => {
 };
 
 /**
+ * Verify Admin by email and token
+ */
+const verifyAdmin = async (req, res) => {
+  res.status(200).send({
+    success: true,
+    msg: "Admin Verified",
+  });
+};
+
+/**
  * All Users
  */
 
@@ -280,4 +290,11 @@ const allusers = async (req, res) => {
   });
 };
 
-module.exports = { loginUser, registerUser, verifyOTP, resendOTP, allusers };
+module.exports = {
+  loginUser,
+  registerUser,
+  verifyOTP,
+  resendOTP,
+  verifyAdmin,
+  allusers,
+};

@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const AllCategory = () => {
+  const accessToken = Cookies.get("token"); // access token
   const categories = useSelector((state) => state.category.categories); // fetch all categories
   const [loading, setLoading] = useState(false);
 
@@ -17,11 +19,19 @@ const AllCategory = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     console.log("Delete:", id);
-    // Add delete logic here
 
     try {
       let res = await axios.delete(
-        `http://localhost:5000/api/v1/category/delete/${id}`
+        `http://localhost:5000/api/v1/category/delete/${id}`,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `token=${accessToken}`,
+          },
+        }
       );
 
       Swal.fire({

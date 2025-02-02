@@ -8,7 +8,12 @@ const app = express();
 connectDB();
 
 // all middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.static("temp"));
 app.use(cookieParser());
 app.use(express.json());

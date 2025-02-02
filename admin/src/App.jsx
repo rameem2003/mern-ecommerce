@@ -8,6 +8,7 @@ import AddProduct from "./pages/AddProduct";
 import Allproducts from "./pages/Allproducts";
 import AddCategory from "./pages/AddCategory";
 import AllCategory from "./pages/AllCategory";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 const App = () => {
   return (
@@ -15,7 +16,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Rootlayout />}>
           <Route index element={<Home />} />
-          <Route path="/addcategory" element={<AddCategory />} />
+          <Route
+            path="/addcategory"
+            element={
+              <ProtectedRoute>
+                <AddCategory />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/allcategory" element={<AllCategory />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/allproducts" element={<Allproducts />} />

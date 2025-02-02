@@ -1,12 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { Bounce, toast } from "react-toastify";
+import { useNavigate } from "react-router";
+import { ThreeDots } from "react-loader-spinner";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); // loading state
+  const navigate = useNavigate(); // navigation instance
+
+  /**
+   * function for login
+   */
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    let userData = {
+      email,
+      password,
+    };
+
+    try {
+      let res = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        userData,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setLoading(false);
+
+      if (res.data.user.role == "admin") {
+        navigate("/");
+      } else {
+        toast.error("You are not an admin", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+
+      console.log(res);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast.error(error.response.data.msg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+  };
   return (
     <div className="font-hind max-sm:px-4">
       <div className="min-h-screen flex flex-col items-center justify-center">
         <div className="grid md:grid-cols-2 items-center gap-4 max-md:gap-8 max-w-6xl max-md:max-w-lg w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
           <div className="md:max-w-md w-full px-4 py-4">
-            <form>
+            <form onSubmit={handleLogin}>
               <div className="mb-12">
                 <h3 className="text-gray-800 text-3xl font-extrabold">
                   Sign in
@@ -27,6 +96,8 @@ const Login = () => {
                 </label>
                 <div className="relative flex items-center">
                   <input
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                     name="email"
                     type="text"
                     required=""
@@ -70,6 +141,8 @@ const Login = () => {
                 </label>
                 <div className="relative flex items-center">
                   <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
                     name="password"
                     type="password"
                     required=""
@@ -115,12 +188,27 @@ const Login = () => {
                 </div>
               </div>
               <div className="mt-12">
-                <button
-                  type="button"
-                  className="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
-                >
-                  Sign in
-                </button>
+                {loading ? (
+                  <div className="w-full shadow-xl px-4 flex items-center justify-center  text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                    <ThreeDots
+                      visible={true}
+                      height="40"
+                      width="40"
+                      color="#fff"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                  >
+                    Sign in
+                  </button>
+                )}
               </div>
             </form>
           </div>
