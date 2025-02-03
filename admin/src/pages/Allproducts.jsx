@@ -77,6 +77,10 @@ const Allproducts = () => {
         cancelButtonText: "Ok",
         cancelButtonColor: "red",
         icon: "error",
+      }).then((result) => {
+        if (result.isDismissed) {
+          location.reload();
+        }
       });
     }
   };

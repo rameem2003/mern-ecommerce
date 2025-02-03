@@ -35,7 +35,7 @@ router.post("/auth/otp-verify", verifyOTP);
 router.post("/auth/otp-resend", resendOTP);
 
 /**
- * OTP Resend Route
+ * Admin Token Validation Check
  * http://localhost:5000/api/v1/auth/verify-admin
  */
 router.get("/auth/verify-admin", checkAdminMiddleware, verifyAdmin);

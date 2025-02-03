@@ -4,15 +4,9 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
   PowerIcon,
   TagIcon,
   ListBulletIcon,
@@ -25,9 +19,18 @@ import { useDispatch } from "react-redux";
 import { categoryReducer } from "../../redux/features/CategorySlice";
 import { useEffect } from "react";
 import { productReducer } from "../../redux/features/ProductSlice";
+import { adminLogoutReducer } from "../../redux/features/AdminSlice";
+import Cookies from "js-cookie";
 
 const Sidebar = () => {
   const dispatch = useDispatch(); // dispatch instance
+
+  // handleLogout
+  const handleLogout = () => {
+    dispatch(adminLogoutReducer());
+    Cookies.remove("token");
+    location.reload();
+  };
 
   /**
    * Function for fetching all categories
@@ -101,7 +104,7 @@ const Sidebar = () => {
             All Products
           </ListItem>
         </Link>
-        <ListItem className="select-none">
+        <ListItem onClick={handleLogout} className="select-none">
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>

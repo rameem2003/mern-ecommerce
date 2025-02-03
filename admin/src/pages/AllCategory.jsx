@@ -5,17 +5,24 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import EditCategoryModal from "../components/EditCategoryModal";
 
 const AllCategory = () => {
   const accessToken = Cookies.get("token"); // access token
   const categories = useSelector((state) => state.category.categories); // fetch all categories
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
+  // handle edit
   const handleEdit = (category) => {
     console.log("Edit:", category);
     // Add edit logic here
+    setSelectedCategory(category);
+    setIsModalOpen(true);
   };
 
+  // handle update
   const handleDelete = async (id) => {
     setLoading(true);
     console.log("Delete:", id);
@@ -54,8 +61,18 @@ const AllCategory = () => {
         cancelButtonText: "Ok",
         cancelButtonColor: "red",
         icon: "error",
+      }).then((result) => {
+        if (result.isDismissed) {
+          location.reload();
+        }
       });
     }
+  };
+
+  // on update
+  const handleUpdate = () => {
+    // Fetch updated category list logic
+    setIsModalOpen(false);
   };
   return (
     <div className=" w-full mx-auto mt-8">
@@ -127,6 +144,13 @@ const AllCategory = () => {
           </tbody>
         </table>
       </div>
+
+      <EditCategoryModal
+        open={isModalOpen}
+        handleClose={() => setIsModalOpen(false)}
+        category={selectedCategory}
+        onUpdate={handleUpdate}
+      />
     </div>
   );
 };

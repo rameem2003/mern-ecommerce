@@ -96,7 +96,7 @@ const updateCategory = async (req, res) => {
     }
   });
 
-  if (req.file.filename) {
+  if (req.file !== undefined) {
     let imageLink = `${process.env.HOST_URL}${process.env.PORT}/${req.file.filename}`;
 
     updateFields.thumb = imageLink;

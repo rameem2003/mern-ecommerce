@@ -3,12 +3,15 @@ import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { ThreeDots } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
+import { adminLoginReducer } from "../redux/features/AdminSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); // loading state
   const navigate = useNavigate(); // navigation instance
+  const dispatch = useDispatch(); // dispatch instance
 
   /**
    * function for login
@@ -38,6 +41,7 @@ const Login = () => {
       setLoading(false);
 
       if (res.data.user.role == "admin") {
+        dispatch(adminLoginReducer(res.data.user));
         navigate("/");
       } else {
         toast.error("You are not an admin", {
