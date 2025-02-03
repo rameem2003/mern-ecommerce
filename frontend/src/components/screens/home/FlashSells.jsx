@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -67,6 +68,8 @@ function SamplePrevArrow(props) {
 }
 
 const FlashSells = () => {
+  const allProducts = useSelector((state) => state.allproducts.products); // all products
+
   const settings = {
     dots: false,
     infinite: true,
@@ -85,13 +88,13 @@ const FlashSells = () => {
           <div className="mt-[31px]">
             <div className="slider-container">
               <Slider {...settings}>
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
+                {allProducts.map((p, i) => (
+                  <ItemCardProtrait
+                    data={p}
+                    key={p._id}
+                    className="mx-auto w-[90%]"
+                  />
+                ))}
               </Slider>
             </div>
           </div>

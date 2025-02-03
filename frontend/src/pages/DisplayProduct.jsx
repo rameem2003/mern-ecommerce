@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { productSize } from "../data";
 import Container from "../components/common/Container";
 import Flex from "../components/common/Flex";
@@ -11,8 +11,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { FaTruckFast } from "react-icons/fa6";
 import { TfiReload } from "react-icons/tfi";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const DisplayProduct = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState({}); // set the product
   const [selected, setSelected] = useState(null); // state for select button indicator
   const [size, setSize] = useState(""); // state for store the product size
   // react slick settings
@@ -23,6 +27,22 @@ const DisplayProduct = () => {
     slidesToShow: 4,
     slidesToScroll: 4,
   };
+
+  /**
+   * fetch single product
+   */
+  const fetchSingleProduct = async () => {
+    let res = await axios.get(
+      `http://localhost:5000/api/v1/product/single/${id}`,
+    );
+
+    setProduct(res.data.data);
+  };
+
+  useEffect(() => {
+    fetchSingleProduct();
+  }, []);
+
   return (
     <main className="py-[80px]">
       <Container>
@@ -30,7 +50,7 @@ const DisplayProduct = () => {
           {/* product image display */}
 
           <div className="w-7/12">
-            <ProductImagePreview />
+            {product && <ProductImagePreview data={product} />}
           </div>
           {/* descriptions */}
           <div className="w-5/12">

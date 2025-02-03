@@ -15,7 +15,14 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Rootlayout />}>
-          <Route index element={<Home />} />
+          <Route
+            index
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/addcategory"
             element={

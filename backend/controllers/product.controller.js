@@ -88,15 +88,15 @@ const createNewProduct = async (req, res) => {
       { new: true }
     );
 
-    await storeModel.findOneAndUpdate(
-      { _id: store },
-      {
-        $push: {
-          products: newProduct._id,
-        },
-      },
-      { new: true }
-    );
+    // await storeModel.findOneAndUpdate(
+    //   { _id: store },
+    //   {
+    //     $push: {
+    //       products: newProduct._id,
+    //     },
+    //   },
+    //   { new: true }
+    // );
 
     res.status(201).send({
       success: true,

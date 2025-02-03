@@ -3,10 +3,11 @@ import Container from "../../common/Container";
 import Title from "../../common/Title";
 import ItemCardProtrait from "../../common/ItemCardProtrait";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -67,6 +68,7 @@ function SamplePrevArrow(props) {
 }
 
 const Explorer = () => {
+  const allProducts = useSelector((state) => state.allproducts.products);
   const settings = {
     dots: false,
     infinite: true,
@@ -74,7 +76,6 @@ const Explorer = () => {
     slidesToShow: 4,
     slidesToScroll: 4,
     rows: 2,
-
     prevArrow: <SamplePrevArrow />,
     nextArrow: <SampleNextArrow />,
   };
@@ -87,42 +88,15 @@ const Explorer = () => {
           <div className="mt-[31px]">
             <div className="slider-container">
               <Slider {...settings}>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
-                <div className="mb-[60px]">
-                  <ItemCardProtrait className="mx-auto w-[90%]" />
-                </div>
+                {allProducts.map((p, i) => (
+                  <div className="mb-[60px]">
+                    <ItemCardProtrait
+                      data={p}
+                      key={p._id}
+                      className="mx-auto w-[90%]"
+                    />
+                  </div>
+                ))}
               </Slider>
             </div>
           </div>

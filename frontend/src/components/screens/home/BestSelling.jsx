@@ -6,8 +6,10 @@ import ItemCardProtrait from "../../common/ItemCardProtrait";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useSelector } from "react-redux";
 
 const BestSelling = () => {
+  const allProducts = useSelector((state) => state.allproducts.products);
   const settings = {
     dots: false,
     infinite: true,
@@ -28,13 +30,13 @@ const BestSelling = () => {
           <div className="mt-[31px]">
             <div className="slider-container">
               <Slider {...settings}>
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
-                <ItemCardProtrait className="mx-auto w-[90%]" />
+                {allProducts.map((p, i) => (
+                  <ItemCardProtrait
+                    data={p}
+                    key={p._id}
+                    className="mx-auto w-[90%]"
+                  />
+                ))}
               </Slider>
             </div>
           </div>
