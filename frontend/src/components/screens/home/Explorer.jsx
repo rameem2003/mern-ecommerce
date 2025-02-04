@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ProductListSkeleton from "../../common/ProductListSkeleton";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -86,19 +87,23 @@ const Explorer = () => {
           <Title title="Our Products" subTitle="Explore Our Products" />
 
           <div className="mt-[31px]">
-            <div className="slider-container">
-              <Slider {...settings}>
-                {allProducts.map((p, i) => (
-                  <div className="mb-[60px]">
-                    <ItemCardProtrait
-                      data={p}
-                      key={p._id}
-                      className="mx-auto w-[90%]"
-                    />
-                  </div>
-                ))}
-              </Slider>
-            </div>
+            {allProducts.length > 0 ? (
+              <div className="slider-container">
+                <Slider {...settings}>
+                  {allProducts.map((p, i) => (
+                    <div className="mb-[60px]">
+                      <ItemCardProtrait
+                        data={p}
+                        key={p._id}
+                        className="mx-auto w-[90%]"
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            ) : (
+              <ProductListSkeleton />
+            )}
           </div>
 
           <div className="mt-[60px] text-center">

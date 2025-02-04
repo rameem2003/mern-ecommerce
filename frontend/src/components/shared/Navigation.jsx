@@ -33,6 +33,16 @@ const Navigation = () => {
               </ListItem>
               <ListItem>
                 <NavLink
+                  to="/shop"
+                  className={({ isActive }) =>
+                    `" text-black" ${isActive ? "after:bg-secondaryGrey" : "after:bg-transparent"} relative pb-1 text-[16px] after:absolute after:bottom-[-5px] after:left-0 after:h-[2px] after:w-full`
+                  }
+                >
+                  Shop
+                </NavLink>
+              </ListItem>
+              <ListItem>
+                <NavLink
                   to="/contact"
                   className={({ isActive }) =>
                     `" text-black" ${isActive ? "after:bg-secondaryGrey" : "after:bg-transparent"} relative pb-1 text-[16px] after:absolute after:bottom-[-5px] after:left-0 after:h-[2px] after:w-full`

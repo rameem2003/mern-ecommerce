@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { productSize } from "../data";
 import Container from "../components/common/Container";
 import Flex from "../components/common/Flex";
@@ -12,11 +13,12 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { FaTruckFast } from "react-icons/fa6";
 import { TfiReload } from "react-icons/tfi";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const DisplayProduct = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState({}); // set the product
+  const [product, setProduct] = useState(null); // set the product
   const [selected, setSelected] = useState(null); // state for select button indicator
   const [size, setSize] = useState(""); // state for store the product size
   // react slick settings
@@ -27,6 +29,8 @@ const DisplayProduct = () => {
     slidesToShow: 4,
     slidesToScroll: 4,
   };
+
+  console.log(product);
 
   /**
    * fetch single product
@@ -46,117 +50,140 @@ const DisplayProduct = () => {
   return (
     <main className="py-[80px]">
       <Container>
-        <Flex className="gap-[70px]">
+        <Flex className="gap-[40px]">
           {/* product image display */}
 
           <div className="w-7/12">
-            {product && <ProductImagePreview data={product} />}
+            {product ? (
+              <ProductImagePreview data={product} />
+            ) : (
+              <Flex className="justify-between gap-5">
+                <div className="w-3/12">
+                  <Skeleton count={3} className="h-[150px]" />
+                </div>
+
+                <div className="w-9/12">
+                  <Skeleton count={1} className="h-full" />
+                </div>
+              </Flex>
+            )}
           </div>
           {/* descriptions */}
-          <div className="w-5/12">
-            <h1 className="mb-4 text-[24px] font-semibold text-black">
-              Havic HV G-92 Gamepad
-            </h1>
-            <Flex className="items-center gap-2">
-              <StarRating rating={5} />
+          {product ? (
+            <div className="w-5/12">
+              <h1 className="mb-4 text-[24px] font-semibold text-black">
+                {product.name}
+              </h1>
+              <Flex className="items-center gap-2">
+                <StarRating rating={5} />
 
-              <span className="text-[14px] font-normal text-black/50">
-                (150 Reviews)
-              </span>
-              <span className="text-[14px] font-normal text-[#00FF66]">
-                In Stock
-              </span>
-            </Flex>
-
-            <h3 className="mt-4 text-[24px] font-normal text-black">$192.00</h3>
-
-            <p className="border-b-[1px] border-black py-6 font-normal text-black">
-              PlayStation 5 Controller Skin High quality vinyl with air channel
-              adhesive for easy bubble free install & mess free removal Pressure
-              sensitive.
-            </p>
-
-            <Flex className="mb-6 mt-6 items-center gap-6">
-              <p className="text-[20px] font-normal text-black">Colours:</p>
-
-              <Flex className="gap-2">
-                <div className="h-[20px] w-[20px] rounded-full bg-blue-700"></div>
-                <div className="h-[20px] w-[20px] rounded-full bg-green-700"></div>
+                <span className="text-[14px] font-normal text-black/50">
+                  (150 Reviews)
+                </span>
+                <span className="text-[14px] font-normal text-[#00FF66]">
+                  {product.stock} In Stock
+                </span>
               </Flex>
-            </Flex>
 
-            <Flex className="mb-6 mt-6 items-center gap-6">
-              <p className="text-[20px] font-normal text-black">Size:</p>
+              <span className="mt-4 inline-block text-[24px] font-normal text-black">
+                ৳ {product.discountPrice}
+              </span>
+              <del className="ml-4 mt-4 inline-block text-[18px] font-normal text-gray-500">
+                ৳ {product.sellingPrice}
+              </del>
 
-              <Flex className="gap-4">
-                {productSize.map((data, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setSelected(i);
-                      setSize(data);
-                    }}
-                    className={`rounded-[4px] ${selected == i ? "border-transparent bg-primaryRed text-white" : "border-[1px] border-black"} px-3 py-[6px] text-[14px] font-medium uppercase text-black`}
-                  >
-                    {data}
+              <p className="border-b-[1px] border-black py-6 font-normal text-black">
+                {product.description}
+              </p>
+
+              <Flex className="mb-6 mt-6 items-center gap-6">
+                <p className="text-[20px] font-normal text-black">Colours:</p>
+
+                <Flex className="gap-2">
+                  <div className="h-[20px] w-[20px] rounded-full bg-blue-700"></div>
+                  <div className="h-[20px] w-[20px] rounded-full bg-green-700"></div>
+                </Flex>
+              </Flex>
+
+              <Flex className="mb-6 mt-6 items-center gap-6">
+                <p className="text-[20px] font-normal text-black">Size:</p>
+
+                <Flex className="gap-4">
+                  {productSize.map((data, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setSelected(i);
+                        setSize(data);
+                      }}
+                      className={`rounded-[4px] ${selected == i ? "border-transparent bg-primaryRed text-white" : "border-[1px] border-black"} px-3 py-[6px] text-[14px] font-medium uppercase text-black`}
+                    >
+                      {data}
+                    </button>
+                  ))}
+                </Flex>
+              </Flex>
+
+              <Flex className="gap-5">
+                <Flex className="rounded-[4px] border-[1px] border-black">
+                  <button className="px-4 py-[10px] text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
+                    -
                   </button>
-                ))}
-              </Flex>
-            </Flex>
+                  <button className="border-l-[1px] border-r-[1px] border-black px-[34px] py-[10px] text-[20px] font-medium text-black">
+                    2
+                  </button>
+                  <button className="px-4 py-[10px] text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
+                    +
+                  </button>
+                </Flex>
 
-            <Flex className="gap-5">
-              <Flex className="rounded-[4px] border-[1px] border-black">
-                <button className="px-4 py-[10px] text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
-                  -
+                <button className="rounded-[4px] bg-primaryRed px-12 py-[10px] text-[16px] font-medium text-white">
+                  Buy Now
                 </button>
-                <button className="border-l-[1px] border-r-[1px] border-black px-[34px] py-[10px] text-[20px] font-medium text-black">
-                  2
-                </button>
-                <button className="px-4 py-[10px] text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
-                  +
+                <button className="rounded-[4px] border-[1px] border-black p-1 text-[32px] font-medium text-black">
+                  <IoIosHeartEmpty />
                 </button>
               </Flex>
 
-              <button className="rounded-[4px] bg-primaryRed px-12 py-[10px] text-[16px] font-medium text-white">
-                Buy Now
-              </button>
-              <button className="rounded-[4px] border-[1px] border-black p-1 text-[32px] font-medium text-black">
-                <IoIosHeartEmpty />
-              </button>
-            </Flex>
+              <div className="mt-10 rounded-[4px] border-[1px] border-black/50">
+                <Flex className="gap-4 px-4 py-6">
+                  <FaTruckFast className="text-[40px]" />
 
-            <div className="mt-10 rounded-[4px] border-[1px] border-black/50">
-              <Flex className="gap-4 px-4 py-6">
-                <FaTruckFast className="text-[40px]" />
+                  <div>
+                    <h2 className="text-[16px] font-medium text-black">
+                      Free Delivery
+                    </h2>
 
-                <div>
-                  <h2 className="text-[16px] font-medium text-black">
-                    Free Delivery
-                  </h2>
+                    <p className="text-[12px] font-medium text-black">
+                      Enter your postal code for Delivery Availability
+                    </p>
+                  </div>
+                </Flex>
 
-                  <p className="text-[12px] font-medium text-black">
-                    Enter your postal code for Delivery Availability
-                  </p>
-                </div>
-              </Flex>
+                <div className="mt-4 h-[1px] w-full bg-black/50"></div>
 
-              <div className="mt-4 h-[1px] w-full bg-black/50"></div>
+                <Flex className="gap-4 px-4 py-6">
+                  <TfiReload className="text-[40px]" />
 
-              <Flex className="gap-4 px-4 py-6">
-                <TfiReload className="text-[40px]" />
+                  <div>
+                    <h2 className="text-[16px] font-medium text-black">
+                      Return Delivery
+                    </h2>
 
-                <div>
-                  <h2 className="text-[16px] font-medium text-black">
-                    Return Delivery
-                  </h2>
-
-                  <p className="text-[12px] font-medium text-black">
-                    Free 30 Days Delivery Returns. Details
-                  </p>
-                </div>
-              </Flex>
+                    <p className="text-[12px] font-medium text-black">
+                      Free 30 Days Delivery Returns. Details
+                    </p>
+                  </div>
+                </Flex>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="w-5/12">
+              <Skeleton count={1} className="h-[40px]" />
+              <Skeleton count={1} className="h-[150px]" />
+              <Skeleton count={1} className="h-[500px]" />
+            </div>
+          )}
         </Flex>
 
         {/* related section */}

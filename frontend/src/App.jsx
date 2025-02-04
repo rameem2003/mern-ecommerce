@@ -16,6 +16,7 @@ import Errorpage from "./pages/Errorpage";
 import Account from "./pages/Account";
 import Contact from "./pages/Contact";
 import DisplayProduct from "./pages/DisplayProduct";
+import Shop from "./pages/Shop";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="/product/:id" element={<DisplayProduct />} />
       <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/shop" element={<Shop />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/about" element={<About />} />

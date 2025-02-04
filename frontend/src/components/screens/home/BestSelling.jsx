@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
+import ProductListSkeleton from "../../common/ProductListSkeleton";
 
 const BestSelling = () => {
   const allProducts = useSelector((state) => state.allproducts.products);
@@ -28,17 +29,21 @@ const BestSelling = () => {
           </Link>
 
           <div className="mt-[31px]">
-            <div className="slider-container">
-              <Slider {...settings}>
-                {allProducts.map((p, i) => (
-                  <ItemCardProtrait
-                    data={p}
-                    key={p._id}
-                    className="mx-auto w-[90%]"
-                  />
-                ))}
-              </Slider>
-            </div>
+            {allProducts.length > 0 ? (
+              <div className="slider-container">
+                <Slider {...settings}>
+                  {allProducts.map((p, i) => (
+                    <ItemCardProtrait
+                      data={p}
+                      key={p._id}
+                      className="mx-auto w-[90%]"
+                    />
+                  ))}
+                </Slider>
+              </div>
+            ) : (
+              <ProductListSkeleton />
+            )}
           </div>
         </div>
       </Container>
