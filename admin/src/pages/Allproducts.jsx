@@ -96,8 +96,8 @@ const Allproducts = () => {
     setSelectedProduct(product);
   };
   return (
-    <>
-      <Card className="h-full px-5 rounded-none shadow-none">
+    <section className="">
+      <Card className=" px-5 rounded-none shadow-none">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
             <div>
@@ -127,7 +127,7 @@ const Allproducts = () => {
           </div>
         ) : (
           <CardBody className="overflow-hidden px-0">
-            <table className="w-full min-w-max table-auto text-left">
+            <table className="w-full table-auto text-left">
               <thead>
                 <tr>
                   {TABLE_HEAD.map((head) => (
@@ -266,7 +266,7 @@ const Allproducts = () => {
         product={selectedProduct}
         handleClose={() => setIsModalOpen(false)}
       />
-    </>
+    </section>
   );
 };
 export default Allproducts;

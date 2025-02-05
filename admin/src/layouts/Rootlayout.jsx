@@ -8,7 +8,7 @@ const Rootlayout = () => {
   return (
     <Flex className="">
       <Sidebar />
-      <div className="w-full">
+      <div className="w-[80%]">
         <Header />
         <Outlet />
       </div>
