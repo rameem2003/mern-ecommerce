@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ThreeDots } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { adminLoginReducer } from "../redux/features/AdminSlice";
@@ -86,12 +86,12 @@ const Login = () => {
                 </h3>
                 <p className="text-sm mt-4 text-gray-800">
                   Don't have an account
-                  <a
-                    href="javascript:void(0);"
+                  <Link
+                    to="/register"
                     className="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap"
                   >
                     Register here
-                  </a>
+                  </Link>
                 </p>
               </div>
               <div>

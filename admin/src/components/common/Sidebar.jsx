@@ -4,6 +4,7 @@ import {
   List,
   ListItem,
   ListItemPrefix,
+  Avatar,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
@@ -15,14 +16,16 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { categoryReducer } from "../../redux/features/CategorySlice";
 import { useEffect } from "react";
 import { productReducer } from "../../redux/features/ProductSlice";
 import { adminLogoutReducer } from "../../redux/features/AdminSlice";
 import Cookies from "js-cookie";
+import Flex from "./Flex";
 
 const Sidebar = () => {
+  const admin = useSelector((state) => state.admin.admin);
   const dispatch = useDispatch(); // dispatch instance
 
   // handleLogout
@@ -62,6 +65,28 @@ const Sidebar = () => {
         >
           MERN E-commerce
         </Typography>
+
+        <Flex className="mt-5 items-center gap-2">
+          <Avatar
+            src="https://docs.material-tailwind.com/img/face-2.jpg"
+            alt="avatar"
+          />
+
+          <div>
+            <Typography
+              variant="h4"
+              className=" text-base font-bold text-black"
+            >
+              {admin?.name}
+            </Typography>
+            <Typography
+              variant="h5"
+              className=" text-base font-medium text-black"
+            >
+              {admin?.email}
+            </Typography>
+          </div>
+        </Flex>
       </div>
       <List>
         <Link to="/">

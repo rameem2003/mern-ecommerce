@@ -9,6 +9,7 @@ import Allproducts from "./pages/Allproducts";
 import AddCategory from "./pages/AddCategory";
 import AllCategory from "./pages/AllCategory";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import OTPPage from "./pages/OTPPage";
 
 const App = () => {
   return (
@@ -59,6 +60,7 @@ const App = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-otp" element={<OTPPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,7 +5,6 @@ import { Navigate, useNavigate } from "react-router";
 
 const ProtectedRoute = ({ children }) => {
   const accessToken = Cookies.get("token"); // access token
-  console.log(accessToken);
 
   const navigate = useNavigate(); // navigation instance
   const [loading, setLoading] = useState(true);
@@ -31,7 +30,6 @@ const ProtectedRoute = ({ children }) => {
       if (res.status == 200) {
         setValid(true);
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
       setValid(false);
