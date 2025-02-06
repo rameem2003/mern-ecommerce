@@ -30,8 +30,6 @@ const DisplayProduct = () => {
     slidesToScroll: 4,
   };
 
-  console.log(product);
-
   /**
    * fetch single product
    */

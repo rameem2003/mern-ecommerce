@@ -8,7 +8,7 @@ const singleUserCart = async (req, res) => {
   const { id } = req.params;
 
   try {
-    let cartList = await cartModel.find({ user: id });
+    let cartList = await cartModel.find({ user: id }).populate("product");
 
     res.status(201).send({
       success: true,

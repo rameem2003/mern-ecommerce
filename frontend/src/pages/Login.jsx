@@ -2,15 +2,51 @@ import React, { useState } from "react";
 import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
 import account from "../assets/account.png";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { AccountReducer } from "../redux/featurer/AccountSlice";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const dispatch = useDispatch(); // dispatch instance
+  const navigation = useNavigate(); // navigation instance
   // states for get the login info
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // funstion for handle login
+  // function for handle login
   const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      let res = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      dispatch(AccountReducer(res.data));
+      navigation("/");
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Error!",
+        text: error.response.data.msg,
+        icon: "error",
+        confirmButtonText: "Try Again",
+        confirmButtonColor: "#DB4444",
+      });
+    }
     console.log({ email, password });
   };
   return (

@@ -21,7 +21,7 @@ const ProductImagePreview = ({ data }) => {
         </Flex>
       </div>
       {data.images && (
-        <div className="w-8/12 bg-blue-600">
+        <div className="w-8/12">
           <Image
             src={data.images[img]}
             className="h-full w-full object-cover"

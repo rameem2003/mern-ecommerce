@@ -2,9 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Navigate, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { AccountReducer } from "../redux/featurer/AccountSlice";
 
 const ProtectedRoute = ({ children }) => {
   const accessToken = Cookies.get("token"); // access token
+  const dispatch = useDispatch(); // dispatch instance
 
   const navigate = useNavigate(); // navigation instance
   const [loading, setLoading] = useState(true);
@@ -31,6 +34,7 @@ const ProtectedRoute = ({ children }) => {
         setValid(true);
       }
     } catch (error) {
+      dispatch(AccountReducer(null));
       console.log(error);
       setValid(false);
     } finally {

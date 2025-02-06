@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Flex from "../components/common/Flex";
 import Container from "../components/common/Container";
 import Image from "../components/common/Image";
@@ -6,8 +6,31 @@ import items from "../assets/item.png";
 import { FaAngleDown, FaTimesCircle } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Cart = () => {
+  const user = useSelector((state) => state.account.account); // get user info
+  const [cart, setCart] = useState([]); // store all cart list
+
+  // fetch cart items
+  const fetchCart = async () => {
+    try {
+      let res = await axios.get(
+        `http://localhost:5000/api/v1/cart/single/${user.user.id}`,
+      );
+
+      console.log(res.data.data);
+
+      setCart(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
   return (
     <main className="py-[80px]">
       <Container>
@@ -28,71 +51,62 @@ const Cart = () => {
         </Flex>
 
         {/* cart list dynamic */}
-        <Flex className="mt-10 items-center px-10 py-6 shadow-customOne">
-          <div className="w-4/12">
-            <Flex className="group relative items-center gap-4">
-              <div className="group-hover: absolute left-0 top-1 rounded-full bg-white">
-                <FaTimesCircle className="text-primaryRed" />
-              </div>
-              <Image src={items} className="h-[54px] w-[54px]" />
 
-              <p className="text-[16px] font-normal text-black">Product</p>
-            </Flex>
+        {cart.length == 0 && (
+          <div className="bg-red-500 p-3">
+            <h1 className="text-center text-xl text-white">
+              Cart Item Not Found
+            </h1>
           </div>
-          <div className="w-3/12">
-            <Flex className="items-center">
-              <p className="text-[16px] font-normal text-black">$650</p>
-            </Flex>
-          </div>
-          <div className="w-3/12">
-            <Flex className="w-[100px] items-center justify-center gap-4 rounded-[4px] border-[1px] border-black px-3 py-[6px]">
-              <span className="text-[16px] font-normal text-black">01</span>
+        )}
 
-              <div>
-                <FaAngleUp />
-                <FaAngleDown />
-              </div>
-            </Flex>
-          </div>
-          <div className="w-2/12">
-            <p className="text-right text-[16px] font-normal text-black">
-              $650
-            </p>
-          </div>
-        </Flex>
+        {cart.map((c, i) => (
+          <Flex
+            key={i}
+            className="mt-10 items-center px-10 py-6 shadow-customOne"
+          >
+            <div className="w-4/12">
+              <Flex className="group relative items-center gap-4">
+                <div className="group-hover: absolute left-0 top-1 rounded-full bg-white">
+                  <FaTimesCircle className="text-primaryRed" />
+                </div>
+                <Image
+                  src={c.product.images[0]}
+                  className="h-[54px] w-[54px]"
+                />
 
-        <Flex className="mt-10 items-center px-10 py-6 shadow-customOne">
-          <div className="w-4/12">
-            <Flex className="group relative items-center gap-4">
-              <div className="group-hover: absolute left-0 top-1 rounded-full bg-white">
-                <FaTimesCircle className="text-primaryRed" />
-              </div>
-              <Image src={items} className="h-[54px] w-[54px]" />
+                <p className="text-[16px] font-normal text-black">
+                  {c.product.name}
+                </p>
+              </Flex>
+            </div>
+            <div className="w-3/12">
+              <Flex className="items-center">
+                <p className="text-[16px] font-normal text-black">
+                  ৳ {c.product.discountPrice}
+                </p>
+              </Flex>
+            </div>
+            <div className="w-3/12">
+              <Flex className="w-[100px] items-center justify-center gap-4 rounded-[4px] border-[1px] border-black px-3 py-[6px]">
+                <span className="text-[16px] font-normal text-black">
+                  {c.quantity}
+                </span>
 
-              <p className="text-[16px] font-normal text-black">Product</p>
-            </Flex>
-          </div>
-          <div className="w-3/12">
-            <Flex className="items-center">
-              <p className="text-[16px] font-normal text-black">$650</p>
-            </Flex>
-          </div>
-          <div className="w-3/12">
-            <Flex className="w-[100px] items-center justify-center gap-4 rounded-[4px] border-[1px] border-black px-3 py-[6px]">
-              <span className="text-[16px] font-normal text-black">01</span>
+                <div>
+                  <FaAngleUp className="cursor-pointer hover:text-red-600" />
+                  <FaAngleDown className="cursor-pointer hover:text-red-600" />
+                </div>
+              </Flex>
+            </div>
+            <div className="w-2/12">
+              <p className="text-right text-[16px] font-normal text-black">
+                ৳ {c.product.discountPrice * c.quantity}
+              </p>
+            </div>
+          </Flex>
+        ))}
 
-              <div>
-                <FaAngleUp />
-                <FaAngleDown />
-              </div>
-            </Flex>
-          </div>
-          <div className="w-2/12">
-            <p className="text-right text-[16px] font-normal text-black">
-              $650
-            </p>
-          </div>
-        </Flex>
         {/* cart list dynamic end*/}
 
         <section className="mt-6">

@@ -1,5 +1,8 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AccountReducer } from "../../redux/featurer/AccountSlice";
+import Cookies from "js-cookie";
 import Container from "../common/Container";
 import Flex from "../common/Flex";
 import Image from "./../common/Image";
@@ -10,6 +13,14 @@ import { FaRegHeart } from "react-icons/fa";
 import { LuUser } from "react-icons/lu";
 
 const Navigation = () => {
+  const user = useSelector((state) => state.account.account); // get user info
+  const dispatch = useDispatch(); // dispatch instance
+
+  // function for logout
+  const handleLogout = () => {
+    dispatch(AccountReducer(null));
+    Cookies.remove("token");
+  };
   return (
     <nav className="border-black/3 mt-10 border-b-[1px] pb-4">
       <Container>
@@ -90,8 +101,38 @@ const Navigation = () => {
               <Link to="/cart">
                 <IoCartOutline className="text-[24px]" />
               </Link>
-              <Link to="/account">
+              <Link to="/account" className="group relative">
                 <LuUser className="text-[24px]" />
+
+                {user && (
+                  <div className="absolute right-0 top-5 z-50 hidden w-[300px] rounded-md bg-white p-3 shadow-lg group-hover:block">
+                    <Flex className="items-center gap-2">
+                      <div>
+                        <img
+                          src={
+                            user?.image ||
+                            "https://docs.material-tailwind.com/img/face-2.jpg"
+                          }
+                          className="h-[50px] w-[50px] rounded-full"
+                          alt="user"
+                        />
+                      </div>
+                      <div>
+                        <h4>{user?.user?.name.slice(0, 15)}</h4>
+                        <p className="text-sm font-normal text-gray-500">
+                          {user?.user?.email}
+                        </p>
+                      </div>
+                    </Flex>
+
+                    <button
+                      onClick={handleLogout}
+                      className="mt-2 w-full border-[2px] border-black p-2 font-bold"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </Link>
             </Flex>
           </div>
