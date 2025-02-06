@@ -47,13 +47,17 @@ const Login = () => {
         confirmButtonColor: "#DB4444",
       });
     }
-    console.log({ email, password });
   };
+
   return (
-    <main className="pb-[140px] pt-[60px]">
-      <Flex>
+    <main className="h-screen">
+      <Flex className="h-full">
         <div className="w-7/12">
-          <Image src={account} alt="account" className="w-full" />
+          <Image
+            src={account}
+            alt="account"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="flex w-5/12 items-center justify-center">
           <div>

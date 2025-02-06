@@ -37,6 +37,7 @@ const ProtectedRoute = ({ children }) => {
       dispatch(AccountReducer(null));
       console.log(error);
       setValid(false);
+      Cookies.remove("token");
     } finally {
       setLoading(false); // Stop loading after verification
     }

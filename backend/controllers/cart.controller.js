@@ -72,7 +72,7 @@ const incrementCartItem = async (req, res) => {
         data: item,
       });
     } else {
-      res.status(404).send({
+      res.status(202).send({
         success: false,
         msg: "Stock Limit Reached",
       });
@@ -103,7 +103,7 @@ const decrementCartItem = async (req, res) => {
         data: item,
       });
     } else {
-      res.status(404).send({
+      res.status(202).send({
         success: false,
         msg: "You have to stay with One Item",
       });
@@ -132,7 +132,7 @@ const deleteCartItem = async (req, res) => {
         data: item,
       });
     } else {
-      res.status(404).send({
+      res.status(202).send({
         success: false,
         msg: "Cart Item Not Found",
       });

@@ -7,8 +7,11 @@ import StarRating from "./StarRating";
 import { FaRegHeart } from "react-icons/fa";
 import { IoMdEye } from "react-icons/io";
 import { IoTrash } from "react-icons/io5";
+import AddtoCart from "../../helpers/AddtoCart";
+import { useSelector } from "react-redux";
 
 const ItemCardProtrait = ({ className, data, isWish }) => {
+  const user = useSelector((state) => state.account.account); // get user info
   return (
     <div className={`${className} `}>
       <div className="group relative overflow-hidden rounded-[4px] bg-whiteShadeOne px-10 py-[50px]">
@@ -39,7 +42,10 @@ const ItemCardProtrait = ({ className, data, isWish }) => {
             </>
           )}
         </div>
-        <button className="absolute bottom-[-120px] left-0 w-full bg-black py-4 text-[16px] font-medium text-white duration-200 ease-in-out group-hover:bottom-0">
+        <button
+          onClick={() => AddtoCart(user.user.id, data._id)}
+          className="absolute bottom-[-120px] left-0 w-full bg-black py-4 text-[16px] font-medium text-white duration-200 ease-in-out group-hover:bottom-0"
+        >
           Add To Cart
         </button>
       </div>

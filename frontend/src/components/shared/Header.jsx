@@ -4,6 +4,7 @@ import Flex from "./../common/Flex";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { allProducts } from "../../redux/featurer/ProductsSlice";
+import { CategoryReducer } from "../../redux/featurer/CategorySlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -16,8 +17,17 @@ const Header = () => {
     dispatch(allProducts(res.data.data));
   };
 
+  /**
+   * Fetch all categories
+   */
+  const fetchCategories = async () => {
+    let res = await axios.get("http://localhost:5000/api/v1/category/all");
+    dispatch(CategoryReducer(res.data.data));
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   return (

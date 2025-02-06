@@ -3,9 +3,12 @@ import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
 import account from "../assets/account.png";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate(); // navigation instance
   // states for get the register info
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,13 +17,46 @@ const Register = () => {
   // funstion for handle register
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log({ name, email, password });
+    try {
+      let res = await axios.post(
+        "http://localhost:5000/api/v1/auth/register",
+        {
+          name,
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      console.log(res);
+
+      navigate("/verify-otp", { state: { key: res.data.user } });
+
+      // navigation("/");
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Error!",
+        text: error.response.data.msg,
+        icon: "error",
+        confirmButtonText: "Try Again",
+        confirmButtonColor: "#DB4444",
+      });
+    }
   };
   return (
-    <main className="pb-[140px] pt-[60px]">
-      <Flex>
+    <main className="h-screen">
+      <Flex className="h-full">
         <div className="w-7/12">
-          <Image src={account} alt="account" className="w-full" />
+          <Image
+            src={account}
+            alt="account"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="flex w-5/12 items-center justify-center">
           <div>

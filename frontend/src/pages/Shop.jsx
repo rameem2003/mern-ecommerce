@@ -2,8 +2,10 @@ import React from "react";
 import Container from "./../components/common/Container";
 import Flex from "../components/common/Flex";
 import AllproductsDisplay from "../components/screens/shop/AllproductsDisplay";
+import { useSelector } from "react-redux";
 
 const Shop = () => {
+  const categories = useSelector((state) => state.category.category);
   return (
     <main className="pb-[140px] pt-[60px]">
       <Container>
@@ -14,24 +16,11 @@ const Shop = () => {
 
               <div>
                 <ul>
-                  <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
-                    Laptop (50)
-                  </li>
-                  <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
-                    Laptop (50)
-                  </li>
-                  <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
-                    Laptop (50)
-                  </li>
-                  <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
-                    Laptop (50)
-                  </li>
-                  <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
-                    Laptop (50)
-                  </li>
-                  <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
-                    Laptop (50)
-                  </li>
+                  {categories.map((data, i) => (
+                    <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
+                      {data.name} ({data.products.length})
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

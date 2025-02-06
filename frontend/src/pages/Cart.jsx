@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Flex from "../components/common/Flex";
 import Container from "../components/common/Container";
 import Image from "../components/common/Image";
-import items from "../assets/item.png";
 import { FaAngleDown, FaTimesCircle } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import ProductIncrement from "../helpers/ProductIncrement";
+import ProductDecrement from "../helpers/ProductDecrement";
+import ProductDelete from "../helpers/ProductDelete";
 
 const Cart = () => {
   const user = useSelector((state) => state.account.account); // get user info
@@ -20,8 +22,6 @@ const Cart = () => {
         `http://localhost:5000/api/v1/cart/single/${user.user.id}`,
       );
 
-      console.log(res.data.data);
-
       setCart(res.data.data);
     } catch (error) {
       console.log(error);
@@ -30,7 +30,7 @@ const Cart = () => {
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [cart]);
   return (
     <main className="py-[80px]">
       <Container>
@@ -68,7 +68,10 @@ const Cart = () => {
             <div className="w-4/12">
               <Flex className="group relative items-center gap-4">
                 <div className="group-hover: absolute left-0 top-1 rounded-full bg-white">
-                  <FaTimesCircle className="text-primaryRed" />
+                  <FaTimesCircle
+                    onClick={() => ProductDelete(c._id)}
+                    className="cursor-pointer text-primaryRed"
+                  />
                 </div>
                 <Image
                   src={c.product.images[0]}
@@ -94,8 +97,14 @@ const Cart = () => {
                 </span>
 
                 <div>
-                  <FaAngleUp className="cursor-pointer hover:text-red-600" />
-                  <FaAngleDown className="cursor-pointer hover:text-red-600" />
+                  <FaAngleUp
+                    onClick={() => ProductIncrement(c._id)}
+                    className="cursor-pointer hover:text-red-600"
+                  />
+                  <FaAngleDown
+                    onClick={() => ProductDecrement(c._id)}
+                    className="cursor-pointer hover:text-red-600"
+                  />
                 </div>
               </Flex>
             </div>

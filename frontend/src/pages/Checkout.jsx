@@ -7,16 +7,18 @@ import b from "../assets/bkash.png";
 import n from "../assets/nagad.png";
 import v from "../assets/visa.png";
 import m from "../assets/mastercard.png";
+import { useSelector } from "react-redux";
 
 const Checkout = () => {
+  const user = useSelector((state) => state.account.account); // get user info
   // states for getting shipping address data
-  const [name, setName] = useState("");
+  const [name, setName] = useState(user?.user?.name);
   const [company, setCompany] = useState("");
   const [address, setAddress] = useState("");
   const [apartment, setApartment] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(user?.user?.email);
 
   return (
     <main className="py-[80px]">
@@ -34,16 +36,17 @@ const Checkout = () => {
                   htmlFor=""
                   className="text-[16px] font-normal text-black/40"
                 >
-                  First Name*
+                  Name*
                 </label>
 
                 <input
-                  onChange={(e) => setName(e.target.value)}
+                  // onChange={(e) => setName(e.target.value)}
                   value={name}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
                   id=""
+                  disabled
                 />
               </div>
               <div className="mb-8">
@@ -140,12 +143,13 @@ const Checkout = () => {
                 </label>
 
                 <input
-                  onChange={(e) => setEmail(e.target.value)}
+                  // onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
                   id=""
+                  disabled
                 />
               </div>
             </div>

@@ -20,6 +20,7 @@ const Navigation = () => {
   const handleLogout = () => {
     dispatch(AccountReducer(null));
     Cookies.remove("token");
+    location.reload();
   };
   return (
     <nav className="border-black/3 mt-10 border-b-[1px] pb-4">
