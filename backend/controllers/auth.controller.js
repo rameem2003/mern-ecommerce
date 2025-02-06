@@ -144,6 +144,7 @@ const loginUser = async (req, res) => {
           name: user.name,
           email: user.email,
           role: user.role,
+          verified: user.isVarify,
         };
 
         // if admin
@@ -278,6 +279,16 @@ const verifyAdmin = async (req, res) => {
 };
 
 /**
+ * Verify User by email and token
+ */
+const verifyUser = async (req, res) => {
+  res.status(200).send({
+    success: true,
+    msg: "Admin Verified",
+  });
+};
+
+/**
  * All Users
  */
 
@@ -296,5 +307,6 @@ module.exports = {
   verifyOTP,
   resendOTP,
   verifyAdmin,
+  verifyUser,
   allusers,
 };

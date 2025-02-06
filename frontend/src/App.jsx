@@ -17,6 +17,7 @@ import Account from "./pages/Account";
 import Contact from "./pages/Contact";
 import DisplayProduct from "./pages/DisplayProduct";
 import Shop from "./pages/Shop";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,7 +32,14 @@ const router = createBrowserRouter(
       <Route path="/contact" element={<Contact />} />
       <Route path="/signin" element={<Login />} />
       <Route path="/signup" element={<Register />} />
-      <Route path="/account" element={<Account />} />
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute>
+            <Account />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/*" element={<Errorpage />} />
     </Route>,
   ),

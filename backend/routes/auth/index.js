@@ -5,8 +5,10 @@ const {
   verifyOTP,
   resendOTP,
   verifyAdmin,
+  verifyUser,
 } = require("../../controllers/auth.controller");
 const checkAdminMiddleware = require("../../middlewares/checkAdminMiddleware");
+const checkUserMiddleware = require("../../middlewares/checkUserMiddleware");
 
 const router = require("express").Router();
 
@@ -39,6 +41,12 @@ router.post("/auth/otp-resend", resendOTP);
  * http://localhost:5000/api/v1/auth/verify-admin
  */
 router.get("/auth/verify-admin", checkAdminMiddleware, verifyAdmin);
+
+/**
+ * User Token Validation Check
+ * http://localhost:5000/api/v1/auth/verify-user
+ */
+router.get("/auth/verify-user", checkUserMiddleware, verifyUser);
 
 /**
  * Protected User Test Route
