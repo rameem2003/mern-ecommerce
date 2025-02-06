@@ -5,6 +5,7 @@ const category = require("./category");
 const product = require("./product");
 const store = require("./store");
 const cart = require("./cart");
+const order = require("./order");
 const baseUrl = process.env.BASE_URL;
 
 /**
@@ -31,6 +32,11 @@ router.use(baseUrl, store); // http://localhost:5000/api/v1/store
  * Cart
  */
 router.use(baseUrl, cart); // http://localhost:5000/api/v1/cart
+
+/**
+ * Order
+ */
+router.use(baseUrl, order); // http://localhost:5000/api/v1/order
 
 /**
  * Invalid Route
