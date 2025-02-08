@@ -26,7 +26,7 @@ const allProducts = async (req, res) => {
 };
 
 /**
- * Single Category
+ * Single Product
  */
 const singleProduct = async (req, res) => {
   const { id } = req.params;

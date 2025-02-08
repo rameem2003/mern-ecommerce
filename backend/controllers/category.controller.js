@@ -46,12 +46,14 @@ const createNewCategory = async (req, res) => {
       });
     } catch (error) {
       res.status(500).send({
+        success: false,
         msg: "Internal Server Error",
         error,
       });
     }
   } else {
     res.status(404).send({
+      success: false,
       msg: "Please fill all fields",
     });
   }

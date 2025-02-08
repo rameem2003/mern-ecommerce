@@ -11,7 +11,16 @@ router.post("/order/place", placeOrder);
 
 router.get("/order/get", async (req, res) => {
   try {
-    let data = await orderModel.find().populate("cartItems");
+    let data = await orderModel
+      .find({})
+      .populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate("user");
+
     res.send(data);
   } catch (error) {
     res.status(500).send({
