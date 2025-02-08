@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Container from "../../common/Container";
 import Image from "../../common/Image";
-import banner from "../../../assets/banner.png";
+import { useSelector } from "react-redux";
 import Slider from "react-slick";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Banner = () => {
+  const banners = useSelector((state) => state.banners.banners); // get all banners
   const [slide, setSlide] = useState(0);
   // slider settings
   const settings = {
@@ -68,12 +71,17 @@ const Banner = () => {
   return (
     <section className="mt-10">
       <Container>
+        {banners.length == 0 && (
+          <div>
+            <Skeleton count={1} className="h-[500px]" />
+          </div>
+        )}
+
         <div className="slider-container">
           <Slider {...settings}>
-            <Image src={banner} className="w-full" alt="banner" />
-            <Image src={banner} className="w-full" alt="banner" />
-            <Image src={banner} className="w-full" alt="banner" />
-            <Image src={banner} className="w-full" alt="banner" />
+            {banners.map((b, i) => (
+              <Image src={b.banner} className="w-full" alt={b.description} />
+            ))}
           </Slider>
         </div>
       </Container>

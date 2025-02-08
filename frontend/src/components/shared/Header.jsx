@@ -5,9 +5,18 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { allProducts } from "../../redux/featurer/ProductsSlice";
 import { CategoryReducer } from "../../redux/featurer/CategorySlice";
+import { BannerReducer } from "../../redux/featurer/BannerSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
+
+  /**
+   * Fetch Banners
+   */
+  const fetchBanners = async () => {
+    let res = await axios.get("http://localhost:5000/api/v1/banner/all");
+    dispatch(BannerReducer(res.data.data));
+  };
 
   /**
    * Fetch all products
@@ -26,6 +35,7 @@ const Header = () => {
   };
 
   useEffect(() => {
+    fetchBanners();
     fetchProducts();
     fetchCategories();
   }, []);
