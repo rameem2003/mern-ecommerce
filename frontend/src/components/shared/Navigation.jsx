@@ -18,7 +18,7 @@ const Navigation = () => {
 
   // function for logout
   const handleLogout = () => {
-    dispatch(AccountReducer(null));
+    dispatch(AccountReducer(""));
     Cookies.remove("token");
     location.reload();
   };

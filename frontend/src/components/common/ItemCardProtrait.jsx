@@ -43,7 +43,7 @@ const ItemCardProtrait = ({ className, data, isWish }) => {
           )}
         </div>
         <button
-          onClick={() => AddtoCart(user.user.id, data._id)}
+          onClick={() => AddtoCart(user ? user.user?.id : "", data._id)}
           className="absolute bottom-[-120px] left-0 w-full bg-black py-4 text-[16px] font-medium text-white duration-200 ease-in-out group-hover:bottom-0"
         >
           Add To Cart

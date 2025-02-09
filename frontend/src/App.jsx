@@ -55,9 +55,9 @@ const router = createBrowserRouter(
           }
         />
         <Route path="/*" element={<Errorpage />} />
+        <Route path="/signin" element={<Login />} />
+        <Route path="/signup" element={<Register />} />
       </Route>
-      <Route path="/signin" element={<Login />} />
-      <Route path="/signup" element={<Register />} />
       <Route path="/verify-otp" element={<OTPPage />} />
     </Route>,
   ),

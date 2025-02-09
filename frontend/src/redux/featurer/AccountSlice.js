@@ -5,7 +5,7 @@ export const AccountSlice = createSlice({
   initialState: {
     account: localStorage.getItem("mern-frontend")
       ? JSON.parse(localStorage.getItem("mern-frontend"))
-      : null,
+      : "",
   },
   reducers: {
     AccountReducer: (state, action) => {
