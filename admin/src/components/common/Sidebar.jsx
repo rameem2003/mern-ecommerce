@@ -13,6 +13,7 @@ import {
   ListBulletIcon,
   SquaresPlusIcon,
   RectangleStackIcon,
+  CogIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import axios from "axios";
@@ -127,6 +128,14 @@ const Sidebar = () => {
               <RectangleStackIcon className="h-5 w-5" />
             </ListItemPrefix>
             All Products
+          </ListItem>
+        </Link>
+        <Link to="/preferences">
+          <ListItem className="select-none">
+            <ListItemPrefix>
+              <CogIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Site Banner Preferences
           </ListItem>
         </Link>
         <ListItem onClick={handleLogout} className="select-none">

@@ -10,6 +10,7 @@ import AddCategory from "./pages/AddCategory";
 import AllCategory from "./pages/AllCategory";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import OTPPage from "./pages/OTPPage";
+import SitePreferences from "./pages/SitePreferences";
 
 const App = () => {
   return (
@@ -53,6 +54,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Allproducts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/preferences"
+            element={
+              <ProtectedRoute>
+                <SitePreferences />
               </ProtectedRoute>
             }
           />
