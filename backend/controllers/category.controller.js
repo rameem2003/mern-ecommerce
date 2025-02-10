@@ -83,7 +83,6 @@ const singleCategory = async (req, res) => {
 /**
  * Update Category
  */
-
 const updateCategory = async (req, res) => {
   const { id } = req.params;
 
@@ -117,11 +116,9 @@ const updateCategory = async (req, res) => {
       let imagePath = targetCategory.thumb.split("/");
       let oldImage = imagePath[imagePath.length - 1];
 
-      let fileDeleteErr = deleteFile(
-        `${path.join(__dirname, "../temp")}/${oldImage}`
-      );
-
-      if (fileDeleteErr) {
+      try {
+        await deleteFile(`${path.join(__dirname, "../temp")}/${oldImage}`);
+      } catch (fileDeleteErr) {
         res.status(500).send({
           success: false,
           msg: "Internal Server Error",
@@ -154,21 +151,18 @@ const deleteCategory = async (req, res) => {
     let imagePath = category.thumb.split("/");
     let oldimage = imagePath[imagePath.length - 1];
 
-    let fileDeleteErr = deleteFile(
-      `${path.join(__dirname, "../temp")}/${oldimage}`
-    );
-
-    if (fileDeleteErr) {
-      res.status(500).send({
-        success: false,
-        msg: "Internal Server Error",
-        fileDeleteErr,
-      });
-    } else {
+    try {
+      await deleteFile(`${path.join(__dirname, "../temp")}/${oldimage}`);
       res.status(200).send({
         success: true,
         msg: "Category deleted",
         data: category,
+      });
+    } catch (fileDeleteErr) {
+      res.status(500).send({
+        success: false,
+        msg: "Internal Server Error",
+        fileDeleteErr,
       });
     }
   } catch (error) {

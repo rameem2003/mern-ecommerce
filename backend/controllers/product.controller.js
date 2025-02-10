@@ -159,16 +159,16 @@ const updateProduct = async (req, res) => {
     if (updateFields.images) {
       let productImages = targetProduct.images;
 
-      productImages.forEach((item) => {
+      productImages.forEach(async (item) => {
         let imagePath = item.split("/");
         let oldImagePath = imagePath[imagePath.length - 1];
 
-        let fileDeleteErr = deleteFile(
-          `${path.join(__dirname, "../temp")}/${oldImagePath}`
-        );
-
-        if (fileDeleteErr) {
-          return res.status(500).send({
+        try {
+          await deleteFile(
+            `${path.join(__dirname, "../temp")}/${oldImagePath}`
+          );
+        } catch (fileDeleteErr) {
+          res.status(500).send({
             success: false,
             msg: "Internal Server Error",
             fileDeleteErr,
@@ -202,16 +202,14 @@ const deleteProduct = async (req, res) => {
 
     let productImages = targetProduct.images;
 
-    productImages.forEach((item) => {
+    productImages.forEach(async (item) => {
       let imagePath = item.split("/");
       let oldImagePath = imagePath[imagePath.length - 1];
 
-      let fileDeleteErr = deleteFile(
-        `${path.join(__dirname, "../temp")}/${oldImagePath}`
-      );
-
-      if (fileDeleteErr) {
-        return res.status(500).send({
+      try {
+        await deleteFile(`${path.join(__dirname, "../temp")}/${oldImagePath}`);
+      } catch (fileDeleteErr) {
+        res.status(500).send({
           success: false,
           msg: "Internal Server Error",
           fileDeleteErr,
