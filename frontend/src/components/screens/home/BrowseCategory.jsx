@@ -9,6 +9,9 @@ import { CiMobile4, CiCamera } from "react-icons/ci";
 import { LuMonitor } from "react-icons/lu";
 import { CgAppleWatch } from "react-icons/cg";
 import { FiHeadphones } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import Image from "../../common/Image";
+import { Link } from "react-router-dom";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -69,6 +72,7 @@ function SamplePrevArrow(props) {
 }
 
 const BrowseCategory = () => {
+  const categories = useSelector((state) => state.category.category);
   const settings = {
     dots: false,
     // arrows: false,
@@ -87,70 +91,21 @@ const BrowseCategory = () => {
         <div className="mt-[60px] border-b-[1px] border-black/30 pb-[70px]">
           <div className="slider-container">
             <Slider {...settings}>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <CiMobile4 className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Phone
-                  </h2>
+              {categories.map((cat, i) => (
+                <div>
+                  <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
+                    {/* <CiMobile4 className="text-[56px] text-black group-hover:text-white" /> */}
+                    <Image
+                      src={cat.thumb}
+                      className="h-[50px] w-[50px]"
+                      alt={cat.name}
+                    />
+                    <h2 className="text-[16px] font-normal text-black group-hover:text-white">
+                      <Link to={`/category/${cat._id}`}>{cat.name}</Link>
+                    </h2>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <LuMonitor className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Computer
-                  </h2>
-                </div>
-              </div>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <CgAppleWatch className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Smart Phone
-                  </h2>
-                </div>
-              </div>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <CiCamera className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Camera
-                  </h2>
-                </div>
-              </div>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <FiHeadphones className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Headphones
-                  </h2>
-                </div>
-              </div>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <CiMobile4 className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Phone
-                  </h2>
-                </div>
-              </div>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <CiMobile4 className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Phone
-                  </h2>
-                </div>
-              </div>
-              <div>
-                <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                  <CiMobile4 className="text-[56px] text-black group-hover:text-white" />
-                  <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                    Phone
-                  </h2>
-                </div>
-              </div>
+              ))}
             </Slider>
           </div>
         </div>

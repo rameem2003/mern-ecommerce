@@ -65,7 +65,9 @@ const createNewCategory = async (req, res) => {
 const singleCategory = async (req, res) => {
   const { id } = req.params;
   try {
-    let category = await categoryModel.findOne({ _id: id });
+    let category = await categoryModel
+      .findOne({ _id: id })
+      .populate("products");
     res.status(200).send({
       success: true,
       msg: "Category Fetched Success",

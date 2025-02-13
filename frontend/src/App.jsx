@@ -19,6 +19,7 @@ import DisplayProduct from "./pages/DisplayProduct";
 import Shop from "./pages/Shop";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import OTPPage from "./pages/OTPPage";
+import ViewByCategory from "./pages/ViewByCategory";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
         <Route path="/product/:id" element={<DisplayProduct />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/category/:id" element={<ViewByCategory />} />
         <Route
           path="/cart"
           element={
