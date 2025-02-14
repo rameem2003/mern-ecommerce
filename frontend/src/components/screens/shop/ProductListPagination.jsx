@@ -57,11 +57,19 @@ const ProductListPagination = ({ itemsPerPage, products }) => {
           className="ml-[-15px] flex gap-4"
           activeClassName="bg-primaryRed text-white"
           pageClassName=" p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-[14px] text-secondary"
-          nextLabel=""
+          nextLabel={products.length <= 6 ? "" : ">"}
+          nextClassName={
+            products.length > 6 &&
+            "p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-base text-secondary"
+          }
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           pageCount={pageCount}
-          previousLabel=""
+          previousLabel={products.length <= 6 ? "" : "<"}
+          previousClassName={
+            products.length > 6 &&
+            "p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-base text-secondary"
+          }
           renderOnZeroPageCount={null}
         />
         <p className="font-dm text-secondary text-[14px] font-normal leading-[30px]">

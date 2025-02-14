@@ -2,16 +2,14 @@ import React from "react";
 import Container from "../../common/Container";
 import Title from "../../common/Title";
 import Slider from "react-slick";
+import Image from "../../common/Image";
+import Flex from "../../common/Flex";
+import CategorySkeleton from "../../common/CategorySkeleton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
-import { CiMobile4, CiCamera } from "react-icons/ci";
-import { LuMonitor } from "react-icons/lu";
-import { CgAppleWatch } from "react-icons/cg";
-import { FiHeadphones } from "react-icons/fi";
-import { useSelector } from "react-redux";
-import Image from "../../common/Image";
 import { Link } from "react-router-dom";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -90,23 +88,31 @@ const BrowseCategory = () => {
 
         <div className="mt-[60px] border-b-[1px] border-black/30 pb-[70px]">
           <div className="slider-container">
-            <Slider {...settings}>
-              {categories.map((cat, i) => (
-                <div>
-                  <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
-                    {/* <CiMobile4 className="text-[56px] text-black group-hover:text-white" /> */}
-                    <Image
-                      src={cat.thumb}
-                      className="h-[50px] w-[50px]"
-                      alt={cat.name}
-                    />
-                    <h2 className="text-[16px] font-normal text-black group-hover:text-white">
-                      <Link to={`/category/${cat._id}`}>{cat.name}</Link>
-                    </h2>
+            {categories.length == 0 ? (
+              <Flex className="items-center justify-between">
+                {Array.from({ length: 6 }).map((item, i) => (
+                  <CategorySkeleton className="w-[15%]" />
+                ))}
+              </Flex>
+            ) : (
+              <Slider {...settings}>
+                {categories.map((cat, i) => (
+                  <div>
+                    <div className="group mx-auto flex h-[145px] w-[80%] cursor-pointer flex-col items-center justify-center gap-4 rounded-[4px] border-[1px] border-black/30 hover:bg-primaryRed">
+                      {/* <CiMobile4 className="text-[56px] text-black group-hover:text-white" /> */}
+                      <Image
+                        src={cat.thumb}
+                        className="h-[50px] w-[50px]"
+                        alt={cat.name}
+                      />
+                      <h2 className="text-[16px] font-normal text-black group-hover:text-white">
+                        <Link to={`/category/${cat._id}`}>{cat.name}</Link>
+                      </h2>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </Slider>
+                ))}
+              </Slider>
+            )}
           </div>
         </div>
       </Container>

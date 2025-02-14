@@ -13,8 +13,6 @@ const ViewByCategory = () => {
       `http://localhost:5000/api/v1/category/single/${id}`,
     );
 
-    console.log(response);
-
     setCategoryInfo(response.data.data);
   };
 
