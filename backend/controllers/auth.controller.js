@@ -4,6 +4,8 @@ const authModel = require("../models/auth.model");
 const checkEmailValid = require("../helpers/checkEmailValid");
 const sendOtpEmail = require("../helpers/sendOtpEmail");
 const generateOTP = require("../helpers/generateOTP");
+const deleteFile = require("../helpers/deleteFile");
+const path = require("path");
 
 /**
  * user register
@@ -144,6 +146,9 @@ const loginUser = async (req, res) => {
           name: user.name,
           email: user.email,
           role: user.role,
+          phone: user.phone,
+          address: user.address,
+          photo: user.photo,
           verified: user.isVarify,
         };
 
@@ -289,6 +294,65 @@ const verifyUser = async (req, res) => {
 };
 
 /**
+ * Update User Info
+ */
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+
+  const updateFields = {};
+
+  const allFields = ["name", "email", "password", "phone", "address", "photo"];
+
+  allFields.forEach((field) => {
+    if (req.body[field] !== undefined) {
+      updateFields[field] = req.body[field];
+    }
+  });
+
+  if (req.file !== undefined) {
+    let imageLink = `${process.env.HOST_URL}${process.env.PORT}/${req.file.filename}`;
+
+    updateFields.photo = imageLink;
+  }
+
+  try {
+    let targetUser = await authModel.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: updateFields,
+      }
+    );
+
+    // If images were updated, delete the old image
+    if (updateFields.photo && targetUser.photo) {
+      let imagePath = targetUser.photo.split("/");
+      let oldImage = imagePath[imagePath.length - 1];
+
+      try {
+        await deleteFile(`${path.join(__dirname, "../temp")}/${oldImage}`);
+      } catch (fileDeleteErr) {
+        res.status(500).send({
+          success: false,
+          msg: "Internal Server Error",
+          fileDeleteErr,
+        });
+      }
+    }
+
+    res.status(200).send({
+      success: true,
+      msg: "Profile is update",
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
  * All Users
  */
 
@@ -302,6 +366,7 @@ const allusers = async (req, res) => {
 };
 
 module.exports = {
+  updateUser,
   loginUser,
   registerUser,
   verifyOTP,

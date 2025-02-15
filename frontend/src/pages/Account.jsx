@@ -1,11 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "./../components/common/Container";
 import Flex from "../components/common/Flex";
 import List from "../components/common/List";
 import ListItem from "../components/common/ListItem";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { FaPenAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Account = () => {
+  const accessToken = Cookies.get("token");
+  const user = useSelector((state) => state.account.account); // get user info
+  const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState({
+    name: user?.user?.name || "",
+    phone: user?.user?.phone || "",
+    address: user?.user?.address || "",
+    photo: null,
+  });
+
+  // input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfile({ ...profile, [name]: value });
+  };
+
+  // image change
+  const handleImageChange = (e) => {
+    setProfile({ ...profile, photo: e.target.files[0] });
+  };
+  // function for profile update
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    let data = new FormData();
+    data.append("name", profile.name);
+    data.append("phone", profile.phone);
+    data.append("address", profile.address);
+    data.append("photo", profile.photo);
+
+    try {
+      let res = await axios.patch(
+        `http://localhost:5000/api/v1/auth/update/${user.user.id}`,
+        data,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/formdata",
+            Cookie: `token=${accessToken}`,
+          },
+        },
+      );
+      setLoading(false);
+
+      Swal.fire({
+        title: res.data.msg,
+        confirmButtonText: "Ok",
+        confirmButtonColor: "green",
+        icon: "success",
+      });
+
+      console.log(res.data);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+
+      Swal.fire({
+        title: error.response.data.msg,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: "Ok",
+        cancelButtonColor: "red",
+        icon: "error",
+      }).then((result) => {
+        if (result.isDismissed) {
+          location.reload();
+        }
+      });
+    }
+  };
   return (
     <main className="py-[80px]">
       <Container>
@@ -19,18 +97,16 @@ const Account = () => {
 
               <List className="mt-4 pl-[35px]">
                 <ListItem className="mb-2">
-                  <Link className="text-[16px] font-normal text-primaryRed">
+                  <Link
+                    to="/account"
+                    className="text-[16px] font-normal text-primaryRed"
+                  >
                     My Profile
                   </Link>
                 </ListItem>
                 <ListItem className="mb-2">
                   <Link className="text-[16px] font-normal text-primaryRed">
-                    Address Book
-                  </Link>
-                </ListItem>
-                <ListItem className="mb-2">
-                  <Link className="text-[16px] font-normal text-primaryRed">
-                    My Payment Options
+                    Email and Password Manage
                   </Link>
                 </ListItem>
               </List>
@@ -62,41 +138,65 @@ const Account = () => {
 
           {/* account info part */}
           <div className="w-9/12">
-            <div className="w-full px-[80px] py-10 shadow-customOne">
+            <form
+              onSubmit={handleProfileUpdate}
+              className="w-full px-[80px] py-10 shadow-customOne"
+            >
               <h2 className="text-[20px] font-medium text-primaryRed">
                 Edit Your Profile
               </h2>
 
+              <div className="group relative h-40 w-40 rounded-full">
+                <div className="absolute flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-black/20 opacity-0 duration-200 ease-in-out group-hover:opacity-100">
+                  <label htmlFor="upload">
+                    <FaPenAlt className="cursor-pointer text-3xl text-white" />
+                  </label>
+                  <input
+                    onChange={handleImageChange}
+                    type="file"
+                    name=""
+                    id="upload"
+                    hidden
+                  />
+                </div>
+                <img src={user?.user?.photo} alt={user.user.name} />
+              </div>
+
               <div className="mt-4">
-                <Flex className="w-full items-center justify-between gap-[50px]">
-                  <div className="mb-6 w-1/2">
+                <Flex className="w-full flex-col items-center justify-between">
+                  <div className="mb-6 w-full">
                     <label
                       htmlFor=""
                       className="text-[16px] font-normal text-black"
                     >
-                      First Name
+                      Name
                     </label>
 
                     <input
                       type="text"
                       name=""
+                      onChange={handleInputChange}
+                      defaultValue={user?.user?.name}
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
                     />
                   </div>
-                  <div className="mb-6 w-1/2">
+
+                  <div className="mb-6 w-full">
                     <label
                       htmlFor=""
                       className="text-[16px] font-normal text-black"
                     >
-                      Last Name
+                      Email
                     </label>
 
                     <input
                       type="text"
                       name=""
+                      value={user?.user?.email}
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
+                      disabled
                     />
                   </div>
                 </Flex>
@@ -107,11 +207,13 @@ const Account = () => {
                       htmlFor=""
                       className="text-[16px] font-normal text-black"
                     >
-                      Email
+                      Phone
                     </label>
 
                     <input
                       type="text"
+                      onChange={handleInputChange}
+                      defaultValue={user?.user?.phone}
                       name=""
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
@@ -127,6 +229,8 @@ const Account = () => {
 
                     <input
                       type="text"
+                      onChange={handleInputChange}
+                      defaultValue={user?.user?.address}
                       name=""
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
@@ -134,7 +238,7 @@ const Account = () => {
                   </div>
                 </Flex>
 
-                <div className="mb-6 w-full">
+                <div className="mb-6 hidden w-full">
                   <label
                     htmlFor=""
                     className="text-[16px] font-normal text-black"
@@ -169,12 +273,15 @@ const Account = () => {
                   <button className="rounded-[4px] px-12 py-4 text-[16px] text-black">
                     Cancel
                   </button>
-                  <button className="rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white">
+                  <button
+                    type="submit"
+                    className="rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white"
+                  >
                     Save Changes
                   </button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </Flex>
       </Container>

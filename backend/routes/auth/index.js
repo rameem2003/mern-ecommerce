@@ -6,9 +6,12 @@ const {
   resendOTP,
   verifyAdmin,
   verifyUser,
+  updateUser,
 } = require("../../controllers/auth.controller");
 const checkAdminMiddleware = require("../../middlewares/checkAdminMiddleware");
 const checkUserMiddleware = require("../../middlewares/checkUserMiddleware");
+const errorHandleMiddleware = require("../../middlewares/errorHandleMiddleware");
+const upload = require("../../middlewares/fileupload");
 
 const router = require("express").Router();
 
@@ -23,6 +26,18 @@ router.post("/auth/register", registerUser);
  * http://localhost:5000/api/v1/auth/login
  */
 router.post("/auth/login", loginUser);
+
+/**
+ * User Profile Info Update Route
+ * http://localhost:5000/api/v1/auth/update/:id
+ */
+router.patch(
+  "/auth/update/:id",
+  checkUserMiddleware,
+  upload.single("photo"),
+  errorHandleMiddleware,
+  updateUser
+);
 
 /**
  * OTP Verification Route

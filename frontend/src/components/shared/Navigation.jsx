@@ -111,7 +111,7 @@ const Navigation = () => {
                       <div>
                         <img
                           src={
-                            user?.image ||
+                            user?.user?.photo ||
                             "https://docs.material-tailwind.com/img/face-2.jpg"
                           }
                           className="h-[50px] w-[50px] rounded-full"
