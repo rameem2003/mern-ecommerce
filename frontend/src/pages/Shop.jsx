@@ -17,7 +17,10 @@ const Shop = () => {
               <div>
                 <ul>
                   {categories.map((data, i) => (
-                    <li className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed">
+                    <li
+                      key={i}
+                      className="mb-1 cursor-pointer select-none text-[18px] font-normal hover:text-primaryRed"
+                    >
                       {data.name} ({data.products.length})
                     </li>
                   ))}

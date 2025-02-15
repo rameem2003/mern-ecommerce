@@ -15,6 +15,11 @@ const Cart = () => {
   const user = useSelector((state) => state.account.account); // get user info
   const [cart, setCart] = useState([]); // store all cart list
 
+  const grandTotal = cart.reduce(
+    (total, item) => total + item.quantity * item.product.sellingPrice,
+    0,
+  );
+
   // fetch cart items
   const fetchCart = async () => {
     try {
@@ -27,6 +32,8 @@ const Cart = () => {
       console.log(error);
     }
   };
+
+  // console.log(cart);
 
   useEffect(() => {
     fetchCart();
@@ -155,7 +162,7 @@ const Cart = () => {
                       Subtotal:
                     </span>
                     <span className="text-[16px] font-normal text-black">
-                      $1750
+                      ৳ {grandTotal}
                     </span>
                   </Flex>
                   <Flex className="mb-4 items-center justify-between border-b-[1px] border-black/40 pb-4">
@@ -163,7 +170,7 @@ const Cart = () => {
                       Shipping:
                     </span>
                     <span className="text-[16px] font-normal text-black">
-                      $1750
+                      ৳ 0
                     </span>
                   </Flex>
                   <Flex className="mb-4 items-center justify-between border-b-[1px] border-black/40 pb-4">
@@ -171,7 +178,7 @@ const Cart = () => {
                       Total:
                     </span>
                     <span className="text-[16px] font-normal text-black">
-                      $1750
+                      ৳ {grandTotal}
                     </span>
                   </Flex>
                 </div>

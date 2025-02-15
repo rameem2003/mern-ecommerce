@@ -28,22 +28,43 @@ const singleUserCart = async (req, res) => {
  * Add to cart
  */
 const addToCart = async (req, res) => {
-  const { user, product, quantity } = req.body;
+  const { user, product } = req.body;
 
   try {
-    const cart = new cartModel({
-      user,
-      product,
-      quantity,
-    });
+    let existCart = await cartModel
+      .findOne({ user, product })
+      .populate("product");
 
-    await cart.save();
+    if (existCart) {
+      if (existCart.quantity < existCart.product.stock) {
+        existCart.quantity++;
+        await existCart.save();
 
-    res.status(201).send({
-      success: true,
-      msg: "Product added to cart",
-      data: cart,
-    });
+        res.status(200).send({
+          success: true,
+          msg: "Cart Item Quantity Increment",
+          existCart,
+        });
+      } else {
+        res.status(202).send({
+          success: false,
+          msg: "Stock Limit Reached",
+        });
+      }
+    } else {
+      const cart = new cartModel({
+        user,
+        product,
+      });
+
+      await cart.save();
+
+      res.status(201).send({
+        success: true,
+        msg: "Product added to cart",
+        data: cart,
+      });
+    }
   } catch (error) {
     res.status(500).send({
       success: false,

@@ -19,8 +19,8 @@ const ProductListPagination = ({ itemsPerPage, products }) => {
         )}
         <Flex className="flex-wrap justify-between">
           {currentItems &&
-            currentItems.map((item) => (
-              <ItemCardProtrait className="mb-10 w-[30%]" data={item} />
+            currentItems.map((item, i) => (
+              <ItemCardProtrait key={i} className="mb-10 w-[30%]" data={item} />
             ))}
         </Flex>
       </>

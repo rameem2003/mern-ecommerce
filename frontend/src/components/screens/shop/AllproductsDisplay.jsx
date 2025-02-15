@@ -7,14 +7,14 @@ const AllproductsDisplay = () => {
   const allProducts = useSelector((state) => state.allproducts.products);
   return (
     <section>
-      <div class="w-4/12">
-        <label for="countries" class="mb-2 block text-sm font-medium">
+      <div className="w-4/12">
+        <label htmlFor="countries" className="mb-2 block text-sm font-medium">
           View by
         </label>
         <select
           onChange={(e) => setCount(parseInt(e.target.value))}
           id="countries"
-          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
         >
           <option selected>View by</option>
           <option value={6}>6 Items</option>
