@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../components/common/Container";
 import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
@@ -8,17 +8,108 @@ import n from "../assets/nagad.png";
 import v from "../assets/visa.png";
 import m from "../assets/mastercard.png";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const Checkout = () => {
+  const navigate = useNavigate(); // navigation instance
   const user = useSelector((state) => state.account.account); // get user info
+  const [cart, setCart] = useState([]); // store all cart list
   // states for getting shipping address data
   const [name, setName] = useState(user?.user?.name);
   const [company, setCompany] = useState("");
   const [address, setAddress] = useState("");
   const [apartment, setApartment] = useState("");
   const [city, setCity] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(user?.user?.phone);
   const [email, setEmail] = useState(user?.user?.email);
+  const [method, setMethod] = useState(null);
+
+  const grandTotal = cart.reduce(
+    (total, item) => total + item.quantity * item.product.sellingPrice,
+    0,
+  );
+
+  // handle place order
+  const handlePlaceOrder = async () => {
+    let data = {
+      user: user.user.id,
+      address: address,
+      city: city,
+      phone: phone,
+      cartItems: cart.map((item, i) => item._id),
+      grandTotal: grandTotal,
+      paymentMethod: method,
+      paymentStatus: "unpaid",
+    };
+
+    try {
+      let res = await axios.post(
+        "http://localhost:5000/api/v1/order/place",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      console.log(res);
+
+      Swal.fire({
+        icon: "success",
+        title: "Order Placed",
+        text: res.data.msg,
+        confirmButtonColor: "red",
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate("/");
+          }
+        })
+        .finally(() => {
+          navigate("/");
+        });
+    } catch (error) {
+      console.log(error);
+      if (error.request.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.msg,
+          confirmButtonColor: "red",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.msg,
+          confirmButtonColor: "red",
+        });
+      }
+    }
+  };
+
+  // fetch cart items
+  const fetchCart = async () => {
+    try {
+      let res = await axios.get(
+        `http://localhost:5000/api/v1/cart/single/${user.user.id}`,
+      );
+
+      setCart(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  // useEffect(() => {
+  //   if (cart.length == 0) navigate("/");
+  // }, [cart]);
 
   return (
     <main className="py-[80px]">
@@ -54,46 +145,12 @@ const Checkout = () => {
                   htmlFor=""
                   className="text-[16px] font-normal text-black/40"
                 >
-                  Company Name
-                </label>
-
-                <input
-                  onChange={(e) => setCompany(e.target.value)}
-                  value={company}
-                  type="text"
-                  name=""
-                  className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
-                  id=""
-                />
-              </div>
-              <div className="mb-8">
-                <label
-                  htmlFor=""
-                  className="text-[16px] font-normal text-black/40"
-                >
                   Street Address*
                 </label>
 
                 <input
                   onChange={(e) => setAddress(e.target.value)}
                   value={address}
-                  type="text"
-                  name=""
-                  className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
-                  id=""
-                />
-              </div>
-              <div className="mb-8">
-                <label
-                  htmlFor=""
-                  className="text-[16px] font-normal text-black/40"
-                >
-                  Apartment, floor, etc. (optional)
-                </label>
-
-                <input
-                  onChange={(e) => setApartment(e.target.value)}
-                  value={apartment}
                   type="text"
                   name=""
                   className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
@@ -159,24 +216,29 @@ const Checkout = () => {
           <div className="w-6/12">
             <div>
               {/* cart item list dynamic */}
-              <Flex className="mb-8 items-center justify-between">
-                <Flex className="group relative items-center gap-4">
-                  <Image src={items} className="h-[54px] w-[54px]" />
+              {cart.length == 0 ? (
+                <h1>Loading.....</h1>
+              ) : (
+                cart.map((item, i) => (
+                  <Flex className="mb-8 items-center justify-between" key={i}>
+                    <Flex className="group relative items-center gap-4">
+                      <Image
+                        src={item.product.images[0]}
+                        className="h-[54px] w-[54px]"
+                      />
 
-                  <p className="text-[16px] font-normal text-black">Product</p>
-                </Flex>
+                      <p className="text-[16px] font-normal text-black">
+                        {item.product.name.slice(0, 30)} &nbsp; x{item.quantity}
+                      </p>
+                    </Flex>
 
-                <p className="text-[16px] font-normal text-black">$650</p>
-              </Flex>
-              <Flex className="mb-8 items-center justify-between">
-                <Flex className="group relative items-center gap-4">
-                  <Image src={items} className="h-[54px] w-[54px]" />
+                    <p className="text-[16px] font-normal text-black">
+                      ৳ {item.quantity * item.product.sellingPrice}
+                    </p>
+                  </Flex>
+                ))
+              )}
 
-                  <p className="text-[16px] font-normal text-black">Product</p>
-                </Flex>
-
-                <p className="text-[16px] font-normal text-black">$650</p>
-              </Flex>
               {/* cart item list dynamic end*/}
             </div>
 
@@ -187,23 +249,21 @@ const Checkout = () => {
                   Subtotal:
                 </span>
                 <span className="text-[16px] font-normal text-black">
-                  $1750
+                  ৳ {grandTotal}
                 </span>
               </Flex>
               <Flex className="mb-4 items-center justify-between border-b-[1px] border-black/40 pb-4">
                 <span className="text-[16px] font-normal text-black">
                   Shipping:
                 </span>
-                <span className="text-[16px] font-normal text-black">
-                  $1750
-                </span>
+                <span className="text-[16px] font-normal text-black">0 </span>
               </Flex>
               <Flex className="mb-4 items-center justify-between border-b-[1px] border-black/40 pb-4">
                 <span className="text-[16px] font-normal text-black">
                   Total:
                 </span>
                 <span className="text-[16px] font-normal text-black">
-                  $1750
+                  ৳ {grandTotal}
                 </span>
               </Flex>
             </div>
@@ -211,9 +271,14 @@ const Checkout = () => {
             <div>
               <Flex className="mb-8 items-center justify-between">
                 <Flex className="items-center gap-4">
-                  <input type="radio" name="" id="" />
+                  <input
+                    onChange={(e) => setMethod(e.target.id)}
+                    type="radio"
+                    name="method"
+                    id="online"
+                  />
                   <label
-                    htmlFor=""
+                    htmlFor="online"
                     className="text-[16px] font-normal text-black"
                   >
                     Bank
@@ -230,9 +295,14 @@ const Checkout = () => {
 
               <Flex className="mb-8 items-center justify-between">
                 <Flex className="items-center gap-4">
-                  <input type="radio" name="" id="" />
+                  <input
+                    onChange={(e) => setMethod(e.target.id)}
+                    type="radio"
+                    name="method"
+                    id="COD"
+                  />
                   <label
-                    htmlFor=""
+                    htmlFor="COD"
                     className="text-[16px] font-normal text-black"
                   >
                     Cash on delivery
@@ -253,7 +323,10 @@ const Checkout = () => {
               </button>
             </Flex>
 
-            <button className="mt-8 rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white">
+            <button
+              onClick={handlePlaceOrder}
+              className="mt-8 rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white"
+            >
               Place Order
             </button>
           </div>

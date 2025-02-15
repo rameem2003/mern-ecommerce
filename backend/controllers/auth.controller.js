@@ -353,6 +353,28 @@ const updateUser = async (req, res) => {
 };
 
 /**
+ * Get Single User
+ */
+const singleUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    let user = await authModel.findOne({ _id: id });
+
+    res.status(200).send({
+      success: true,
+      msg: "User Fetched success",
+      user,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
  * All Users
  */
 
@@ -366,6 +388,7 @@ const allusers = async (req, res) => {
 };
 
 module.exports = {
+  singleUser,
   updateUser,
   loginUser,
   registerUser,

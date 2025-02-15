@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "./../components/common/Container";
 import Flex from "../components/common/Flex";
 import List from "../components/common/List";
@@ -40,7 +40,9 @@ const Account = () => {
     data.append("name", profile.name);
     data.append("phone", profile.phone);
     data.append("address", profile.address);
-    data.append("photo", profile.photo);
+    if (profile.photo) {
+      data.append("photo", profile.photo);
+    }
 
     try {
       let res = await axios.patch(
@@ -84,6 +86,24 @@ const Account = () => {
       });
     }
   };
+
+  // Fetch User Update Info
+  const fetchUserUpdate = async () => {
+    try {
+      let res = await axios.get(
+        `http://localhost:5000/api/v1/auth/user/${user.user.id}`,
+      );
+      console.log(res);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserUpdate();
+  }, []);
+
   return (
     <main className="py-[80px]">
       <Container>
@@ -159,7 +179,11 @@ const Account = () => {
                     hidden
                   />
                 </div>
-                <img src={user?.user?.photo} alt={user.user.name} />
+                <img
+                  src={user?.user?.photo}
+                  alt={user?.user?.name}
+                  className="h-full w-full rounded-full object-cover"
+                />
               </div>
 
               <div className="mt-4">
@@ -174,9 +198,9 @@ const Account = () => {
 
                     <input
                       type="text"
-                      name=""
+                      name="name"
+                      value={profile.name}
                       onChange={handleInputChange}
-                      defaultValue={user?.user?.name}
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
                     />
@@ -192,7 +216,7 @@ const Account = () => {
 
                     <input
                       type="text"
-                      name=""
+                      name="email"
                       value={user?.user?.email}
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
@@ -213,8 +237,8 @@ const Account = () => {
                     <input
                       type="text"
                       onChange={handleInputChange}
-                      defaultValue={user?.user?.phone}
-                      name=""
+                      defaultValue={profile.phone}
+                      name="phone"
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
                     />
@@ -230,8 +254,8 @@ const Account = () => {
                     <input
                       type="text"
                       onChange={handleInputChange}
-                      defaultValue={user?.user?.address}
-                      name=""
+                      defaultValue={profile.address}
+                      name="address"
                       className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4"
                       id=""
                     />

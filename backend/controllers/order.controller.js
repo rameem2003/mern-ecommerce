@@ -1,3 +1,4 @@
+const cartModel = require("../models/cart.model");
 const orderModel = require("../models/order.model");
 
 const placeOrder = async (req, res) => {
@@ -26,6 +27,10 @@ const placeOrder = async (req, res) => {
       });
 
       await order.save();
+
+      // cartItems.map(async (item) => {
+      //   await cartModel.findOneAndDelete({ _id: item });
+      // });
 
       res.status(201).send({
         success: true,

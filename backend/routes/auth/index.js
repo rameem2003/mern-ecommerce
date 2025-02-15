@@ -7,6 +7,7 @@ const {
   verifyAdmin,
   verifyUser,
   updateUser,
+  singleUser,
 } = require("../../controllers/auth.controller");
 const checkAdminMiddleware = require("../../middlewares/checkAdminMiddleware");
 const checkUserMiddleware = require("../../middlewares/checkUserMiddleware");
@@ -26,6 +27,12 @@ router.post("/auth/register", registerUser);
  * http://localhost:5000/api/v1/auth/login
  */
 router.post("/auth/login", loginUser);
+
+/**
+ * Single User Info
+ * http://localhost:5000/api/v1/auth/user/:id
+ */
+router.get("/auth/user/:id", singleUser);
 
 /**
  * User Profile Info Update Route
