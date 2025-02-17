@@ -4,6 +4,8 @@ const {
   updateProduct,
   allProducts,
   singleProduct,
+  getFeaturedProducts,
+  getHotSellProducts,
 } = require("../../controllers/product.controller");
 const checkAdminMiddleware = require("../../middlewares/checkAdminMiddleware");
 const errorHandleMiddleware = require("../../middlewares/errorHandleMiddleware");
@@ -15,6 +17,16 @@ const router = require("express").Router();
  * http://localhost:5000/api/v1/product/all
  */
 router.get("/product/all", allProducts);
+
+/**
+ * http://localhost:5000/api/v1/product/featured
+ */
+router.get("/product/featured", getFeaturedProducts);
+
+/**
+ * http://localhost:5000/api/v1/product/hotsell
+ */
+router.get("/product/hotsell", getHotSellProducts);
 
 /**
  * http://localhost:5000/api/v1/product/single/:id

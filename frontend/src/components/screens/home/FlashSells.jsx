@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Title from "../../common/Title";
 import Container from "../../common/Container";
@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import ProductListSkeleton from "../../common/ProductListSkeleton";
+import axios from "axios";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -69,7 +70,21 @@ function SamplePrevArrow(props) {
 }
 
 const FlashSells = () => {
-  const allProducts = useSelector((state) => state.allproducts.products); // all products
+  const [hotSells, setHotSells] = useState([]); // get all hot sell products
+
+  // fetch hot sell products
+  const fetchHotSellsProducts = async () => {
+    try {
+      let res = await axios.get("http://localhost:5000/api/v1/product/hotsell");
+      setHotSells(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchHotSellsProducts();
+  }, []);
 
   const settings = {
     dots: false,
@@ -84,13 +99,13 @@ const FlashSells = () => {
     <section className="relative mt-[140px]">
       <Container>
         <div className="border-b-[1px] border-black/30 pb-[60px]">
-          <Title title="Today’s" subTitle="Flash Sales" />
+          <Title title="Today’s" subTitle="Hot Sells" />
 
           <div className="mt-[31px]">
-            {allProducts.length > 0 ? (
+            {hotSells.length > 0 ? (
               <div className="slider-container">
                 <Slider {...settings}>
-                  {allProducts.map((p, i) => (
+                  {hotSells.map((p, i) => (
                     <ItemCardProtrait
                       data={p}
                       key={p._id}

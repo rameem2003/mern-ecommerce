@@ -33,6 +33,8 @@ const TABLE_HEAD = [
   "Selling Price",
   "Discount Price",
   "Stock",
+  "Featured",
+  "Hot Sell",
   "Action",
 ];
 

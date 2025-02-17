@@ -109,8 +109,6 @@ const EditProductModal = ({ open, handleClose, product, onUpdate }) => {
     }
   };
 
-  console.log(formData);
-
   return (
     <Dialog open={open} handler={handleClose} size="md">
       <DialogHeader>Edit Product</DialogHeader>

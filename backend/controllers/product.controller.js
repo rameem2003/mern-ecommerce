@@ -26,6 +26,46 @@ const allProducts = async (req, res) => {
 };
 
 /**
+ * Get All Feature Products
+ */
+const getFeaturedProducts = async (req, res) => {
+  try {
+    let featuredProducts = await productModel.find({ featured: true });
+    res.status(200).send({
+      success: true,
+      msg: "All Featured Products Fetched Success",
+      data: featuredProducts,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
+ * Get All Hot Sell Products
+ */
+const getHotSellProducts = async (req, res) => {
+  try {
+    let hotSellProducts = await productModel.find({ hotSell: true });
+    res.status(200).send({
+      success: true,
+      msg: "All Hot Sell Products Fetched Success",
+      data: hotSellProducts,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
  * Single Product
  */
 const singleProduct = async (req, res) => {
@@ -263,6 +303,8 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
   allProducts,
+  getFeaturedProducts,
+  getHotSellProducts,
   singleProduct,
   createNewProduct,
   updateProduct,

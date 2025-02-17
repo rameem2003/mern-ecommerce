@@ -8,6 +8,9 @@ import {
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Flex from "./Flex";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 const ProductLIstPagination = ({
   itemsPerPage,
@@ -15,9 +18,106 @@ const ProductLIstPagination = ({
   handleDelete,
   handleEdit,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const accessToken = Cookies.get("token");
   const items = products;
 
   function Items({ currentItems }) {
+    // function for product feature update
+    const handleFeaturedUpdate = async (e, id) => {
+      setLoading(true);
+      try {
+        const formDataToSend = new FormData();
+        formDataToSend.append("featured", e.target.checked);
+
+        const res = await axios.patch(
+          `http://localhost:5000/api/v1/product/update/${id}`,
+          formDataToSend,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Cookie: `token=${accessToken}`,
+            },
+            withCredentials: true,
+          }
+        );
+
+        Swal.fire({
+          title: res.data.msg,
+          confirmButtonText: "Ok",
+          confirmButtonColor: "green",
+          icon: "success",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.reload();
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: error.response.data.msg,
+          showConfirmButton: false,
+          showCancelButton: true,
+          cancelButtonText: "Ok",
+          cancelButtonColor: "red",
+          icon: "error",
+        }).then((result) => {
+          if (result.isDismissed) {
+            location.reload();
+          }
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // function for product hotSell update
+    const handleHotSellUpdate = async (e, id) => {
+      setLoading(true);
+      try {
+        const formDataToSend = new FormData();
+        formDataToSend.append("hotSell", e.target.checked);
+
+        const res = await axios.patch(
+          `http://localhost:5000/api/v1/product/update/${id}`,
+          formDataToSend,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Cookie: `token=${accessToken}`,
+            },
+            withCredentials: true,
+          }
+        );
+
+        Swal.fire({
+          title: res.data.msg,
+          confirmButtonText: "Ok",
+          confirmButtonColor: "green",
+          icon: "success",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.reload();
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: error.response.data.msg,
+          showConfirmButton: false,
+          showCancelButton: true,
+          cancelButtonText: "Ok",
+          cancelButtonColor: "red",
+          icon: "error",
+        }).then((result) => {
+          if (result.isDismissed) {
+            location.reload();
+          }
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
     return (
       <>
         {currentItems &&
@@ -97,6 +197,31 @@ const ProductLIstPagination = ({
                     >
                       {p.stock}
                     </Typography>
+                  </div>
+                </td>
+                <td className={classes}>
+                  <div className="w-max">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => handleFeaturedUpdate(e, p._id)}
+                      checked={p.featured}
+                      // defaultValue={p.featured}
+                      className=" size-5"
+                      name=""
+                      id=""
+                    />
+                  </div>
+                </td>
+                <td className={classes}>
+                  <div className="w-max">
+                    <input
+                      type="checkbox"
+                      checked={p.hotSell}
+                      onChange={(e) => handleHotSellUpdate(e, p._id)}
+                      className=" size-5"
+                      name=""
+                      id=""
+                    />
                   </div>
                 </td>
                 <td className={classes}>

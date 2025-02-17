@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "../../common/Container";
 import Title from "../../common/Title";
 import ItemCardProtrait from "../../common/ItemCardProtrait";
+import ProductListSkeleton from "../../common/ProductListSkeleton";
+import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useSelector } from "react-redux";
-import ProductListSkeleton from "../../common/ProductListSkeleton";
 
 const BestSelling = () => {
-  const allProducts = useSelector((state) => state.allproducts.products);
+  const [featured, setFeatured] = useState([]); // get all hot sell products
+
+  // fetch hot sell products
+  const fetchFeaturedProducts = async () => {
+    try {
+      let res = await axios.get(
+        "http://localhost:5000/api/v1/product/featured",
+      );
+      setFeatured(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
   const settings = {
     dots: false,
     infinite: true,
@@ -29,10 +45,10 @@ const BestSelling = () => {
           </Link>
 
           <div className="mt-[31px]">
-            {allProducts.length > 0 ? (
+            {featured.length > 0 ? (
               <div className="slider-container">
                 <Slider {...settings}>
-                  {allProducts.map((p, i) => (
+                  {featured.map((p, i) => (
                     <ItemCardProtrait
                       data={p}
                       key={p._id}
