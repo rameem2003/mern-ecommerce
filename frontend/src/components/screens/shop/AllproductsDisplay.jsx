@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import ProductListPagination from "./ProductListPagination";
-import { useSelector } from "react-redux";
 
-const AllproductsDisplay = () => {
+const AllproductsDisplay = ({ products }) => {
   const [count, setCount] = useState(6);
-  const allProducts = useSelector((state) => state.allproducts.products);
   return (
     <section>
       <div className="w-4/12">
@@ -24,7 +22,7 @@ const AllproductsDisplay = () => {
       </div>
 
       <div className="mt-5">
-        <ProductListPagination itemsPerPage={count} products={allProducts} />
+        <ProductListPagination itemsPerPage={count} products={products} />
       </div>
     </section>
   );

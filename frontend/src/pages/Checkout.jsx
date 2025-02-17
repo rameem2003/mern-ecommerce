@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Container from "../components/common/Container";
 import Flex from "../components/common/Flex";
 import Image from "../components/common/Image";
-import items from "../assets/item.png";
 import b from "../assets/bkash.png";
 import n from "../assets/nagad.png";
 import v from "../assets/visa.png";
