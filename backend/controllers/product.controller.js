@@ -60,6 +60,8 @@ const createNewProduct = async (req, res) => {
     store,
     ratings,
     reviews,
+    featured,
+    hotSell,
   } = req.body;
 
   const imagesLink = req.files.map(
@@ -78,6 +80,8 @@ const createNewProduct = async (req, res) => {
       ratings,
       reviews,
       images: imagesLink,
+      featured,
+      hotSell,
     });
 
     await newProduct.save();
@@ -131,6 +135,8 @@ const updateProduct = async (req, res) => {
     "store",
     "ratings",
     "reviews",
+    "featured",
+    "hotSell",
   ];
 
   fields.forEach((field) => {

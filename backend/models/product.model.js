@@ -35,6 +35,14 @@ const productSchema = new mongoose.Schema(
       ref: "category",
       require: true,
     },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+    hotSell: {
+      type: Boolean,
+      default: false,
+    },
     ratings: [
       {
         type: mongoose.Schema.Types.ObjectId,
