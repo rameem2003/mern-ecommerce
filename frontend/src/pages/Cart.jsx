@@ -16,7 +16,7 @@ const Cart = () => {
   const [cart, setCart] = useState([]); // store all cart list
 
   const grandTotal = cart.reduce(
-    (total, item) => total + item.quantity * item.product.sellingPrice,
+    (total, item) => total + item.quantity * item.product.discountPrice,
     0,
   );
 

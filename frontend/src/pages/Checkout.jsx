@@ -26,7 +26,7 @@ const Checkout = () => {
   const [method, setMethod] = useState(null);
 
   const grandTotal = cart.reduce(
-    (total, item) => total + item.quantity * item.product.sellingPrice,
+    (total, item) => total + item.quantity * item.product.discountPrice,
     0,
   );
 
@@ -63,11 +63,13 @@ const Checkout = () => {
       })
         .then((result) => {
           if (result.isConfirmed) {
-            navigate("/");
+            // navigate("/");
+            window.location.replace(res.data.url);
           }
         })
         .finally(() => {
-          navigate("/");
+          // navigate("/");
+          window.location.replace(res.data.url);
         });
     } catch (error) {
       console.log(error);
@@ -232,7 +234,7 @@ const Checkout = () => {
                     </Flex>
 
                     <p className="text-[16px] font-normal text-black">
-                      ৳ {item.quantity * item.product.sellingPrice}
+                      ৳ {item.quantity * item.product.discountPrice}
                     </p>
                   </Flex>
                 ))
