@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import { Bounce, toast } from "react-toastify";
+import { ThreeDots } from "react-loader-spinner";
 
 const Checkout = () => {
   const navigate = useNavigate(); // navigation instance
@@ -24,6 +26,7 @@ const Checkout = () => {
   const [phone, setPhone] = useState(user?.user?.phone);
   const [email, setEmail] = useState(user?.user?.email);
   const [method, setMethod] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const grandTotal = cart.reduce(
     (total, item) => total + item.quantity * item.product.discountPrice,
@@ -43,51 +46,68 @@ const Checkout = () => {
       paymentStatus: "unpaid",
     };
 
-    try {
-      let res = await axios.post(
-        "http://localhost:5000/api/v1/order/place",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
+    if (address && city && method) {
+      setLoading(true);
+      try {
+        let res = await axios.post(
+          "http://localhost:5000/api/v1/order/place",
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        },
-      );
-      console.log(res);
+        );
+        console.log(res);
 
-      Swal.fire({
-        icon: "success",
-        title: "Order Placed",
-        text: res.data.msg,
-        confirmButtonColor: "red",
-      })
-        .then((result) => {
-          if (result.isConfirmed) {
+        setLoading(false);
+        Swal.fire({
+          icon: "success",
+          title: "Order Placed",
+          text: res.data.msg,
+          confirmButtonColor: "red",
+        })
+          .then((result) => {
+            if (result.isConfirmed) {
+              // navigate("/");
+              window.location.replace(res.data.url);
+            }
+          })
+          .finally(() => {
             // navigate("/");
             window.location.replace(res.data.url);
-          }
-        })
-        .finally(() => {
-          // navigate("/");
-          window.location.replace(res.data.url);
-        });
-    } catch (error) {
-      console.log(error);
-      if (error.request.status == 500) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: error.response.data.msg,
-          confirmButtonColor: "red",
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: error.response.data.msg,
-          confirmButtonColor: "red",
-        });
+          });
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+        if (error.request.status == 500) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.response.data.msg,
+            confirmButtonColor: "red",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.response.data.msg,
+            confirmButtonColor: "red",
+          });
+        }
       }
+    } else {
+      toast.info("Fill up required fields", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
 
@@ -104,16 +124,31 @@ const Checkout = () => {
     }
   };
 
+  // Loading Component
+  const LoadingAnimation = () => {
+    return (
+      <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-white/20 backdrop-blur-sm">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#DB4444"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  };
+
   useEffect(() => {
     fetchCart();
   }, []);
 
-  // useEffect(() => {
-  //   if (cart.length == 0) navigate("/");
-  // }, [cart]);
-
   return (
     <main className="py-[80px]">
+      {loading && <LoadingAnimation />}
       <Container>
         <Flex className="justify-between">
           {/* shipping details section */}

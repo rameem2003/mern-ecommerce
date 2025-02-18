@@ -6,17 +6,22 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { AccountReducer } from "../redux/featurer/AccountSlice";
-import { useNavigate } from "react-router";
+import { ThreeDots } from "react-loader-spinner";
+import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const dispatch = useDispatch(); // dispatch instance
   const navigation = useNavigate(); // navigation instance
+  const dispatch = useDispatch(); // dispatch instance
   // states for get the login info
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   // function for handle login
   const handleLogin = async (e) => {
+    setLoading(true);
     e.preventDefault();
     try {
       let res = await axios.post(
@@ -35,9 +40,12 @@ const Login = () => {
         },
       );
 
+      setLoading(false);
+
       dispatch(AccountReducer(res.data));
       navigation("/");
     } catch (error) {
+      setLoading(false);
       console.log(error);
       Swal.fire({
         title: "Error!",
@@ -68,6 +76,9 @@ const Login = () => {
             <p className="mt-6 text-[16px] font-normal text-black">
               Enter your details below
             </p>
+            <p className="mt-6 text-[16px] font-normal text-primaryRed">
+              Or <Link to="/signup">create an account</Link>
+            </p>
 
             <form action="" className="mt-12" onSubmit={handleLogin}>
               <input
@@ -76,26 +87,54 @@ const Login = () => {
                 type="text"
                 placeholder="Email or Phone Number"
                 className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
-                name=""
+                name="email"
                 id=""
               />
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                type="password"
-                placeholder="Password"
-                className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
-                name=""
-                id=""
-              />
+              <div className="relative">
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  type={showPass ? "text" : "password"}
+                  placeholder="Password"
+                  className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
+                  name="password"
+                  id=""
+                />
+
+                {showPass ? (
+                  <FaEyeSlash
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-0 top-0 text-xl"
+                  />
+                ) : (
+                  <FaEye
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-0 top-0 text-xl"
+                  />
+                )}
+              </div>
 
               <Flex className="items-center justify-between">
-                <button
-                  type="submit"
-                  className="w-auto rounded-[4px] bg-primaryRed px-12 py-4 text-white"
-                >
-                  Log In
-                </button>
+                {loading ? (
+                  <ThreeDots
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#DB4444"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-auto rounded-[4px] bg-primaryRed px-12 py-4 text-white"
+                  >
+                    Log In
+                  </button>
+                )}
+
                 <a href="" className="font-normal text-primaryRed">
                   Forget Password?
                 </a>

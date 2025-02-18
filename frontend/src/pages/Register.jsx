@@ -6,6 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const navigate = useNavigate(); // navigation instance
@@ -13,10 +15,13 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
-  // funstion for handle register
+  // function for handle register
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       let res = await axios.post(
         "http://localhost:5000/api/v1/auth/register",
@@ -32,12 +37,14 @@ const Register = () => {
         },
       );
 
+      setLoading(false);
       console.log(res);
 
       navigate("/verify-otp", { state: { key: res.data.user } });
 
       // navigation("/");
     } catch (error) {
+      setLoading(false);
       console.log(error);
       Swal.fire({
         title: "Error!",
@@ -87,22 +94,53 @@ const Register = () => {
                 name=""
                 id=""
               />
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                type="password"
-                placeholder="Password"
-                className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
-                name=""
-                id=""
-              />
 
-              <button
-                type="submit"
-                className="w-full rounded-[4px] bg-primaryRed py-4 text-white"
-              >
-                Create Account
-              </button>
+              <div className="relative">
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  type={showPass ? "text" : "password"}
+                  placeholder="Password"
+                  className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
+                  name=""
+                  id=""
+                />
+
+                {showPass ? (
+                  <FaEyeSlash
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-0 top-0 text-xl"
+                  />
+                ) : (
+                  <FaEye
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-0 top-0 text-xl"
+                  />
+                )}
+              </div>
+
+              {loading ? (
+                <div className="flex justify-center">
+                  <ThreeDots
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#DB4444"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full rounded-[4px] bg-primaryRed py-4 text-white"
+                >
+                  Create Account
+                </button>
+              )}
+
               <button
                 type="submit"
                 className="mt-4 flex w-full items-center justify-center gap-1 rounded-[4px] border-[1px] border-black/40 bg-transparent py-4 text-black"

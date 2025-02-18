@@ -1,17 +1,33 @@
 const {
   placeOrder,
   paymentSuccess,
+  getAllOrders,
+  getSingleUserOrder,
 } = require("../../controllers/order.controller");
 const orderModel = require("../../models/order.model");
 
 const router = require("express").Router();
 
 /**
+ * Get all orders
+ * http://localhost:5000/api/v1/order/all
+ */
+router.get("/order/all", getAllOrders);
+
+/**
+ * Get single user orders
+ * http://localhost:5000/api/v1/order/single/:id
+ */
+router.get("/order/single/:id", getSingleUserOrder);
+
+/**
+ * Place Order
  * http://localhost:5000/api/v1/order/place
  */
 router.post("/order/place", placeOrder);
 
 /**
+ * Order success
  * http://localhost:5000/api/v1/order/success
  */
 router.post("/order/success", paymentSuccess);

@@ -3,6 +3,63 @@ const cartModel = require("../models/cart.model");
 const orderModel = require("../models/order.model");
 
 /**
+ * Get all orders
+ */
+const getAllOrders = async (req, res) => {
+  try {
+    let allOrders = await orderModel
+      .find()
+      .populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate("user");
+    res.status(201).send({
+      success: true,
+      msg: "Order Fetched Success",
+      data: allOrders,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
+ * Get Orders by single user
+ */
+const getSingleUserOrder = async (req, res) => {
+  const { id } = req.params;
+  try {
+    let allOrders = await orderModel
+      .find({ user: id })
+      .populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate("user");
+    res.status(201).send({
+      success: true,
+      msg: "Single User Order Fetched Success",
+      data: allOrders,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
  * Place a new Order
  */
 const placeOrder = async (req, res) => {
@@ -104,4 +161,9 @@ const placeOrder = async (req, res) => {
 const paymentSuccess = async (req, res) => {
   return res.redirect(`http://localhost:5173/payment/success/`);
 };
-module.exports = { placeOrder, paymentSuccess };
+module.exports = {
+  getAllOrders,
+  getSingleUserOrder,
+  placeOrder,
+  paymentSuccess,
+};

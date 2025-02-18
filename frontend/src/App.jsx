@@ -21,6 +21,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import OTPPage from "./pages/OTPPage";
 import ViewByCategory from "./pages/ViewByCategory";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import UsersAllOrders from "./pages/UsersAllOrders";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,6 +56,14 @@ const router = createBrowserRouter(
           element={
             <ProtectedRoute>
               <Account />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/account/orders"
+          element={
+            <ProtectedRoute>
+              <UsersAllOrders />
             </ProtectedRoute>
           }
         />

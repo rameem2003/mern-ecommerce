@@ -124,11 +124,11 @@ const Account = () => {
                     My Profile
                   </Link>
                 </ListItem>
-                <ListItem className="mb-2">
+                {/* <ListItem className="mb-2">
                   <Link className="text-[16px] font-normal text-primaryRed">
                     Email and Password Manage
                   </Link>
-                </ListItem>
+                </ListItem> */}
               </List>
             </div>
 
@@ -137,19 +137,22 @@ const Account = () => {
 
               <List className="mt-4 pl-[35px]">
                 <ListItem className="mb-2">
-                  <Link className="text-[16px] font-normal text-primaryRed">
-                    My Returns
+                  <Link
+                    to="/account/orders"
+                    className="text-[16px] font-normal text-primaryRed"
+                  >
+                    All Order's
                   </Link>
                 </ListItem>
-                <ListItem className="mb-2">
+                {/* <ListItem className="mb-2">
                   <Link className="text-[16px] font-normal text-primaryRed">
                     My Cancellations
                   </Link>
-                </ListItem>
+                </ListItem> */}
               </List>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 hidden">
               <h2 className="text-[16px] font-medium text-black">
                 My WishList
               </h2>
