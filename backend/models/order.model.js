@@ -18,10 +18,18 @@ const orderSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    // cartItems: [ // previous order schema issue
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "cart",
+    //   },
+    // ],
+
     cartItems: [
+      // Issue fixed
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "cart",
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
+        quantity: { type: Number, default: 1 },
       },
     ],
     grandTotal: {

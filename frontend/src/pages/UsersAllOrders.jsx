@@ -15,6 +15,8 @@ const UsersAllOrders = () => {
       let res = await axios.get(
         `http://localhost:5000/api/v1/order/single/${user.user.id}`,
       );
+      console.log(res.data.data);
+
       setOrders(res.data.data);
     } catch (error) {
       console.log(error);
@@ -32,6 +34,13 @@ const UsersAllOrders = () => {
         </h1>
 
         <section className="mt-10">
+          {orders.length == 0 && (
+            <div className="bg-red-500 p-3">
+              <h1 className="text-center text-xl text-white">
+                No Orders Found
+              </h1>
+            </div>
+          )}
           {orders.map((data, i) => (
             <OrderCard key={i} data={data} />
           ))}

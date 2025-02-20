@@ -16,7 +16,7 @@ const OrderCard = ({ data }) => {
 
       <div className="mt-4">
         {data?.cartItems.map((item, i) => (
-          <Flex key={i} className="items-center justify-between">
+          <Flex key={i} className="mb-2 items-center justify-between">
             <Flex className="items-center gap-2">
               <div className="h-20 w-20 bg-gray-500">
                 <Image src={item.product.images[0]} alt={item.product.name} />

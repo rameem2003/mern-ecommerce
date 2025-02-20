@@ -40,7 +40,12 @@ const Checkout = () => {
       address: address,
       city: city,
       phone: phone,
-      cartItems: cart.map((item, i) => item._id),
+      // cartItems: cart.map((item, i) => item._id),
+      cartItems: cart.map((item, i) => ({
+        cartId: item._id,
+        product: item.product._id,
+        quantity: item.quantity,
+      })),
       grandTotal: grandTotal,
       paymentMethod: method,
       paymentStatus: "unpaid",

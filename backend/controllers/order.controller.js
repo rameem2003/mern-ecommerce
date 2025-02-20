@@ -89,9 +89,9 @@ const placeOrder = async (req, res) => {
 
       await order.save();
 
-      // cartItems.map(async (item) => {
-      //   await cartModel.findOneAndDelete({ _id: item });
-      // });
+      cartItems.map(async (item) => {
+        await cartModel.findOneAndDelete({ _id: item.cartId });
+      });
 
       const data = {
         total_amount: grandTotal,
