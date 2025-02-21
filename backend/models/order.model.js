@@ -28,6 +28,7 @@ const orderSchema = new mongoose.Schema(
     cartItems: [
       // Issue fixed
       {
+        cartId: { type: mongoose.Schema.Types.ObjectId, ref: "cart" },
         product: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
         quantity: { type: Number, default: 1 },
       },
@@ -41,7 +42,7 @@ const orderSchema = new mongoose.Schema(
     },
     paymentStatus: {
       type: String,
-      enum: ["paid", "unpaid"],
+      enum: ["paid", "unpaid", "COD"],
       default: "unpaid",
     },
   },

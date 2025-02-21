@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Flex from "../../common/Flex";
 import Image from "../../common/Image";
+import ReactImageZoom from "react-image-zoom";
 
 const ProductImagePreview = ({ data }) => {
   // states for display product image
@@ -20,14 +21,21 @@ const ProductImagePreview = ({ data }) => {
           ))}
         </Flex>
       </div>
-      {data.images && (
-        <div className="w-8/12">
-          <Image
-            src={data.images[img]}
-            className="h-full w-full object-cover"
-          />
-        </div>
-      )}
+      <div className="w-8/12">
+        <ReactImageZoom
+          {...{
+            width: 400,
+            height: 400,
+            // scale: 0.2,
+            // zoomWodth: 500,
+            zoomLensStyle: "opacity: 0.2; background-color: red",
+            zoomPosition: "bottom",
+            img: data.images[img],
+          }}
+        />
+
+        {/* <Image src={data.images[img]} className="h-full w-full object-cover" /> */}
+      </div>
     </Flex>
   );
 };

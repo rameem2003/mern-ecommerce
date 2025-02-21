@@ -13,14 +13,17 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { FaTruckFast } from "react-icons/fa6";
 import { TfiReload } from "react-icons/tfi";
 import { useParams } from "react-router-dom";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const DisplayProduct = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null); // set the product
+  const [relatedProduct, setRelatedProduct] = useState([]); // set the related product
   const [selected, setSelected] = useState(null); // state for select button indicator
   const [size, setSize] = useState(""); // state for store the product size
+  console.log(relatedProduct);
+
   // react slick settings
   const settings = {
     dots: false,
@@ -28,6 +31,20 @@ const DisplayProduct = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
+  };
+
+  /**
+   * fetch related product
+   */
+  const fetchRelatedProduct = async (id) => {
+    try {
+      let res = await axios.get(
+        `http://localhost:5000/api/v1/category/single/${id}`,
+      );
+      setRelatedProduct(res.data.data.products);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /**
@@ -39,11 +56,14 @@ const DisplayProduct = () => {
     );
 
     setProduct(res.data.data);
+
+    fetchRelatedProduct(res.data.data.category);
   };
 
   useEffect(() => {
     fetchSingleProduct();
-  }, []);
+    // fetchRelatedProduct();
+  }, [id]);
 
   return (
     <main className="py-[80px]">
@@ -196,13 +216,14 @@ const DisplayProduct = () => {
           <div className="mt-[31px]">
             <div className="slider-container">
               <Slider {...settings}>
-                <ItemCardProtrait className="mx-auto w-[90%]" isWish={false} />
-                <ItemCardProtrait className="mx-auto w-[90%]" isWish={false} />
-                <ItemCardProtrait className="mx-auto w-[90%]" isWish={false} />
-                <ItemCardProtrait className="mx-auto w-[90%]" isWish={false} />
-                <ItemCardProtrait className="mx-auto w-[90%]" isWish={false} />
-                <ItemCardProtrait className="mx-auto w-[90%]" isWish={false} />
-                <ItemCardProtrait className="mx-auto w-[90%]" isWish={false} />
+                {relatedProduct.map((data, i) => (
+                  <ItemCardProtrait
+                    key={i}
+                    data={data}
+                    className="mx-auto w-[90%]"
+                    isWish={false}
+                  />
+                ))}
               </Slider>
             </div>
           </div>

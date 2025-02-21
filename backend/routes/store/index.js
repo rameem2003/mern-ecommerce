@@ -5,6 +5,7 @@ const upload = require("../../middlewares/fileupload");
 const router = require("express").Router();
 
 /**
+ * Create New Store
  * http://localhost:5000/api/v1/store/create
  */
 

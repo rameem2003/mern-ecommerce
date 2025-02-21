@@ -14,26 +14,31 @@ const upload = require("../../middlewares/fileupload");
 const router = require("express").Router();
 
 /**
+ * Get all products
  * http://localhost:5000/api/v1/product/all
  */
 router.get("/product/all", allProducts);
 
 /**
+ * Get all featured products
  * http://localhost:5000/api/v1/product/featured
  */
 router.get("/product/featured", getFeaturedProducts);
 
 /**
+ * Get all hot sell products
  * http://localhost:5000/api/v1/product/hotsell
  */
 router.get("/product/hotsell", getHotSellProducts);
 
 /**
+ * Get single product
  * http://localhost:5000/api/v1/product/single/:id
  */
 router.get("/product/single/:id", singleProduct);
 
 /**
+ * Create new product
  * http://localhost:5000/api/v1/product/create
  */
 router.post(
@@ -45,6 +50,7 @@ router.post(
 );
 
 /**
+ * Update product
  * http://localhost:5000/api/v1/product/update/:id
  */
 router.patch(
@@ -56,6 +62,7 @@ router.patch(
 );
 
 /**
+ * Delete product
  * http://localhost:5000/api/v1/product/delete
  */
 router.delete("/product/delete/:id", checkAdminMiddleware, deleteProduct);

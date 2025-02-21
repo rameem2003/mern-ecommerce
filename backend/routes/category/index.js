@@ -12,16 +12,19 @@ const upload = require("../../middlewares/fileupload");
 const router = require("express").Router();
 
 /**
+ * Get all category
  * http://localhost:5000/api/v1/category/all
  */
 router.get("/category/all", allCategory);
 
 /**
+ * Get single category
  * http://localhost:5000/api/v1/category/single/:id
  */
 router.get("/category/single/:id", singleCategory);
 
 /**
+ * Create new category
  * http://localhost:5000/api/v1/category/create
  */
 router.post(
@@ -33,6 +36,7 @@ router.post(
 );
 
 /**
+ * Update category
  * http://localhost:5000/api/v1/category/update
  */
 router.patch(
@@ -44,6 +48,7 @@ router.patch(
 );
 
 /**
+ * Delete category
  * http://localhost:5000/api/v1/category/delete/:id
  */
 router.delete("/category/delete/:id", checkAdminMiddleware, deleteCategory);

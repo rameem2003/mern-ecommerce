@@ -10,10 +10,13 @@ import axios from "axios";
 import ProductIncrement from "../helpers/ProductIncrement";
 import ProductDecrement from "../helpers/ProductDecrement";
 import ProductDelete from "../helpers/ProductDelete";
+import ProductListSkeleton from "../components/common/ProductListSkeleton";
+import Skeleton from "react-loading-skeleton";
 
 const Cart = () => {
   const user = useSelector((state) => state.account.account); // get user info
   const [cart, setCart] = useState([]); // store all cart list
+  const [loading, setLoading] = useState(false); // loading state
 
   const grandTotal = cart.reduce(
     (total, item) => total + item.quantity * item.product.discountPrice,
@@ -22,22 +25,25 @@ const Cart = () => {
 
   // fetch cart items
   const fetchCart = async () => {
+    setLoading(true);
     try {
       let res = await axios.get(
         `http://localhost:5000/api/v1/cart/single/${user.user.id}`,
       );
 
+      setLoading(false);
       setCart(res.data.data);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
 
-  // console.log(cart);
+  // console.log(loading);
 
   useEffect(() => {
     fetchCart();
-  }, [cart]);
+  }, []);
   return (
     <main className="py-[80px]">
       <Container>
@@ -58,7 +64,11 @@ const Cart = () => {
         </Flex>
 
         {/* cart list dynamic */}
-
+        {loading && (
+          <>
+            <Skeleton className="h-[100px]" />
+          </>
+        )}
         {cart.length == 0 && (
           <div className="bg-red-500 p-3">
             <h1 className="text-center text-xl text-white">

@@ -3,6 +3,8 @@ const {
   paymentSuccess,
   getAllOrders,
   getSingleUserOrder,
+  paymentFail,
+  paymentCancel,
 } = require("../../controllers/order.controller");
 const orderModel = require("../../models/order.model");
 
@@ -28,9 +30,21 @@ router.post("/order/place", placeOrder);
 
 /**
  * Order success
- * http://localhost:5000/api/v1/order/success
+ * http://localhost:5000/api/v1/order/success/:orderId
  */
-router.post("/order/success", paymentSuccess);
+router.post("/order/success/:orderId", paymentSuccess);
+
+/**
+ * Order Fail
+ * http://localhost:5000/api/v1/order/fail/:orderId
+ */
+router.post("/order/fail/:orderId", paymentFail);
+
+/**
+ * Order Cancel
+ * http://localhost:5000/api/v1/order/cancel/:orderId
+ */
+router.post("/order/cancel/:orderId", paymentCancel);
 
 router.get("/order/get", async (req, res) => {
   try {

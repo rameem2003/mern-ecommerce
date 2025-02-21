@@ -89,17 +89,13 @@ const placeOrder = async (req, res) => {
 
       await order.save();
 
-      cartItems.map(async (item) => {
-        await cartModel.findOneAndDelete({ _id: item.cartId });
-      });
-
       const data = {
         total_amount: grandTotal,
         currency: "BDT",
         tran_id: "order._id", // use unique tran_id for each api call
-        success_url: `${process.env.HOST_URL}${process.env.PORT}${process.env.BASE_URL}/order/success`,
-        fail_url: "http://localhost:3030/fail",
-        cancel_url: "http://localhost:3030/cancel",
+        success_url: `${process.env.HOST_URL}${process.env.PORT}${process.env.BASE_URL}/order/success/${order._id}`,
+        fail_url: `${process.env.HOST_URL}${process.env.PORT}${process.env.BASE_URL}/order/fail/${order._id}`,
+        cancel_url: `${process.env.HOST_URL}${process.env.PORT}${process.env.BASE_URL}/order/cancel/${order._id}`,
         ipn_url: "http://localhost:3030/ipn",
         shipping_method: "Courier",
         product_name: "Computer.",
@@ -125,10 +121,17 @@ const placeOrder = async (req, res) => {
       };
 
       if (paymentMethod == "COD") {
+        order.paymentStatus = "COD";
+        await order.save();
+
+        cartItems.map(async (item) => {
+          await cartModel.findOneAndDelete({ _id: item.cartId });
+        });
         return res.status(201).send({
           success: true,
           msg: "Order Successful",
           data: order,
+          url: `http://localhost:5173/payment/success/${order._id}`,
         });
       } else if (paymentMethod == "online") {
         let apiRes = await sslcz.init(data);
@@ -159,11 +162,50 @@ const placeOrder = async (req, res) => {
  * Success Response
  */
 const paymentSuccess = async (req, res) => {
-  return res.redirect(`http://localhost:5173/payment/success/`);
+  const { orderId } = req.params;
+
+  let targetOrder = await orderModel.findByIdAndUpdate(
+    { _id: orderId },
+    { paymentStatus: "paid" },
+    { new: true }
+  );
+
+  targetOrder.cartItems.map(async (item) => {
+    await cartModel.findOneAndDelete({ _id: item.cartId });
+  });
+
+  return res.redirect(`http://localhost:5173/payment/success/${orderId}`);
 };
+
+/**
+ * Fail Response
+ */
+const paymentFail = async (req, res) => {
+  const { orderId } = req.params;
+  console.log(orderId);
+
+  await orderModel.findByIdAndDelete({ _id: orderId });
+
+  return res.redirect(`http://localhost:5173/payment/fail/${orderId}`);
+};
+
+/**
+ * Cancel Response
+ */
+const paymentCancel = async (req, res) => {
+  const { orderId } = req.params;
+  console.log(orderId);
+
+  await orderModel.findByIdAndDelete({ _id: orderId });
+
+  return res.redirect(`http://localhost:5173/payment/cancel/${orderId}`);
+};
+
 module.exports = {
   getAllOrders,
   getSingleUserOrder,
   placeOrder,
   paymentSuccess,
+  paymentFail,
+  paymentCancel,
 };

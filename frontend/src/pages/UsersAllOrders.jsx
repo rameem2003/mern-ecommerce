@@ -15,8 +15,6 @@ const UsersAllOrders = () => {
       let res = await axios.get(
         `http://localhost:5000/api/v1/order/single/${user.user.id}`,
       );
-      console.log(res.data.data);
-
       setOrders(res.data.data);
     } catch (error) {
       console.log(error);

@@ -18,11 +18,13 @@ const OrderCard = ({ data }) => {
         {data?.cartItems.map((item, i) => (
           <Flex key={i} className="mb-2 items-center justify-between">
             <Flex className="items-center gap-2">
-              <div className="h-20 w-20 bg-gray-500">
+              <div className="h-20 w-20">
                 <Image src={item.product.images[0]} alt={item.product.name} />
               </div>
               <div>
-                <h3 className="text-xl font-bold">{item.product.name}</h3>
+                <h3 className="text-xl font-bold">
+                  {item.product.name.slice(0, 20)}
+                </h3>
                 <h4>{item.product.description.slice(0, 80)}...</h4>
                 <h5>Quantity : x{item.quantity}</h5>
               </div>
