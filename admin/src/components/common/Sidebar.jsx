@@ -69,7 +69,10 @@ const Sidebar = () => {
 
         <Flex className="mt-5 items-center gap-2">
           <Avatar
-            src="https://docs.material-tailwind.com/img/face-2.jpg"
+            src={
+              admin?.photo ||
+              "https://docs.material-tailwind.com/img/face-2.jpg"
+            }
             alt="avatar"
           />
 
