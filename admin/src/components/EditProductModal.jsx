@@ -64,8 +64,8 @@ const EditProductModal = ({ open, handleClose, product, onUpdate }) => {
       formDataToSend.append("stock", formData.stock);
       //   formDataToSend.append("category", formData.category);
       if (formData.images) {
-        for (let i = 0; i < product.images.length; i++) {
-          formDataToSend.append("images", product.images[i]);
+        for (let i = 0; i < formData.images.length; i++) {
+          formDataToSend.append("images", formData.images[i]);
         }
       }
 
