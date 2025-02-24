@@ -56,8 +56,6 @@ const Login = () => {
           transition: Bounce,
         });
       }
-
-      console.log(res);
     } catch (error) {
       setLoading(false);
       console.log(error);

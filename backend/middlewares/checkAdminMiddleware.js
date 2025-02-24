@@ -18,6 +18,11 @@ const checkAdminMiddleware = (req, res, next) => {
         if (existAdmin) {
           if (decoded.role == "admin") {
             next();
+          } else {
+            res.status(401).send({
+              success: false,
+              msg: "Admin Unauthorized",
+            });
           }
         }
         // if not matched
