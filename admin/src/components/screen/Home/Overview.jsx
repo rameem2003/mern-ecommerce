@@ -48,7 +48,7 @@ const Overview = () => {
               Total Sold
             </p>
             <h3 className="text-blue-600 text-3xl font-extrabold">
-              BDT {totalSold || "5.4M+"}
+              BDT {totalSold || "0"}
             </h3>
           </div>
           <div className="bg-white rounded-xl border px-7 py-8 shadow-lg">

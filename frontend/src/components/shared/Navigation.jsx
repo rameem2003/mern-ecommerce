@@ -103,7 +103,18 @@ const Navigation = () => {
                 <IoCartOutline className="text-[24px]" />
               </Link>
               <Link to="/account" className="group relative">
-                <LuUser className="text-[24px]" />
+                {user ? (
+                  <img
+                    src={
+                      user?.user?.photo ||
+                      "https://docs.material-tailwind.com/img/face-2.jpg"
+                    }
+                    className="h-[24px] w-[24px] rounded-full"
+                    alt="user"
+                  />
+                ) : (
+                  <LuUser className="text-[24px]" />
+                )}
 
                 {user && (
                   <div className="absolute right-0 top-5 z-50 hidden w-[300px] rounded-md bg-white p-3 shadow-lg group-hover:block">

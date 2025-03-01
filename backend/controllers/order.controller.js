@@ -76,6 +76,7 @@ const placeOrder = async (req, res) => {
 
   try {
     if (city && phone && address) {
+      let transactionID = Date.now();
       let order = new orderModel({
         user,
         address,
@@ -83,6 +84,7 @@ const placeOrder = async (req, res) => {
         phone,
         cartItems,
         grandTotal,
+        transactionID,
         paymentMethod,
         paymentStatus,
       });
@@ -92,7 +94,7 @@ const placeOrder = async (req, res) => {
       const data = {
         total_amount: grandTotal,
         currency: "BDT",
-        tran_id: "order._id", // use unique tran_id for each api call
+        tran_id: transactionID, // use unique tran_id for each api call
         success_url: `${process.env.HOST_URL}${process.env.PORT}${process.env.BASE_URL}/order/success/${order._id}`,
         fail_url: `${process.env.HOST_URL}${process.env.PORT}${process.env.BASE_URL}/order/fail/${order._id}`,
         cancel_url: `${process.env.HOST_URL}${process.env.PORT}${process.env.BASE_URL}/order/cancel/${order._id}`,

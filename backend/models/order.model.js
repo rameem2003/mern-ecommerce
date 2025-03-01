@@ -36,6 +36,11 @@ const orderSchema = new mongoose.Schema(
     grandTotal: {
       type: Number,
     },
+    transactionID: {
+      type: String,
+      require: true,
+      unique: true,
+    },
     paymentMethod: {
       type: String,
       enum: ["COD", "online"],
@@ -44,6 +49,11 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["paid", "unpaid", "COD"],
       default: "unpaid",
+    },
+    deliveryStatus: {
+      type: String,
+      enum: ["pending", "shipping", "delivered"],
+      default: "pending",
     },
   },
   {
