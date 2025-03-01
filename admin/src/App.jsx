@@ -11,6 +11,7 @@ import AllCategory from "./pages/AllCategory";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import OTPPage from "./pages/OTPPage";
 import SitePreferences from "./pages/SitePreferences";
+import ViewOrder from "./pages/ViewOrder";
 
 const App = () => {
   return (
@@ -22,6 +23,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/view/:id"
+            element={
+              <ProtectedRoute>
+                <ViewOrder />
               </ProtectedRoute>
             }
           />

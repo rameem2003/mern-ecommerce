@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router";
 
 const LastOrders = () => {
   const [orders, setOrders] = useState([]); // set the initial state of orders
@@ -8,11 +9,17 @@ const LastOrders = () => {
   const fetchOrders = async () => {
     try {
       let res = await axios.get("http://localhost:5000/api/v1/order/all");
-      setOrders(res.data.data);
+      setOrders(
+        res.data.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        )
+      );
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log(orders);
 
   useEffect(() => {
     fetchOrders();
@@ -57,9 +64,19 @@ const LastOrders = () => {
                 </td>
                 <td className="p-4 text-sm text-gray-800">{order.user.name}</td>
                 <td className="p-4 text-sm text-gray-800">
-                  <span className="w-[68px] block text-center py-1 border border-green-500 text-green-600 rounded text-xs">
-                    Complete
-                  </span>
+                  {order.deliveryStatus == "delivered" ? (
+                    <span className="w-[68px] capitalize block text-center py-1 border border-green-500 text-green-600 rounded text-xs">
+                      delivered
+                    </span>
+                  ) : order.deliveryStatus == "pending" ? (
+                    <span className="w-[68px] capitalize block text-center py-1 border border-orange-500 text-orange-600 rounded text-xs">
+                      pending
+                    </span>
+                  ) : (
+                    <span className="w-[68px] capitalize block text-center py-1 border border-blue-500 text-blue-600 rounded text-xs">
+                      shipping
+                    </span>
+                  )}
                 </td>
                 <td className="p-4 text-sm text-gray-800">
                   {order.grandTotal}
@@ -70,9 +87,12 @@ const LastOrders = () => {
                 </td>
                 <td className="p-4">{order.cartItems.length}</td>
                 <td className="p-4">
-                  <button className="w-[68px] block text-center py-1 border border-green-500 text-green-600 rounded text-xs">
+                  <Link
+                    to={`/view/${order._id}`}
+                    className="w-[68px] block text-center py-1 border border-green-500 text-green-600 rounded text-xs"
+                  >
                     View
-                  </button>
+                  </Link>
                 </td>
               </tr>
             ))}

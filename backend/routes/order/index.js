@@ -5,6 +5,7 @@ const {
   getSingleUserOrder,
   paymentFail,
   paymentCancel,
+  getOrderByID,
 } = require("../../controllers/order.controller");
 const orderModel = require("../../models/order.model");
 
@@ -15,6 +16,12 @@ const router = require("express").Router();
  * http://localhost:5000/api/v1/order/all
  */
 router.get("/order/all", getAllOrders);
+
+/**
+ * Get order by id
+ * http://localhost:5000/api/v1/order/singlebyid/:id
+ */
+router.get("/order/singlebyid/:id", getOrderByID);
 
 /**
  * Get single user orders

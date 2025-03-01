@@ -31,6 +31,36 @@ const getAllOrders = async (req, res) => {
 };
 
 /**
+ * Get order info by id
+ */
+const getOrderByID = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    let orders = await orderModel
+      .findOne({ _id: id })
+      .populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate("user");
+    res.status(201).send({
+      success: true,
+      msg: "Order Fetched Success",
+      data: orders,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
  * Get Orders by single user
  */
 const getSingleUserOrder = async (req, res) => {
@@ -206,6 +236,7 @@ const paymentCancel = async (req, res) => {
 module.exports = {
   getAllOrders,
   getSingleUserOrder,
+  getOrderByID,
   placeOrder,
   paymentSuccess,
   paymentFail,
