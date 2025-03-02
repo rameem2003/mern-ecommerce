@@ -1,13 +1,15 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import Flex from "../components/common/Flex";
 import Swal from "sweetalert2";
+import { useReactToPrint } from "react-to-print";
 
 const ViewOrder = () => {
   let { id } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [deliveryLoading, setDeliveryLoading] = useState(false);
+  const orderRef = useRef(null);
 
   /**
    * Fetch the order info
@@ -69,14 +71,30 @@ const ViewOrder = () => {
     }
   };
 
+  /**
+   * Print The Order Info
+   */
+  const printOrder = useReactToPrint({
+    contentRef: orderRef,
+    documentTitle: id,
+  });
+
   useEffect(() => {
     fetchOrderInfo();
   }, []);
 
   return (
     <main className="w-full mx-auto mt-8 px-3">
-      <h2 className=" text-2xl text-red-600 font-bold">Order info</h2>
-      <section className=" mt-10">
+      <Flex className="items-center justify-between">
+        <h2 className=" text-2xl text-red-600 font-bold">Order info</h2>
+        <button
+          className=" px-2 py-1 bg-blue-500 font-medium text-lg text-white"
+          onClick={printOrder}
+        >
+          Print
+        </button>
+      </Flex>
+      <section ref={orderRef} className=" mt-10  p-3">
         <Flex className="items-center justify-between">
           <span className=" text-base text-gray-600 font-medium">
             Order id : {orderData?._id}

@@ -114,7 +114,7 @@ const DisplayProduct = () => {
                 {product.description}
               </p>
 
-              <Flex className="mb-6 mt-6 items-center gap-6">
+              <Flex className="mb-6 mt-6 hidden items-center gap-6">
                 <p className="text-[20px] font-normal text-black">Colours:</p>
 
                 <Flex className="gap-2">
@@ -123,7 +123,7 @@ const DisplayProduct = () => {
                 </Flex>
               </Flex>
 
-              <Flex className="mb-6 mt-6 items-center gap-6">
+              <Flex className="mb-6 mt-6 hidden items-center gap-6">
                 <p className="text-[20px] font-normal text-black">Size:</p>
 
                 <Flex className="gap-4">
@@ -142,7 +142,7 @@ const DisplayProduct = () => {
                 </Flex>
               </Flex>
 
-              <Flex className="gap-5">
+              <Flex className="mt-2 gap-5">
                 <Flex className="rounded-[4px] border-[1px] border-black">
                   <button className="px-4 py-[10px] text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
                     -
