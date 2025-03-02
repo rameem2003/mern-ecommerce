@@ -85,7 +85,7 @@ const Sidebar = () => {
             </Typography>
             <Typography
               variant="h5"
-              className=" text-base font-medium text-black"
+              className=" text-xs font-medium text-black"
             >
               {admin?.email}
             </Typography>

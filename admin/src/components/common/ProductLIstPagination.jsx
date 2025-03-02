@@ -11,6 +11,7 @@ import Flex from "./Flex";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
+import Image from "./Image";
 
 const ProductLIstPagination = ({
   itemsPerPage,
@@ -122,109 +123,48 @@ const ProductLIstPagination = ({
       <>
         {currentItems &&
           currentItems.map((p, index) => {
-            const isLast = index === products.length - 1;
-            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
-
             return (
-              <tr key={p._id}>
-                <td className={classes}>
-                  <div className="flex items-center gap-3">
-                    <Avatar
-                      src={p.images[0]}
-                      alt={p.name}
-                      size="md"
-                      className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
-                    />
-                  </div>
+              <tr className="border-t border-gray-300 w-full" key={index}>
+                <td className="px-3 py-2 ">
+                  <Image
+                    src={p.images[0]}
+                    alt={p.name}
+                    className="w-10 h-10 rounded-full"
+                  />
                 </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {p.name.slice(0, 10)}
-                  </Typography>
+                <td className="px-3 py-2">{p.name.slice(0, 20)}</td>
+                <td className="px-3 py-2">
+                  <p variant="small" color="blue-gray" className="font-normal">
+                    {p.description.slice(0, 20)}
+                  </p>
                 </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {p.description.slice(0, 10)}
-                  </Typography>
+                <td className="px-3 py-2">{p.category.name}</td>
+
+                <td className="px-3 py-2">{p.sellingPrice} BDT</td>
+                <td className="px-3 py-2">{p.discountPrice} BDT</td>
+                <td className="px-3 py-2">{p.stock}</td>
+                <td className="px-3 py-2">
+                  <input
+                    type="checkbox"
+                    onChange={(e) => handleFeaturedUpdate(e, p._id)}
+                    checked={p.featured}
+                    // defaultValue={p.featured}
+                    className=" size-5"
+                    name=""
+                    id=""
+                  />
                 </td>
-                <td className={classes}>
-                  <div className="w-max">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {p.category.name}
-                    </Typography>
-                  </div>
+                <td className="px-3 py-2">
+                  <input
+                    type="checkbox"
+                    checked={p.hotSell}
+                    onChange={(e) => handleHotSellUpdate(e, p._id)}
+                    className=" size-5"
+                    name=""
+                    id=""
+                  />
                 </td>
-                <td className={classes}>
-                  <div className="w-max">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {p.sellingPrice} BDT
-                    </Typography>
-                  </div>
-                </td>
-                <td className={classes}>
-                  <div className="w-max">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {p.discountPrice} BDT
-                    </Typography>
-                  </div>
-                </td>
-                <td className={classes}>
-                  <div className="w-max">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {p.stock}
-                    </Typography>
-                  </div>
-                </td>
-                <td className={classes}>
-                  <div className="w-max">
-                    <input
-                      type="checkbox"
-                      onChange={(e) => handleFeaturedUpdate(e, p._id)}
-                      checked={p.featured}
-                      // defaultValue={p.featured}
-                      className=" size-5"
-                      name=""
-                      id=""
-                    />
-                  </div>
-                </td>
-                <td className={classes}>
-                  <div className="w-max">
-                    <input
-                      type="checkbox"
-                      checked={p.hotSell}
-                      onChange={(e) => handleHotSellUpdate(e, p._id)}
-                      className=" size-5"
-                      name=""
-                      id=""
-                    />
-                  </div>
-                </td>
-                <td className={classes}>
+                <td className="px-3 py-2">
                   <Tooltip content="Edit Product">
                     <IconButton onClick={() => handleEdit(p)} variant="text">
                       <PencilIcon className="h-4 w-4" />
@@ -270,10 +210,10 @@ const ProductLIstPagination = ({
   return (
     <>
       <Items currentItems={currentItems} />
-      <Flex className=" flex-col items-center justify-between gap-5 lg:mb-[140px] lg:mt-[50px] lg:flex-row lg:gap-0">
+      <Flex className=" flex items-center justify-between gap-5 mt-10  w-full lg:gap-0">
         <ReactPaginate
           breakLabel="..."
-          className="ml-[-15px] flex gap-4"
+          className="flex gap-4"
           activeClassName="bg-black text-white"
           pageClassName=" p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-[14px] text-secondary"
           nextLabel=""
@@ -283,9 +223,9 @@ const ProductLIstPagination = ({
           previousLabel=""
           renderOnZeroPageCount={null}
         />
-        <p className="font-dm text-secondary text-[14px] font-normal leading-[30px]">
+        {/* <p className="font-dm text-secondary text-[14px] font-normal leading-[30px]">
           Products from {itemOffset} to {endOffset} of {items.length}
-        </p>
+        </p> */}
       </Flex>
     </>
   );

@@ -39,7 +39,7 @@ const Overview = () => {
             <p className="text-gray-400 text-base font-semibold mb-1">
               Todays Sold
             </p>
-            <h3 className="text-blue-600 text-3xl font-extrabold">
+            <h3 className="text-blue-600 xl:text-2xl font-extrabold">
               BDT {todaySold || "5.4M+"}
             </h3>
           </div>
@@ -47,7 +47,7 @@ const Overview = () => {
             <p className="text-gray-400 text-base font-semibold mb-1">
               Total Sold
             </p>
-            <h3 className="text-blue-600 text-3xl font-extrabold">
+            <h3 className="text-blue-600 xl:text-2xl font-extrabold">
               BDT {totalSold || "0"}
             </h3>
           </div>
@@ -55,7 +55,7 @@ const Overview = () => {
             <p className="text-gray-400 text-base font-semibold mb-1">
               Order Today
             </p>
-            <h3 className="text-blue-600 text-3xl font-extrabold">
+            <h3 className="text-blue-600 xl:text-2xl font-extrabold">
               {filterForToday.length}
             </h3>
           </div>
@@ -63,7 +63,7 @@ const Overview = () => {
             <p className="text-gray-400 text-base font-semibold mb-1">
               Total Orders
             </p>
-            <h3 className="text-blue-600 text-3xl font-extrabold">
+            <h3 className="text-blue-600 xl:text-2xl font-extrabold">
               {orders.length}
             </h3>
           </div>
