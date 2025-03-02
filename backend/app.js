@@ -15,7 +15,7 @@ app.use(
       "http://localhost:5174",
       "https://kayesmania.netlify.app/",
     ],
-    credentials: true,
+    // credentials: true,
   })
 );
 app.use(express.static("temp"));
