@@ -14,7 +14,9 @@ const Header = () => {
    * Fetch Banners
    */
   const fetchBanners = async () => {
-    let res = await axios.get("http://localhost:5000/api/v1/banner/all");
+    let res = await axios.get(
+      "https://mern-ecommerce-8mtl.onrender.com/api/v1/banner/all",
+    );
     dispatch(BannerReducer(res.data.data));
   };
 
@@ -22,7 +24,9 @@ const Header = () => {
    * Fetch all products
    */
   const fetchProducts = async () => {
-    let res = await axios.get("http://localhost:5000/api/v1/product/all");
+    let res = await axios.get(
+      "https://mern-ecommerce-8mtl.onrender.com/api/v1/product/all",
+    );
     dispatch(allProducts(res.data.data));
   };
 
