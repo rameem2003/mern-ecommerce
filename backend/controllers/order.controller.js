@@ -191,6 +191,36 @@ const placeOrder = async (req, res) => {
 };
 
 /**
+ * Response for delivery status
+ */
+const responseDeliveryStatus = async (req, res) => {
+  let { id } = req.params;
+  let { statusText } = req.query;
+
+  try {
+    if (statusText == "delivered") {
+      let order = await orderModel.findByIdAndUpdate(
+        { _id: id },
+        { deliveryStatus: statusText },
+        { new: true }
+      );
+
+      return res.status(200).send({
+        success: true,
+        msg: "Order Delivery Successful",
+        data: order,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+/**
  * Success Response
  */
 const paymentSuccess = async (req, res) => {
@@ -238,6 +268,7 @@ module.exports = {
   getSingleUserOrder,
   getOrderByID,
   placeOrder,
+  responseDeliveryStatus,
   paymentSuccess,
   paymentFail,
   paymentCancel,

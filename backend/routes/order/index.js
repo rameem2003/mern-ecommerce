@@ -6,6 +6,7 @@ const {
   paymentFail,
   paymentCancel,
   getOrderByID,
+  responseDeliveryStatus,
 } = require("../../controllers/order.controller");
 const orderModel = require("../../models/order.model");
 
@@ -34,6 +35,12 @@ router.get("/order/single/:id", getSingleUserOrder);
  * http://localhost:5000/api/v1/order/place
  */
 router.post("/order/place", placeOrder);
+
+/**
+ * Response for delivery status
+ * http://localhost:5000/api/v1/order/response/:id
+ */
+router.post("/order/response/:id", responseDeliveryStatus);
 
 /**
  * Order success
