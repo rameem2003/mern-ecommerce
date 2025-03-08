@@ -16,8 +16,8 @@ const Footer = () => {
   return (
     <footer className="bg-black">
       <Container>
-        <Flex className="pt-[80px]">
-          <div className="w-[25%]">
+        <Flex className="flex-col gap-10 pt-[80px] lg:flex-row lg:gap-0">
+          <div className="w-full lg:w-[25%]">
             <Image src="/footer.png" />
 
             <h4 className="mt-6 text-[20px] font-medium text-white">
@@ -42,9 +42,9 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="w-[55%]">
-            <Flex className="gap-[88px]">
-              <div className="w-[33%]">
+          <div className="w-full lg:w-[55%]">
+            <Flex className="flex-col gap-10 md:flex-row xl:gap-[88px]">
+              <div className="w-full lg:w-[33%]">
                 <h4 className="text-[20px] font-medium text-white">Supports</h4>
 
                 <div className="mt-6">
@@ -59,7 +59,7 @@ const Footer = () => {
                   </p>
                 </div>
               </div>
-              <div className="w-[33%]">
+              <div className="w-full lg:w-[33%]">
                 <h4 className="text-[20px] font-medium text-white">Account</h4>
 
                 <div className="mt-6">
@@ -93,7 +93,7 @@ const Footer = () => {
                   </List>
                 </div>
               </div>
-              <div className="w-[33%]">
+              <div className="w-full lg:w-[33%]">
                 <h4 className="text-[20px] font-medium text-white">
                   Quick Link
                 </h4>
@@ -125,7 +125,7 @@ const Footer = () => {
               </div>
             </Flex>
           </div>
-          <div className="w-[20%] pl-5">
+          <div className="w-full pl-5 lg:w-[20%]">
             <h4 className="text-[20px] font-medium text-white">Download App</h4>
 
             <div className="mt-6">
@@ -138,8 +138,12 @@ const Footer = () => {
                   <Image src={qr} alt="qr" />
                 </div>
                 <div className="w-6/12">
-                  <Image src={google} alt="app" className="mb-3 block w-full" />
-                  <Image src={apple} alt="app" className="block w-full" />
+                  <Image
+                    src={google}
+                    alt="app"
+                    className="mb-3 block lg:w-full"
+                  />
+                  <Image src={apple} alt="app" className="block lg:w-full" />
                 </div>
               </Flex>
 
@@ -170,7 +174,7 @@ const Footer = () => {
         </Flex>
       </Container>
 
-      <div className="mt-[60px] border-t-[1px] border-white/30 p-4">
+      <div className="mt-[60px] border-t-[1px] border-white/30 p-4 pb-20 lg:pb-0">
         <p className="text-center text-[16px] font-normal text-white/30">
           &copy; Copyright Mahmood Hassan Rameem. MERN 2024. All right reserved
         </p>

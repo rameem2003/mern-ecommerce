@@ -30,6 +30,10 @@ const ProductDelete = async (id) => {
         theme: "light",
         transition: Bounce,
       });
+
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     } else {
       toast.info(res.data.msg, {
         position: "top-right",

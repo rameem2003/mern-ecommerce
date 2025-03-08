@@ -20,7 +20,11 @@ const ProductListPagination = ({ itemsPerPage, products }) => {
         <Flex className="flex-wrap justify-between">
           {currentItems &&
             currentItems.map((item, i) => (
-              <ItemCardProtrait key={i} className="mb-10 w-[30%]" data={item} />
+              <ItemCardProtrait
+                key={i}
+                className="mb-10 w-full sm:w-[48%] lg:w-[30%]"
+                data={item}
+              />
             ))}
         </Flex>
       </>
@@ -54,13 +58,13 @@ const ProductListPagination = ({ itemsPerPage, products }) => {
       <Flex className="my-16 flex-col items-center justify-between gap-5 lg:mb-[140px] lg:mt-[50px] lg:flex-row lg:gap-0">
         <ReactPaginate
           breakLabel="..."
-          className="ml-[-15px] flex gap-4"
+          className="ml-[-15px] flex gap-1 lg:gap-4"
           activeClassName="bg-primaryRed text-white"
-          pageClassName=" p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-[14px] text-secondary"
+          pageClassName=" p-3 lg:p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-[14px] text-secondary"
           nextLabel={products.length <= 6 ? "" : ">"}
           nextClassName={
             products.length > 6 &&
-            "p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-base text-secondary"
+            " p-2 lg:p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-base text-secondary"
           }
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
@@ -68,7 +72,7 @@ const ProductListPagination = ({ itemsPerPage, products }) => {
           previousLabel={products.length <= 6 ? "" : "<"}
           previousClassName={
             products.length > 6 &&
-            "p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-base text-secondary"
+            " p-2 lg:p-5 border-[1px] border-[#F0F0F0] font-dm font-normal text-base text-secondary"
           }
           renderOnZeroPageCount={null}
         />

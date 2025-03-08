@@ -43,8 +43,8 @@ const Shop = () => {
   return (
     <main className="pb-[140px] pt-[60px]">
       <Container>
-        <Flex className="gap-10">
-          <section className="w-4/12">
+        <Flex className="flex-col gap-10 md:flex-row">
+          <section className="w-full md:w-4/12">
             <div className="rounded-md p-10 shadow-md">
               <h2 className="mb-5 text-xl font-bold">All Categories</h2>
 
@@ -88,7 +88,7 @@ const Shop = () => {
             </div>
           </section>
 
-          <section className="w-8/12">
+          <section className="w-full md:w-8/12">
             <AllproductsDisplay products={filter} />
           </section>
         </Flex>

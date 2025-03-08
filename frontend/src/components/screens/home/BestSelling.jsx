@@ -33,6 +33,34 @@ const BestSelling = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
+    arrows: false,
+
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     <section className="mt-[70px]">
@@ -40,7 +68,7 @@ const BestSelling = () => {
         <div className="relative">
           <Title title="This Month" subTitle="Best Selling Products" />
 
-          <Link className="absolute right-0 top-12 block rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white">
+          <Link className="absolute right-0 top-0 block rounded-[4px] bg-primaryRed px-5 py-2 text-[16px] text-white lg:top-12 lg:px-12 lg:py-4">
             View All
           </Link>
 

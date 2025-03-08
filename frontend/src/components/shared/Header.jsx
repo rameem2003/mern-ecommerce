@@ -43,10 +43,10 @@ const Header = () => {
   return (
     <header className="bg-black p-3">
       <Container>
-        <Flex className="items-center justify-center">
-          <div className="w-2/12"></div>
-          <div className="w-6/12">
-            <p className="text-[14px] font-normal text-whiteShadeThree">
+        <Flex className="items-center justify-between md:justify-center">
+          <div className="hidden md:block md:w-2/12"></div>
+          <div className="w-1/2 md:w-6/12">
+            <p className="text-xs font-normal text-whiteShadeThree md:text-[14px]">
               Summer Sale For All Swim Suits And Free Express Delivery - OFF
               50%!{" "}
               <a href="http://" target="_blank" className="font-semibold">
@@ -54,7 +54,7 @@ const Header = () => {
               </a>
             </p>
           </div>
-          <div className="w-2/12">
+          <div className="w-1/2 md:w-2/12">
             <select
               className="ml-auto block bg-transparent text-[14px] text-whiteShadeThree"
               name=""

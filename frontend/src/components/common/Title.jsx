@@ -10,7 +10,7 @@ const Title = ({ title, subTitle }) => {
           <h1 className="text-[16px] font-semibold text-primaryRed">{title}</h1>
         </Flex>
 
-        <h2 className="mt-6 text-[36px] font-semibold text-black">
+        <h2 className="mt-6 text-lg font-semibold text-black lg:text-[36px]">
           {subTitle}
         </h2>
       </div>

@@ -79,6 +79,33 @@ const Explorer = () => {
     rows: 2,
     prevArrow: <SamplePrevArrow />,
     nextArrow: <SampleNextArrow />,
+
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     <section className="mt-[70px]">
@@ -106,7 +133,7 @@ const Explorer = () => {
             )}
           </div>
 
-          <div className="mt-[60px] text-center">
+          <div className="mt-8 text-center lg:mt-[60px]">
             <Link className="inline-block rounded-[4px] bg-primaryRed px-12 py-4 text-center text-[16px] font-medium text-white">
               View All Products
             </Link>

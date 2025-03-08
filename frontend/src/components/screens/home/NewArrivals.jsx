@@ -17,11 +17,11 @@ const NewArrivals = () => {
       <Container>
         <Title title="Featured" subTitle="New Arrival" />
 
-        <Flex className="mt-[60px] gap-[30px]">
-          <div className="w-1/2">
+        <Flex className="mt-[60px] flex-col gap-[30px] md:flex-row">
+          <div className="w-full md:w-1/2">
             <Image src={arr1} alt="arr" />
           </div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <div>
               <Image src={arr2} alt="arr" />
               <Flex className="mt-4 items-center justify-between gap-2">
@@ -36,7 +36,7 @@ const NewArrivals = () => {
           </div>
         </Flex>
 
-        <Flex className="my-[140px] items-center justify-center gap-[88px]">
+        <Flex className="my-[140px] flex-col items-center justify-center gap-[88px] md:flex-row md:flex-wrap">
           <div className="text-center">
             <Image src={service1} className="mx-auto mb-6" alt="service" />
             <h3 className="text-[20px] font-semibold text-black">

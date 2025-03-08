@@ -59,15 +59,15 @@ const Login = () => {
 
   return (
     <main className="h-screen">
-      <Flex className="h-full">
-        <div className="w-7/12">
+      <Flex className="h-full w-full">
+        <div className="hidden lg:block lg:w-7/12">
           <Image
             src={account}
             alt="account"
             className="h-full w-full object-cover"
           />
         </div>
-        <div className="flex w-5/12 items-center justify-center">
+        <div className="flex w-full items-center justify-center px-2 lg:w-5/12">
           <div>
             <h2 className="text-[36px] font-medium text-black">
               Log in to Exclusive
@@ -86,7 +86,7 @@ const Login = () => {
                 value={email}
                 type="text"
                 placeholder="Email or Phone Number"
-                className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
+                className="mb-10 block w-full border-b-[1px] border-black/50 pb-2 lg:w-[370px]"
                 name="email"
                 id=""
               />
@@ -96,7 +96,7 @@ const Login = () => {
                   value={password}
                   type={showPass ? "text" : "password"}
                   placeholder="Password"
-                  className="mb-10 block w-[370px] border-b-[1px] border-black/50 pb-2"
+                  className="mb-10 block w-full border-b-[1px] border-black/50 pb-2 lg:w-[370px]"
                   name="password"
                   id=""
                 />

@@ -155,9 +155,9 @@ const Checkout = () => {
     <main className="py-[80px]">
       {loading && <LoadingAnimation />}
       <Container>
-        <Flex className="justify-between">
+        <Flex className="flex-col justify-between md:flex-row">
           {/* shipping details section */}
-          <div className="w-5/12">
+          <div className="w-full md:w-5/12">
             <h1 className="text-[36px] font-medium text-black">
               Billing Details
             </h1>
@@ -176,7 +176,7 @@ const Checkout = () => {
                   value={name}
                   type="text"
                   name=""
-                  className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
+                  className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4 md:w-[470px]"
                   id=""
                   disabled
                 />
@@ -194,7 +194,7 @@ const Checkout = () => {
                   value={address}
                   type="text"
                   name=""
-                  className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
+                  className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4 md:w-[470px]"
                   id=""
                 />
               </div>
@@ -211,7 +211,7 @@ const Checkout = () => {
                   value={city}
                   type="text"
                   name=""
-                  className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
+                  className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4 md:w-[470px]"
                   id=""
                 />
               </div>
@@ -228,7 +228,7 @@ const Checkout = () => {
                   value={phone}
                   type="text"
                   name=""
-                  className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
+                  className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4 md:w-[470px]"
                   id=""
                 />
               </div>
@@ -245,7 +245,7 @@ const Checkout = () => {
                   value={email}
                   type="text"
                   name=""
-                  className="mt-2 w-[470px] rounded-[4px] bg-whiteShadeOne p-4"
+                  className="mt-2 w-full rounded-[4px] bg-whiteShadeOne p-4 md:w-[470px]"
                   id=""
                   disabled
                 />
@@ -254,7 +254,7 @@ const Checkout = () => {
           </div>
 
           {/* buy summary */}
-          <div className="w-6/12">
+          <div className="w-full md:w-6/12">
             <div>
               {/* cart item list dynamic */}
               {cart.length == 0 ? (
@@ -352,21 +352,21 @@ const Checkout = () => {
               </Flex>
             </div>
 
-            <Flex className="gap-4">
+            <Flex className="flex-col gap-4 md:flex-row">
               <input
                 type="text"
-                className="w-[60%] rounded-[4px] border-[1px] border-black px-6 py-4"
+                className="w-full rounded-[4px] border-[1px] border-black px-6 py-4 md:w-[60%]"
                 placeholder="Coupon Code"
               />
 
-              <button className="w-[40%] rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white">
+              <button className="w-full rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white md:w-[40%]">
                 Apply Coupon
               </button>
             </Flex>
 
             <button
               onClick={handlePlaceOrder}
-              className="mt-8 rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white"
+              className="mt-8 w-full rounded-[4px] bg-primaryRed px-12 py-4 text-[16px] text-white md:w-auto"
             >
               Place Order
             </button>

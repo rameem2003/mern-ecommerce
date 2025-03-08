@@ -8,9 +8,10 @@ import Flex from "../common/Flex";
 import Image from "./../common/Image";
 import List from "./../common/List";
 import ListItem from "./../common/ListItem";
-import { IoCartOutline, IoSearch } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa";
+import { IoCart, IoCartOutline, IoSearch } from "react-icons/io5";
+import { FaHome, FaPlus, FaRegHeart, FaUser } from "react-icons/fa";
 import { LuUser } from "react-icons/lu";
+import { MdSell } from "react-icons/md";
 
 const Navigation = () => {
   const user = useSelector((state) => state.account.account); // get user info
@@ -26,13 +27,13 @@ const Navigation = () => {
     <nav className="border-black/3 mt-10 border-b-[1px] pb-4">
       <Container>
         <Flex className="items-center">
-          <div className="w-3/12">
+          <div className="w-1/2 lg:w-3/12">
             <Link to="/">
               <Image src="/logo.png" alt="logo" />
             </Link>
           </div>
-          <div className="w-5/12">
-            <List className="flex items-center justify-center gap-12">
+          <div className="hidden lg:block lg:w-5/12">
+            <List className="flex items-center justify-center gap-5 xl:gap-12">
               <ListItem>
                 <NavLink
                   to="/"
@@ -85,9 +86,9 @@ const Navigation = () => {
               </ListItem>
             </List>
           </div>
-          <div className="w-4/12">
-            <Flex className="items-center gap-4">
-              <div className="relative w-[300px]">
+          <div className="w-1/2 lg:w-4/12">
+            <Flex className="items-center justify-end gap-4">
+              <div className="relative hidden lg:block lg:w-[300px]">
                 <input
                   className="block w-full rounded-[4px] bg-whiteShadeOne px-5 py-[10px] placeholder:text-[12px]"
                   type="text"
@@ -96,9 +97,10 @@ const Navigation = () => {
                 <IoSearch className="absolute right-2 top-[50%] translate-y-[-50%] text-[24px]" />
               </div>
 
-              <Link to="/wishlist">
+              <IoSearch className="text-[24px]" />
+              {/* <Link to="/wishlist">
                 <FaRegHeart className="text-[24px]" />
-              </Link>
+              </Link> */}
               <Link to="/cart">
                 <IoCartOutline className="text-[24px]" />
               </Link>
@@ -150,6 +152,49 @@ const Navigation = () => {
           </div>
         </Flex>
       </Container>
+      <Flex className="fixed bottom-0 left-0 z-[100000000] flex w-full items-center justify-center bg-primaryRed p-3 lg:hidden">
+        <List className="flex items-center justify-center gap-5">
+          <ListItem>
+            <Link to="/" className="flex flex-col items-center justify-center">
+              <FaHome className="text-2xl text-white" />
+              <span className="text-xs font-medium text-white">Home</span>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link className="flex flex-col items-center justify-center">
+              <MdSell className="text-2xl text-white" />
+              <span className="text-xs font-medium text-white">Best Sell</span>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              to="/shop"
+              className="flex flex-col items-center justify-center"
+            >
+              <FaPlus className="rounded-full bg-white text-4xl text-primaryRed" />
+              <span className="text-xs font-medium text-white">Shop</span>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              to="/cart"
+              className="flex flex-col items-center justify-center"
+            >
+              <IoCart className="rounded-full text-2xl text-white" />
+              <span className="text-xs font-medium text-white">Cart</span>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              to="/account"
+              className="flex flex-col items-center justify-center"
+            >
+              <FaUser className="rounded-full text-2xl text-white" />
+              <span className="text-xs font-medium text-white">Account</span>
+            </Link>
+          </ListItem>
+        </List>
+      </Flex>
     </nav>
   );
 };
