@@ -31,6 +31,34 @@ const DisplayProduct = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
+    arrows: false,
+
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   /**
@@ -68,10 +96,10 @@ const DisplayProduct = () => {
   return (
     <main className="py-[80px]">
       <Container>
-        <Flex className="gap-[40px]">
+        <Flex className="flex-col gap-[40px] lg:flex-row">
           {/* product image display */}
 
-          <div className="w-7/12">
+          <div className="w-full lg:w-7/12">
             {product ? (
               <ProductImagePreview data={product} />
             ) : (
@@ -88,7 +116,7 @@ const DisplayProduct = () => {
           </div>
           {/* descriptions */}
           {product ? (
-            <div className="w-5/12">
+            <div className="w-full lg:w-5/12">
               <h1 className="mb-4 text-[24px] font-semibold text-black">
                 {product.name}
               </h1>
@@ -142,15 +170,15 @@ const DisplayProduct = () => {
                 </Flex>
               </Flex>
 
-              <Flex className="mt-2 gap-5">
-                <Flex className="rounded-[4px] border-[1px] border-black">
-                  <button className="px-4 py-[10px] text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
+              <Flex className="mt-2 items-center gap-5">
+                <Flex className="hidden justify-between rounded-[4px] border-[1px] border-black">
+                  <button className="px-4 py-[10px] text-center text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
                     -
                   </button>
-                  <button className="border-l-[1px] border-r-[1px] border-black px-[34px] py-[10px] text-[20px] font-medium text-black">
+                  <button className="border-l-[1px] border-r-[1px] border-black px-[34px] py-[10px] text-center text-[20px] font-medium text-black">
                     2
                   </button>
-                  <button className="px-4 py-[10px] text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
+                  <button className="px-4 py-[10px] text-center text-[20px] font-medium text-black hover:bg-primaryRed hover:text-white">
                     +
                   </button>
                 </Flex>

@@ -8,9 +8,9 @@ const ProductImagePreview = ({ data }) => {
   const [img, setImg] = useState(0);
 
   return (
-    <Flex>
-      <div className="w-4/12">
-        <Flex className="flex-col gap-4">
+    <Flex className="flex-col lg:flex-row">
+      <div className="w-full lg:w-4/12">
+        <Flex className="flex-row gap-4 lg:flex-col">
           {data?.images?.map((img, i) => (
             <Image
               key={i}
@@ -21,7 +21,7 @@ const ProductImagePreview = ({ data }) => {
           ))}
         </Flex>
       </div>
-      <div className="w-8/12">
+      <div className="w-full lg:w-8/12">
         <ReactImageZoom
           {...{
             width: 400,
